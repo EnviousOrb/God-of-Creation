@@ -4,7 +4,6 @@ public class PlayerController : MonoBehaviour
 {
 
     [SerializeField] private float speed = 5.0f;
-    private Rigidbody2D rb;
     private Camera cam;
     private Vector2 moveDir;
 
@@ -12,7 +11,6 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
     }
 
@@ -24,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(moveDir.x * speed, moveDir.y * speed);
+        transform.Translate(moveDir * speed * Time.fixedDeltaTime);
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
     }
 }

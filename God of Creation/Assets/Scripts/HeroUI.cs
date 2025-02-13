@@ -24,7 +24,6 @@ public class HeroUI : MonoBehaviour
     void SetHeroUI(HeroStats heroStats)
     {
         heroName.text = heroStats.heroName;
-        heroName.colorGradientPreset = heroStats.heroTextColor;
         heroSprite.sprite = heroStats.heroIcon;
         typeSprite.sprite = heroStats.typeIcon;
     }

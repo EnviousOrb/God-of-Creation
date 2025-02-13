@@ -35,7 +35,6 @@ public class DialogSystem : MonoBehaviour
         textDisplay.colorGradientPreset = dialogs.textColor;
 
         characterNameDisplay.text = dialogs.characterName;
-        characterNameDisplay.colorGradientPreset = dialogs.textColor;
 
         avatarDisplay.sprite = dialogs.characterAvatar;
     }

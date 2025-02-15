@@ -5,15 +5,15 @@ using System.Collections;
 
 public class DialogSystem : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI textDisplay;
-    [SerializeField] TextMeshProUGUI characterNameDisplay;
-    [SerializeField] Image avatarDisplay;
-    [SerializeField] Dialog[] dialogs;
-    private string[] sentences;
-    [SerializeField] float typingSpeed = 0.02f;
+    [SerializeField] TextMeshProUGUI textDisplay; //This is where the dialog will be displayed on the screen
+    [SerializeField] TextMeshProUGUI characterNameDisplay; //This is where the character's name will be displayed on screen
+    [SerializeField] Image avatarDisplay; //This is where the character's avatar will be displayed on screen
+    [SerializeField] Dialog[] dialogs; //Holds all of the dialog that happens in one scene
+    private string[] sentences; //Splits the dialog into two categories, for mutliple speakers
+    [SerializeField] float typingSpeed = 0.02f; //The speed at which the dialog will be displayed on screen
 
-    private int index;
-    private int dialogIndex;
+    private int index; //The index of the dialog
+    private int dialogIndex; //The index of the dialog array
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +29,7 @@ public class DialogSystem : MonoBehaviour
             NextLine();
     }
 
+    //This function sets the dialog for the current scene
     public void SetDialog(Dialog dialogs)
     {
         sentences = dialogs.dialog;
@@ -39,6 +40,7 @@ public class DialogSystem : MonoBehaviour
         avatarDisplay.sprite = dialogs.characterAvatar;
     }
 
+    //This function clears the dialog from the screen
     void ClearDialog()
     {
         textDisplay.text = "";
@@ -46,6 +48,7 @@ public class DialogSystem : MonoBehaviour
         avatarDisplay.sprite = null;
     }
 
+    //This function starts the dialog
     public void StartDialog()
     {
         index = 0;
@@ -55,8 +58,10 @@ public class DialogSystem : MonoBehaviour
         StartCoroutine(Type());
     }
 
+    //This function types out the dialog on the screen
     IEnumerator Type()
     {
+        //This foreach loop goes through each letter in the dialog and displays it on the screen
         foreach (char letter in sentences[index].ToCharArray())
         {
             textDisplay.text += letter;
@@ -64,15 +69,17 @@ public class DialogSystem : MonoBehaviour
         }
     }
 
+    //This function moves to the next line of dialog
     void NextLine()
     {
+        //If the index is less than the length of the sentences array, increment the index
         if(index < sentences.Length - 1)
         {
             index++;
             textDisplay.text = "";
             StartCoroutine(Type());
         }
-        else if (dialogIndex < dialogs.Length - 1)
+        else if (dialogIndex < dialogs.Length - 1) //If the dialogIndex is less than the length of the dialogs array, increment the dialogIndex
         {
             dialogIndex++;
             index = 0;
@@ -80,7 +87,7 @@ public class DialogSystem : MonoBehaviour
             SetDialog(dialogs[dialogIndex]);
             StartCoroutine(Type());
         }
-        else
+        else //If the dialogIndex is greater than the length of the dialogs array, clear the dialog and set the gameObject to false
         {
             ClearDialog();
             gameObject.SetActive(false);

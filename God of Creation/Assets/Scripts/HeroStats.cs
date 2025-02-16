@@ -18,7 +18,9 @@ public class HeroStats : MonoBehaviour
     public Sprite heroIcon; //This is the sprite seen during dialog, overworld, and the main UI
     public Sprite typeIcon; //This is the sprite seen on the main UI, used to show the type of the hero
     public Sprite battleIcon; //This is the sprite seen during battle
-    public Sprite specialAttackIcon; //This is the sprite seen on the battle UI, used to show the special attack of the hero
+    public GameObject specialAttack; //This is the sprite seen on the battle UI, used to show the special attack of the hero
+    public GameObject normalAttack; //This is the sprite seen on the battle UI, used to show the normal attack of the hero
+    public GameObject heal; //This is the sprite seen on the battle UI, used to show the healing of the hero
 
     [Header("Hero Color")]
     public TMP_ColorGradient heroTextColor; //The color of the hero's dialog text
@@ -34,27 +36,22 @@ public class HeroStats : MonoBehaviour
 
     public void TakeDamage(OpponentStats opponentStats)
     {
-        print("In Hero's TakeDamage");
-        int damage = opponentStats.opponentDamage * (1 + (opponentStats.opponentLevel / 10) - defense);
-        damage = Mathf.Max(1, damage);
-        currentHealth -= damage;
-
-        print("Hero health: " + currentHealth);
-
         if(currentHealth <= 0)
         {
             currentHealth = 0;
+            return;
             //Handle death stuff for hero here
         }
+        int damage = opponentStats.opponentDamage * (1 + (opponentStats.opponentLevel / 10) - defense);
+        damage = Mathf.Max(1, damage);
+        currentHealth -= damage;
     }
 
     public void UseSpecialAttack(OpponentStats opponentStats)
     {
-        print("In UseSpecialAttack");
         int damage = attack * 2 - opponentStats.opponentDefense;
         damage = Mathf.Max(1, damage);
         currentHeat = 0;
         opponentStats.currentHealth -= damage;
-        print("Opponent health: " + opponentStats.currentHealth);
     }
 }

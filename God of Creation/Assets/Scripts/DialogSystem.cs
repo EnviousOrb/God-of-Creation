@@ -15,6 +15,8 @@ public class DialogSystem : MonoBehaviour
     private int index; //The index of the dialog
     private int dialogIndex; //The index of the dialog array
 
+    private Coroutine textCoroutine;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -58,8 +60,18 @@ public class DialogSystem : MonoBehaviour
         StartCoroutine(Type());
     }
 
-    //This function types out the dialog on the screen
     IEnumerator Type()
+    {
+        if(textCoroutine != null)
+        {
+            StopCoroutine(textCoroutine);
+        }
+        textCoroutine = StartCoroutine(TypeCoroutine());
+        yield return textCoroutine;
+    }
+
+    //This function types out the dialog on the screen
+    IEnumerator TypeCoroutine()
     {
         //This foreach loop goes through each letter in the dialog and displays it on the screen
         foreach (char letter in sentences[index].ToCharArray())

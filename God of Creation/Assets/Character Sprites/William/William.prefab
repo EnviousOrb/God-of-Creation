@@ -75,6 +75,9 @@ MonoBehaviour:
   heroIcon: {fileID: -2327869246453644434, guid: 2397c33dd8da7916cae179be62587d88, type: 3}
   typeIcon: {fileID: -5765777680471872163, guid: ff18fafa207364834b26131c5c76dbf9, type: 3}
   battleIcon: {fileID: 7518903054759858335, guid: e66b863fa5083d03ea5368b4e15c0708, type: 3}
+  specialAttack: {fileID: 5605477561151560730, guid: 54582db44912f221f9fae91263078ce7, type: 3}
+  normalAttack: {fileID: 5401521511747897442, guid: 55ad2814bcadce59da108a5014aa90ca, type: 3}
+  heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}
   heroTextColor: {fileID: 11400000, guid: 09f7cb28f414e1a539abba36e339c28d, type: 2}
   currentHealth: 0
   currentHeat: 0

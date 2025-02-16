@@ -95,6 +95,8 @@ MonoBehaviour:
   - '"Does this mean I don''t get my bonus?!"'
   - '"Business is booming! But you, my friend, are not."'
   opponentTextColor: {fileID: 11400000, guid: b2f004919f172e682ae322fd50088588, type: 2}
+  opponentAttack: {fileID: 1523465548028420338, guid: 3f4296484cfa813a5af4fc1ff469b92e, type: 3}
+  opponentHeal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}
   opponentLevel: 1
   maxHealth: 10
   opponentDamage: 5

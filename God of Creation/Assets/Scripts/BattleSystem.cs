@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public enum BattleStates
@@ -15,32 +16,46 @@ public enum BattleStates
 
 public class BattleSystem : MonoBehaviour
 {
-    [HideInInspector] public BattleStates currentState;
+    private BattleStates currentState;
 
-    [Header("Battle Stats")]
-    [SerializeField] public HeroStats heroStats; //The hero's stats
-    [SerializeField] public OpponentStats opponentStats; //The opponent's stats
+    private HeroStats hero; //The hero's stats
+    private NPC opponent; //The opponent's stats
 
-    [Header("Battle HUD")]
-    [SerializeField] public BattleHUD battleHUD; // Reference to the BattleHUD script
+    private BattleHUD battleHUD; // Reference to the BattleHUD script
 
     [SerializeField] private float typingSpeed; //The speed at which the battle text will be displayed on screen
 
     private Coroutine textCoroutine;
 
+    public bool isBattleTextFinished { get { return battleHUD.BattleText.text == string.Empty; } }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        battleHUD.SetBattleUI(heroStats, opponentStats);
+        hero = GameManager.Instance.Currenthero;
+        opponent = GameManager.Instance.CurrentOpponent;
+        battleHUD = FindObjectsByType<BattleHUD>(FindObjectsSortMode.None)[0];
+
+        battleHUD.SetBattleUI(hero, opponent);
         currentState = BattleStates.START;
-        StartCoroutine(TypeText(opponentStats.opponentFlavorTexts[0]));
+        StartCoroutine(TypeText(opponent.opponentFlavorTexts[0]));
         StartCoroutine(SetupBattle());
     }
 
     // Update is called once per frame
     void Update()
     {
-        battleHUD.UpdateBattleUI(heroStats, opponentStats);
+        if(hero.currentHealth <= 0)
+        {
+            currentState = BattleStates.LOSE;
+            EndBattle();
+        }
+        else if (opponent.currentHealth <= 0)
+        {
+            currentState = BattleStates.WIN;
+            EndBattle();
+        }
+        battleHUD.UpdateBattleUI(hero, opponent);
     }
 
     IEnumerator SetupBattle()
@@ -48,7 +63,7 @@ public class BattleSystem : MonoBehaviour
         TurnOffControls();
 
         yield return new WaitForSeconds(2f);
-        if(heroStats.speed >= opponentStats.opponentSpeed)
+        if(hero.speed >= opponent.opponentSpeed)
         {
             currentState = BattleStates.PLAYERCHOICE;
             PlayerTurn();
@@ -70,7 +85,7 @@ public class BattleSystem : MonoBehaviour
         yield return textCoroutine;
     }
 
-    IEnumerator TypeTextCoroutine(string text, float delayAfterText = 2f)
+    IEnumerator TypeTextCoroutine(string text, float delayAfterText)
     {
         battleHUD.BattleText.text = "";
         foreach (char letter in text.ToCharArray())
@@ -86,26 +101,18 @@ public class BattleSystem : MonoBehaviour
         TurnOnControls();
 
         battleHUD.BattleText.colorGradientPreset = null;
-        if(heroStats.currentHealth <= 0)
-        {
-            currentState = BattleStates.LOSE;
-            StartCoroutine(EndBattle());
-        }
+
         for(int i = 0; i < battleHUD.playerChoices.Length; i++)
         {
             battleHUD.playerChoices[i].interactable = true;
         }
+
         StartCoroutine(TypeText("Time to..."));
     }
 
     void OpponentTurn()
     {
         battleHUD.BattleText.colorGradientPreset = null;
-        if(opponentStats.currentHealth <= 0)
-        {
-            currentState = BattleStates.WIN;
-            StartCoroutine(EndBattle());
-        }
 
         TurnOffControls();
 
@@ -124,48 +131,46 @@ public class BattleSystem : MonoBehaviour
         else if (choice == 1)
         {
             //Heal the opponent a random amount
-            int healAmount = UnityEngine.Random.Range(1, opponentStats.maxHealth / 2);
-            opponentStats.currentHealth += Mathf.Min(opponentStats.maxHealth / 2, healAmount);
-            if(opponentStats.currentHealth > opponentStats.maxHealth)
+            int healAmount = UnityEngine.Random.Range(1, opponent.maxHealth / 2);
+            opponent.currentHealth += Mathf.Min(opponent.maxHealth / 2, healAmount);
+            if(opponent.currentHealth > opponent.maxHealth)
             {
-                opponentStats.currentHealth = opponentStats.maxHealth;
+                opponent.currentHealth = opponent.maxHealth;
             }
 
-            GameObject heal = Instantiate(opponentStats.opponentHeal, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+            GameObject heal = Instantiate(opponent.opponentHeal, battleHUD.opponentSprite.transform.position, Quaternion.identity);
             Destroy(heal, 0.3f);
 
             //Display the amount healed
             StartCoroutine(TypeText("Opponent healed for " + healAmount + " health!"));
 
             //Update the UI
-            battleHUD.UpdateBattleUI(heroStats, opponentStats);
+            battleHUD.UpdateBattleUI(hero, opponent);
             currentState = BattleStates.PLAYERCHOICE;
             PlayerTurn();
         }
     }
 
-    IEnumerator EndBattle()
+    void EndBattle()
     {
         TurnOffControls();
 
         if(currentState == BattleStates.WIN)
         {
-            StartCoroutine(TypeText("You win!"));
-            yield return new WaitForSeconds(1f);
-            battleHUD.BattleText.colorGradientPreset = opponentStats.opponentTextColor;
-            StartCoroutine(TypeText(opponentStats.opponentFlavorTexts[1]));
-            //Transition over to previous screen here, for now exit the editor
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
+            battleHUD.BattleText.colorGradientPreset = opponent.npcTextColor;
+            StartCoroutine(TypeText(opponent.opponentFlavorTexts[1]));
+            //Start the ending to battle sequence here
+            battleHUD.BattleText.text = string.Empty;
+            GameManager.Instance.MarkOpponentAsDefeated(opponent);
+            StartCoroutine(EndingToBattleSequence());
         }
         else if(currentState == BattleStates.LOSE)
         {
             StartCoroutine(TypeText("You lose!"));
-            yield return new WaitForSeconds(1f);
-            battleHUD.BattleText.colorGradientPreset = opponentStats.opponentTextColor;
-            StartCoroutine(TypeText(opponentStats.opponentFlavorTexts[2]));
+            battleHUD.BattleText.colorGradientPreset = opponent.npcTextColor;
+            StartCoroutine(TypeText(opponent.opponentFlavorTexts[2]));
             //Go to game over screen here, for now exit the editor
+            battleHUD.BattleText.text = string.Empty;
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
@@ -175,17 +180,18 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerAttack()
     {
         //Deal damage based on factors (level and attack)
-        GameObject normalAttack = Instantiate(heroStats.normalAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+        GameObject normalAttack = Instantiate(hero.normalAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
         Destroy(normalAttack, 0.3f);
-        opponentStats.TakeDamage(heroStats);
-        heroStats.currentHeat += 2;
+        opponent.TakeDamage(hero);
+        hero.currentHeat += 2;
         yield return new WaitForSeconds(1f);
 
         //Check if the opponent is dead
-        if(opponentStats.currentHealth <= 0)
+        if(opponent.currentHealth <= 0)
         {
             currentState = BattleStates.WIN;
-            StartCoroutine(EndBattle());
+            GameManager.Instance.MarkOpponentAsDefeated(opponent);
+            EndBattle();
         }
         else
         {
@@ -197,21 +203,21 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerInventory()
     {
         //Open inventory...is what I would say if I had one, for now, heal the hero a random amount
-        int healAmount = UnityEngine.Random.Range(1, heroStats.maxHealth);
-        heroStats.currentHealth += Mathf.Min(heroStats.maxHealth, healAmount);
-        if(heroStats.currentHealth > heroStats.maxHealth)
+        int healAmount = UnityEngine.Random.Range(1, hero.maxHealth);
+        hero.currentHealth += Mathf.Min(hero.maxHealth, healAmount);
+        if(hero.currentHealth > hero.maxHealth)
         {
-            heroStats.currentHealth = heroStats.maxHealth;
+            hero.currentHealth = hero.maxHealth;
         }
 
         //Display the amount healed
         StartCoroutine(TypeText("You healed for " + healAmount + " health!"));
 
-        GameObject heal = Instantiate(heroStats.heal, battleHUD.heroSprite.transform.position, Quaternion.identity);
+        GameObject heal = Instantiate(hero.heal, battleHUD.heroSprite.transform.position, Quaternion.identity);
         Destroy(heal, 0.3f);
 
         //Update the UI
-        battleHUD.UpdateBattleUI(heroStats, opponentStats);
+        battleHUD.UpdateBattleUI(hero, opponent);
         yield return new WaitForSeconds(2f);
 
         currentState = BattleStates.OPPONENTCHOICE;
@@ -220,13 +226,13 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerSpecial()
     {
-        battleHUD.BattleText.colorGradientPreset = heroStats.heroTextColor;
-        StartCoroutine(TypeText(heroStats.heroSpecialAttackText));
+        battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
+        StartCoroutine(TypeText(hero.heroSpecialAttackText));
 
-        GameObject specialAttack = Instantiate(heroStats.specialAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+        GameObject specialAttack = Instantiate(hero.specialAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
         Destroy(specialAttack, 0.3f);
 
-        heroStats.UseSpecialAttack(opponentStats);
+        hero.UseSpecialAttack(opponent);
         yield return new WaitForSeconds(1f);
 
         currentState = BattleStates.OPPONENTCHOICE;
@@ -236,17 +242,17 @@ public class BattleSystem : MonoBehaviour
     IEnumerator OpponentAttack()
     {
         //Deal damage based on factors (level and attack)
-        GameObject opponentAttack = Instantiate(opponentStats.opponentAttack, battleHUD.heroSprite.transform.position, Quaternion.identity);
+        GameObject opponentAttack = Instantiate(opponent.opponentAttack, battleHUD.heroSprite.transform.position, Quaternion.identity);
         Destroy(opponentAttack, 0.3f);
         
-        heroStats.TakeDamage(opponentStats);
+        hero.TakeDamage(opponent);
         yield return new WaitForSeconds(1f);
 
         //Check if the hero is dead
-        if(heroStats.currentHealth <= 0)
+        if(hero.currentHealth <= 0)
         {
             currentState = BattleStates.LOSE;
-            StartCoroutine(EndBattle());
+            EndBattle();
         }
         else
         {
@@ -280,9 +286,9 @@ public class BattleSystem : MonoBehaviour
         if (currentState != BattleStates.PLAYERCHOICE)
             return;
 
-        else if (heroStats.currentHeat < heroStats.maxHeat)
+        else if (hero.currentHeat < hero.maxHeat)
         {
-            battleHUD.BattleText.colorGradientPreset = heroStats.heroTextColor;
+            battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
             StartCoroutine(TypeText("Gotta build up more heat first..."));
             battleHUD.BattleText.colorGradientPreset = null;
             return;
@@ -301,7 +307,7 @@ public class BattleSystem : MonoBehaviour
         
         TurnOffControls();
 
-        if(heroStats.speed >= opponentStats.opponentSpeed)
+        if(hero.speed >= opponent.opponentSpeed)
         {
             StartCoroutine(TypeText("You got away safely!"));
             //Transition over to previous screen here, for now exit the editor
@@ -332,5 +338,15 @@ public class BattleSystem : MonoBehaviour
         {
             battleHUD.playerChoices[i].interactable = true;
         }
+    }
+
+    private IEnumerator EndingToBattleSequence()
+    {
+        yield return new WaitUntil(() => isBattleTextFinished);
+        StopCoroutine(textCoroutine);
+        GameManager.Instance.CurrentOpponent = null;
+        //Transition over to previous screen
+        //SceneManager.LoadScene("Overworld");
+        SceneManager.LoadScene("DevScene");
     }
 }

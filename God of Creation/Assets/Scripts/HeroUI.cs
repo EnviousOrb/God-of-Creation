@@ -16,17 +16,16 @@ public class HeroUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SetHeroUI(heroStats);
+        SetOverworldUI(heroStats);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         heroHealth.value = heroStats.currentHealth;
         heroHeat.value = heroStats.currentHeat;
     }
 
-    void SetHeroUI(HeroStats heroStats)
+    void SetOverworldUI(HeroStats heroStats)
     {
         heroName.text = heroStats.heroName;
         heroHealth.maxValue = heroStats.maxHealth;

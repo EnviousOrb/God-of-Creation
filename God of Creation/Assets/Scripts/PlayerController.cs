@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    [SerializeField] private float speed = 5.0f;
-    public Animator animator;
+    [SerializeField] float speed;
+    private Animator animator;
     private Camera cam;
     private float moveDir;
 
@@ -35,5 +35,14 @@ public class PlayerController : MonoBehaviour
     {
         transform.position += new Vector3(moveDir, 0, 0) * speed * Time.deltaTime;
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            Debug.Log("NPC Detected");
+
+        }
     }
 }

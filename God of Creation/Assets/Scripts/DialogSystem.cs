@@ -8,10 +8,11 @@ public class DialogSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI textDisplay; //This is where the dialog will be displayed on the screen
     [SerializeField] TextMeshProUGUI characterNameDisplay; //This is where the character's name will be displayed on screen
     [SerializeField] Image avatarDisplay; //This is where the character's avatar will be displayed on screen
-    [SerializeField] Dialog[] dialogs; //Holds all of the dialog that happens in one scene
-    private string[] sentences; //Splits the dialog into two categories, for mutliple speakers
     [SerializeField] float typingSpeed = 0.02f; //The speed at which the dialog will be displayed on screen
+    public bool IsDialogFinished { get { return gameObject.activeSelf == false; } }
 
+    private Dialog[] dialogs; //Holds all of the dialog that happens in one scene
+    private string[] sentences; //Splits the dialog into two categories, for mutliple speakers
     private int index; //The index of the dialog
     private int dialogIndex; //The index of the dialog array
 
@@ -22,6 +23,10 @@ public class DialogSystem : MonoBehaviour
     {
         ClearDialog();
         gameObject.SetActive(false);
+
+        Dialog[] dialogs = FindObjectsByType<Dialog>(FindObjectsSortMode.InstanceID);
+
+        this.dialogs = dialogs;
     }
 
     // Update is called once per frame

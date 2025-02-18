@@ -28,13 +28,21 @@ public class HeroStats : MonoBehaviour
     [HideInInspector] public int currentHealth; //This is the current health of the hero
     [HideInInspector] public int currentHeat; //This is the current heat of the hero
 
-    void Start()
+    private void Start()
     {
-        currentHealth = maxHealth;
-        currentHeat = maxHeat;
+        if(GameManager.Instance.Currenthero != null)
+        {
+           currentHealth = GameManager.Instance.Currenthero.currentHealth;
+           currentHeat = GameManager.Instance.Currenthero.currentHeat;
+        }
+        else
+        {
+            currentHealth = maxHealth;
+            currentHeat = 0;
+        }
     }
 
-    public void TakeDamage(OpponentStats opponentStats)
+    public void TakeDamage(NPC opponent)
     {
         if(currentHealth <= 0)
         {
@@ -42,16 +50,18 @@ public class HeroStats : MonoBehaviour
             return;
             //Handle death stuff for hero here
         }
-        int damage = opponentStats.opponentDamage * (1 + (opponentStats.opponentLevel / 10) - defense);
+        int damage = opponent.opponentDamage * (1 + (opponent.opponentLevel / 10) - defense);
         damage = Mathf.Max(1, damage);
         currentHealth -= damage;
+
     }
 
-    public void UseSpecialAttack(OpponentStats opponentStats)
+    public void UseSpecialAttack(NPC opponent)
     {
-        int damage = attack * 2 - opponentStats.opponentDefense;
+        int damage = attack * 2 - opponent.opponentDefense;
         damage = Mathf.Max(1, damage);
         currentHeat = 0;
-        opponentStats.currentHealth -= damage;
+        opponent.currentHealth -= damage;
+
     }
 }

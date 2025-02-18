@@ -21,7 +21,7 @@ public class BattleHUD : MonoBehaviour
     [SerializeField] public Image heroSprite; //The location that the hero's sprite will be displayed on the main UI
     [SerializeField] public Image opponentSprite; //The location that the opponent's sprite will be displayed on the main UI
 
-    public void SetBattleUI(HeroStats heroStats, OpponentStats opponentStats)
+    public void SetBattleUI(HeroStats heroStats, NPC opponent)
     {
         heroName.text = heroStats.heroName;
         heroHealth.maxValue = heroStats.maxHealth;
@@ -30,17 +30,17 @@ public class BattleHUD : MonoBehaviour
         heroLevel.text = heroStats.Level.ToString();
         heroSprite.sprite = heroStats.battleIcon;
 
-        opponentName.text = opponentStats.opponentName;
-        opponentHealth.maxValue = opponentStats.maxHealth;
-        opponentStats.currentHealth = opponentStats.maxHealth;
-        opponentLevel.text = opponentStats.opponentLevel.ToString();
-        opponentSprite.sprite = opponentStats.opponentIcon;
+        opponentName.text = opponent.npcName;
+        opponentHealth.maxValue = opponent.maxHealth;
+        opponent.currentHealth = opponent.maxHealth;
+        opponentLevel.text = opponent.opponentLevel.ToString();
+        opponentSprite.sprite = opponent.opponentIcon;
     }
 
-    public void UpdateBattleUI(HeroStats heroStats, OpponentStats opponentStats)
+    public void UpdateBattleUI(HeroStats heroStats, NPC opponent)
     {
         heroHealth.value = heroStats.currentHealth;
         heroHeat.value = heroStats.currentHeat;
-        opponentHealth.value = opponentStats.currentHealth;
+        opponentHealth.value = opponent.currentHealth;
     }
 }

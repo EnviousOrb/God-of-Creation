@@ -2700,25 +2700,21 @@ MonoBehaviour:
   opponentLevel: {fileID: 1181082332}
   heroSprite: {fileID: 806609839}
   opponentSprite: {fileID: 2095038994}
---- !u!224 &1433862337
-RectTransform:
+--- !u!4 &1433862337
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433862335}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 0.007623678, y: 0.007623678, z: 0.007623678}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1598124808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2736,25 +2732,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &1598124809
-RectTransform:
+--- !u!4 &1598124809
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1598124808}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 0.007623678, y: 0.007623678, z: 0.007623678}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1598124810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2768,8 +2760,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  heroStats: {fileID: 7155605322719778313, guid: 1120e88bd1cd6efe5a7cf39980c987b3, type: 3}
-  opponentStats: {fileID: 7924057346533058726, guid: b07bb99640a53f3fa8cd6edbca70b7af, type: 3}
+  hero: {fileID: 0}
+  opponent: {fileID: 0}
   battleHUD: {fileID: 1433862336}
   typingSpeed: 0.03
 --- !u!1 &1605995579
@@ -3399,15 +3391,15 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: 17}
-  m_SizeDelta: {x: 400, y: 250}
+  m_AnchoredPosition: {x: 21.97, y: 7.51}
+  m_SizeDelta: {x: 383.94, y: 231.02}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 169056720}
-  - {fileID: 1433862337}
   - {fileID: 1598124809}
+  - {fileID: 1433862337}
   - {fileID: 594005930}
   - {fileID: 898606449}

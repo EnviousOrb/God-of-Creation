@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  animator: {fileID: 0}
 --- !u!114 &7155605322719778313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialog:
-  - Hello there!
+  - '"Hello There!"'
   characterName: William
   characterAvatar: {fileID: -2327869246453644434, guid: 2397c33dd8da7916cae179be62587d88, type: 3}
   textColor: {fileID: 11400000, guid: 09f7cb28f414e1a539abba36e339c28d, type: 2}

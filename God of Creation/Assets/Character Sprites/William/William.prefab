@@ -70,7 +70,7 @@ MonoBehaviour:
   maxHeat: 5
   attack: 5
   defense: 5
-  speed: 8
+  speed: 10
   heroIcon: {fileID: -2327869246453644434, guid: 2397c33dd8da7916cae179be62587d88, type: 3}
   typeIcon: {fileID: -5765777680471872163, guid: ff18fafa207364834b26131c5c76dbf9, type: 3}
   battleIcon: {fileID: 7518903054759858335, guid: e66b863fa5083d03ea5368b4e15c0708, type: 3}

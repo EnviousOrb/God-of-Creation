@@ -18,6 +18,8 @@ public class BattleSystem : MonoBehaviour
 {
     private BattleStates currentState;
 
+    [SerializeField] HeroUI heroUI;
+
     private HeroStats hero; //The hero's stats
     private NPC opponent; //The opponent's stats
 
@@ -344,7 +346,10 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitUntil(() => isBattleTextFinished);
         StopCoroutine(textCoroutine);
+        GameManager.Instance.Currenthero = hero;
         GameManager.Instance.CurrentOpponent = null;
+        heroUI.UpdateOverworldUI(hero);
+        
         //Transition over to previous screen
         //SceneManager.LoadScene("Overworld");
         SceneManager.LoadScene("DevScene");

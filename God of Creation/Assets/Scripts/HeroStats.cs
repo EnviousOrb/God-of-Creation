@@ -30,16 +30,8 @@ public class HeroStats : MonoBehaviour
 
     private void Start()
     {
-        if(GameManager.Instance.Currenthero != null)
-        {
-           currentHealth = GameManager.Instance.Currenthero.currentHealth;
-           currentHeat = GameManager.Instance.Currenthero.currentHeat;
-        }
-        else
-        {
-            currentHealth = maxHealth;
-            currentHeat = 0;
-        }
+        currentHealth = maxHealth;
+        currentHeat = maxHeat;
     }
 
     public void TakeDamage(NPC opponent)
@@ -50,18 +42,17 @@ public class HeroStats : MonoBehaviour
             return;
             //Handle death stuff for hero here
         }
+        // damage is calculated by the opponent's damage multiplied by 1 plus the opponent's level divided by 10 minus the hero's defense
         int damage = opponent.opponentDamage * (1 + (opponent.opponentLevel / 10) - defense);
         damage = Mathf.Max(1, damage);
         currentHealth -= damage;
-
     }
 
     public void UseSpecialAttack(NPC opponent)
     {
-        int damage = attack * 2 - opponent.opponentDefense;
+        int damage = attack * Level - opponent.opponentDefense;
         damage = Mathf.Max(1, damage);
         currentHeat = 0;
         opponent.currentHealth -= damage;
-
     }
 }

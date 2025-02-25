@@ -22,18 +22,18 @@ public class PlayerController : MonoBehaviour
         moveDir = Input.GetAxisRaw("Horizontal");
         if(moveDir > 0)
         {
-            transform.localScale = new Vector3(0.5f, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         else if (moveDir < 0)
         {
-            transform.localScale = new Vector3(-0.5f, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         animator.SetFloat("HeroSpeed", Mathf.Abs(moveDir));
     }
 
     void FixedUpdate()
     {
-        transform.position += new Vector3(moveDir, 0, 0) * speed * Time.deltaTime;
+        transform.position += speed * Time.deltaTime * new Vector3(moveDir, 0, 0);
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
     }
 

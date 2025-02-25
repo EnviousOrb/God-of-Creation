@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,12 +18,6 @@ public class HeroUI : MonoBehaviour
         SetOverworldUI(heroStats);
     }
 
-    private void Update()
-    {
-        heroHealth.value = heroStats.currentHealth;
-        heroHeat.value = heroStats.currentHeat;
-    }
-
     void SetOverworldUI(HeroStats heroStats)
     {
         heroName.text = heroStats.heroName;
@@ -33,5 +26,11 @@ public class HeroUI : MonoBehaviour
         heroLevel.text = heroStats.Level.ToString();
         heroSprite.sprite = heroStats.heroIcon;
         typeSprite.sprite = heroStats.typeIcon;
+    }
+
+    public void UpdateOverworldUI(HeroStats heroStats)
+    {
+        heroHealth.value = heroStats.currentHealth;
+        heroHeat.value = heroStats.currentHeat;
     }
 }

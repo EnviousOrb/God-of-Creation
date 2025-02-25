@@ -2759,10 +2759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a2d06c9d0df300c94e0ffe9b17f7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
-  hero: {fileID: 0}
-  opponent: {fileID: 0}
-  battleHUD: {fileID: 1433862336}
+  heroUI: {fileID: 7498814093032667636, guid: d0cd4978c8be2dc40a3036ed9a1b9543, type: 3}
   typingSpeed: 0.03
 --- !u!1 &1605995579
 GameObject:

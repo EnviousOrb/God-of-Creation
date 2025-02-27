@@ -23,10 +23,7 @@ public class DialogSystem : MonoBehaviour
     {
         ClearDialog();
         gameObject.SetActive(false);
-
-        Dialog[] dialogs = FindObjectsByType<Dialog>(FindObjectsSortMode.InstanceID);
-
-        this.dialogs = dialogs;
+        dialogs = FindObjectsByType<Dialog>(FindObjectsSortMode.InstanceID);
     }
 
     // Update is called once per frame

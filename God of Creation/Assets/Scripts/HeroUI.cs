@@ -11,10 +11,11 @@ public class HeroUI : MonoBehaviour
     [SerializeField] Slider heroHeat; //The location that the hero's heat will be displayed on the main UI
     [SerializeField] TextMeshProUGUI heroLevel; //The location that the hero's level will be displayed on the main UI
 
-    [SerializeField] HeroStats heroStats; //The hero's stats
+    private HeroStats heroStats; //The hero's stats
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        heroStats = FindObjectsByType<HeroStats>(FindObjectsSortMode.None)[0];
         SetOverworldUI(heroStats);
     }
 

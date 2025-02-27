@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EnviousOrb Special Attack
+  m_Controller: {fileID: 9100000, guid: b2add038e4d484ac5beafb8ee019aabf, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 488b14cc9ecf9784c80cb7f14f5c054b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 24fd21abeac12fff3abc89d76d5bd642, type: 2}

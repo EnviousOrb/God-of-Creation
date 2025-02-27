@@ -36,13 +36,4 @@ public class PlayerController : MonoBehaviour
         transform.position += speed * Time.deltaTime * new Vector3(moveDir, 0, 0);
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("NPC"))
-        {
-            Debug.Log("NPC Detected");
-
-        }
-    }
 }

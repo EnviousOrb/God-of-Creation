@@ -56,7 +56,7 @@ public class NPC : MonoBehaviour
 
             if (isFightable)
             {
-                StartCoroutine(IntroToBattleSequence(other));
+                StartCoroutine(IntroToBattleSequence());
             }
         }
     }
@@ -73,11 +73,10 @@ public class NPC : MonoBehaviour
         currentHealth -= damage;
     }
 
-    private IEnumerator IntroToBattleSequence(Collider2D other)
+    private IEnumerator IntroToBattleSequence()
     {
         yield return new WaitUntil(() => dialogBox.IsDialogFinished);
 
-        GameManager.Instance.Currenthero = other.GetComponent<HeroStats>();
         GameManager.Instance.CurrentOpponent = this;
         SceneManager.LoadScene("BattleScene");
     }

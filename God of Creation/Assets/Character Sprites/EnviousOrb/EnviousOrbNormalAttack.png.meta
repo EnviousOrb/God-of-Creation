@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 77aff4c7f72a4c674ab9fdf866e7304e
+guid: 6d3b25f781660fb4da2ebd89e9d5b991
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -530711613034484484
-    second: William Walk Opposite_0
+      213: 3418910303889556123
+    second: EnviousOrbNormalAttack_0
+  - first:
+      213: -3016773484124312054
+    second: EnviousOrbNormalAttack_1
+  - first:
+      213: 2363638575790029951
+    second: EnviousOrbNormalAttack_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +102,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: William Walk Opposite_0
+      name: EnviousOrbNormalAttack_0
       rect:
         serializedVersion: 2
-        x: 255
-        y: 159
-        width: 450
-        height: 738
+        x: 319
+        y: 3135
+        width: 578
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cfca7ea899882a8f0800000000000000
-      internalID: -530711613034484484
+      spriteID: b928246aec8627f20800000000000000
+      internalID: 3418910303889556123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnviousOrbNormalAttack_1
+      rect:
+        serializedVersion: 2
+        x: 2367
+        y: 2943
+        width: 1218
+        height: 898
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0ee3feef744226d0800000000000000
+      internalID: -3016773484124312054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnviousOrbNormalAttack_2
+      rect:
+        serializedVersion: 2
+        x: 703
+        y: 895
+        width: 834
+        height: 322
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7cff57f2c45dc020800000000000000
+      internalID: 2363638575790029951
       vertices: []
       indices: 
       edges: []
@@ -147,8 +184,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      William Walk Opposite_0: -530711613034484484
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

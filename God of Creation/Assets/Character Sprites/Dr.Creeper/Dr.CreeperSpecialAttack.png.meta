@@ -1,13 +1,25 @@
 fileFormatVersion: 2
-guid: d0f3c7b28bd8e944fbed6bd4697a6366
+guid: 881799a46ecbbb13ea3dd83bfee9f51e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1236592929353653151
-    second: EnviousOrb Walk_0
+      213: -5505904869284681975
+    second: Dr.CreeperSpecialAttack_0
   - first:
-      213: -7716484963032811127
-    second: EnviousOrb Walk_1
+      213: 4552511969780338173
+    second: Dr.CreeperSpecialAttack_1
+  - first:
+      213: -6907816062426685801
+    second: Dr.CreeperSpecialAttack_2
+  - first:
+      213: -1754654804901646180
+    second: Dr.CreeperSpecialAttack_3
+  - first:
+      213: -6515105036311783854
+    second: Dr.CreeperSpecialAttack_4
+  - first:
+      213: -3022796895123108569
+    second: Dr.CreeperSpecialAttack_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -99,30 +111,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EnviousOrb Walk_0
+      name: Dr.CreeperSpecialAttack_0
       rect:
         serializedVersion: 2
-        x: 198
-        y: 1194
-        width: 457
-        height: 713
+        x: 340
+        y: 2331
+        width: 344
+        height: 486
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9b52eda7b2492110800000000000000
-      internalID: 1236592929353653151
+      spriteID: 907613361b81793b0800000000000000
+      internalID: -5505904869284681975
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: EnviousOrb Walk_1
+      name: Dr.CreeperSpecialAttack_1
       rect:
         serializedVersion: 2
-        x: 113
-        y: 170
-        width: 627
-        height: 713
+        x: 1279
+        y: 2388
+        width: 486
+        height: 344
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +152,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 98939cf4fc989e490800000000000000
-      internalID: -7716484963032811127
+      spriteID: dfd887a2485cd2f30800000000000000
+      internalID: 4552511969780338173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dr.CreeperSpecialAttack_2
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 1279
+        width: 344
+        height: 486
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79ed151f3e18220a0800000000000000
+      internalID: -6907816062426685801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dr.CreeperSpecialAttack_3
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1364
+        width: 486
+        height: 344
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c90b76260c636a7e0800000000000000
+      internalID: -1754654804901646180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dr.CreeperSpecialAttack_4
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 283
+        width: 344
+        height: 486
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 256174cec72b595a0800000000000000
+      internalID: -6515105036311783854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dr.CreeperSpecialAttack_5
+      rect:
+        serializedVersion: 2
+        x: 1108
+        y: 198
+        width: 940
+        height: 742
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72d88064d3edc06d0800000000000000
+      internalID: -3022796895123108569
       vertices: []
       indices: 
       edges: []

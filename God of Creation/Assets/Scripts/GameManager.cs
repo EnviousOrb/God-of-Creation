@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Currenthero = FindObjectsByType<HeroStats>(FindObjectsSortMode.None)[0];
         }
         else
         {

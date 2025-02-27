@@ -1,8 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
-using System.Collections;
-using System;
 
 public class Dialog : MonoBehaviour
 {
@@ -13,14 +10,17 @@ public class Dialog : MonoBehaviour
 
     void Start()
     {
-        if(gameObject.tag == "Opponent")
+        if(gameObject.CompareTag("Player"))
         {
-            characterName = GetComponent<NPC>().npcName;
-            characterAvatar = GetComponent<NPC>().npcIcon;
-            textColor = GetComponent<NPC>().npcTextColor;
+            characterName = gameObject.GetComponent<HeroStats>().heroName;
+            characterAvatar = gameObject.GetComponent<HeroStats>().heroIcon;
+            textColor = gameObject.GetComponent<HeroStats>().heroTextColor;
         }
-
+        else if (gameObject.CompareTag("Opponent"))
+        {
+            characterName = gameObject.GetComponent<NPC>().npcName;
+            characterAvatar = gameObject.GetComponent<NPC>().npcIcon;
+            textColor = gameObject.GetComponent<NPC>().npcTextColor;
+        }
     }
 }
-
-

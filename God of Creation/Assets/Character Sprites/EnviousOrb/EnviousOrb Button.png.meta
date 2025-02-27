@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      EnviousOrb Button_0: -9171200423448470065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

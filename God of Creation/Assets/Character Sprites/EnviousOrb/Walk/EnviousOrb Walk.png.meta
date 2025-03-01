@@ -8,6 +8,12 @@ TextureImporter:
   - first:
       213: -7716484963032811127
     second: EnviousOrb Walk_1
+  - first:
+      213: -163390473314996972
+    second: EnviousOrb Walk_2
+  - first:
+      213: 3294145018192763416
+    second: EnviousOrb Walk_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -141,8 +147,8 @@ TextureImporter:
       name: EnviousOrb Walk_1
       rect:
         serializedVersion: 2
-        x: 113
-        y: 170
+        x: 1137
+        y: 1194
         width: 627
         height: 713
       alignment: 0
@@ -155,6 +161,50 @@ TextureImporter:
       bones: []
       spriteID: 98939cf4fc989e490800000000000000
       internalID: -7716484963032811127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnviousOrb Walk_2
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 170
+        width: 457
+        height: 713
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41d606eea358bbdf0800000000000000
+      internalID: -163390473314996972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnviousOrb Walk_3
+      rect:
+        serializedVersion: 2
+        x: 1137
+        y: 170
+        width: 627
+        height: 713
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81a9000e07727bd20800000000000000
+      internalID: 3294145018192763416
       vertices: []
       indices: 
       edges: []
@@ -172,9 +222,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      EnviousOrb Walk_0: 1236592929353653151
-      EnviousOrb Walk_1: -7716484963032811127
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

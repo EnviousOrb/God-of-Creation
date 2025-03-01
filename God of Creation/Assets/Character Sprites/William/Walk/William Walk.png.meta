@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: 6281290070226964353
     second: William Walk_0
+  - first:
+      213: 2446933757578953840
+    second: William Walk_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -117,7 +120,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 319
-        y: 159
+        y: 1183
         width: 450
         height: 738
       alignment: 0
@@ -130,6 +133,28 @@ TextureImporter:
       bones: []
       spriteID: 18f01170a00ab2750800000000000000
       internalID: 6281290070226964353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: William Walk_1
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 159
+        width: 450
+        height: 738
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 074c761c94145f120800000000000000
+      internalID: 2446933757578953840
       vertices: []
       indices: 
       edges: []
@@ -147,8 +172,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      William Walk_0: 6281290070226964353
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

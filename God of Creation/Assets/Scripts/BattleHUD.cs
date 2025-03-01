@@ -25,7 +25,6 @@ public class BattleHUD : MonoBehaviour
     {
         heroName.text = heroStats.heroName;
         heroHealth.maxValue = heroStats.maxHealth;
-        heroStats.currentHealth = heroStats.maxHealth;
         heroHeat.maxValue = heroStats.maxHeat;
         heroLevel.text = heroStats.Level.ToString();
         heroSprite.sprite = heroStats.battleIcon;
@@ -35,6 +34,8 @@ public class BattleHUD : MonoBehaviour
         opponent.currentHealth = opponent.maxHealth;
         opponentLevel.text = opponent.opponentLevel.ToString();
         opponentSprite.sprite = opponent.opponentIcon;
+
+        UpdateBattleUI(heroStats, opponent);
     }
 
     public void UpdateBattleUI(HeroStats heroStats, NPC opponent)

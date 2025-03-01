@@ -11,7 +11,7 @@ public class DialogSystem : MonoBehaviour
     [SerializeField] float typingSpeed = 0.02f; //The speed at which the dialog will be displayed on screen
     public bool IsDialogFinished { get { return gameObject.activeSelf == false; } }
 
-    private Dialog[] dialogs; //Holds all of the dialog that happens in one scene
+    [HideInInspector] public Dialog[] dialogs; //Holds all of the dialog that happens in one scene
     private string[] sentences; //Splits the dialog into two categories, for mutliple speakers
     private int index; //The index of the dialog
     private int dialogIndex; //The index of the dialog array
@@ -23,7 +23,6 @@ public class DialogSystem : MonoBehaviour
     {
         ClearDialog();
         gameObject.SetActive(false);
-        dialogs = FindObjectsByType<Dialog>(FindObjectsSortMode.InstanceID);
     }
 
     // Update is called once per frame

@@ -71,6 +71,7 @@ MonoBehaviour:
   attack: 10
   defense: 5
   speed: 5
+  credixAmount: 0
   heroIcon: {fileID: 3434724875274373208, guid: 8d8a41c2e4a1e7d44a8320de61ca1e6a, type: 3}
   typeIcon: {fileID: 6736607540577446010, guid: 42953b8e4e8ccce4bb591ed5d78d7f94, type: 3}
   battleIcon: {fileID: 8227013097340461251, guid: 928bf6792e739d247a0dae4f0aabde78, type: 3}

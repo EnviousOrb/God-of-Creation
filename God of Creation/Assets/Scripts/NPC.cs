@@ -7,7 +7,7 @@ using System.Collections;
 public class NPC : MonoBehaviour
 {
     //Overworld visuals/Generic set-up
-    [SerializeField] public DialogSystem dialogBox;
+    private DialogSystem dialogBox;
     public Sprite npcIcon;
     public string npcName;
     public TMP_ColorGradient npcTextColor; //The color of the npc/opponent's dialog text
@@ -41,7 +41,7 @@ public class NPC : MonoBehaviour
         {
             if (GameManager.Instance.IsOpponentDefeated(this))
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
         }
     }
@@ -52,6 +52,7 @@ public class NPC : MonoBehaviour
         {
 
             dialogBox.gameObject.SetActive(true);
+            dialogBox.dialogs = FindObjectsByType<Dialog>(FindObjectsSortMode.None);
             dialogBox.StartDialog();
 
             if (isFightable)

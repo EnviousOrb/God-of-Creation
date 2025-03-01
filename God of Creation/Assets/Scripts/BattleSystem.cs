@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -100,6 +99,8 @@ public class BattleSystem : MonoBehaviour
 
     void PlayerTurn()
     {
+        GameManager.Instance.Currenthero.SaveHeroData();
+
         TurnOnControls();
 
         battleHUD.BattleText.colorGradientPreset = null;
@@ -161,6 +162,14 @@ public class BattleSystem : MonoBehaviour
         {
             battleHUD.BattleText.colorGradientPreset = opponent.npcTextColor;
             StartCoroutine(TypeText(opponent.opponentFlavorTexts[1]));
+
+            int credixEarned = UnityEngine.Random.Range(1, 100);
+            hero.credixAmount += credixEarned;
+
+            StartCoroutine(TypeText("You earned " + credixEarned + " credix!"));
+
+            hero.AddXP(opponent.opponentLevel * 20);
+
             //Start the ending to battle sequence here
             battleHUD.BattleText.text = string.Empty;
             GameManager.Instance.MarkOpponentAsDefeated(opponent);
@@ -346,9 +355,9 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitUntil(() => isBattleTextFinished);
         StopCoroutine(textCoroutine);
-        GameManager.Instance.Currenthero = hero;
         GameManager.Instance.CurrentOpponent = null;
         heroUI.UpdateOverworldUI(hero);
+        GameManager.Instance.Currenthero.SaveHeroData();
         
         //Transition over to previous screen
         //SceneManager.LoadScene("Overworld");

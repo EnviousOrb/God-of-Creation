@@ -1,3 +1,4 @@
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -12,7 +13,12 @@ public class HeroStats : MonoBehaviour
     [Range(0, 100)] public int attack; //Base attack of the hero
     [Range(0, 100)] public int defense; //Base defense of the hero
     [Range(0, 100)] public float speed; //Base speed of the hero
-    
+    [HideInInspector] public int credixAmount; //The amount of credix the hero has
+
+    [Header("Hero XP")]
+    public int xpToLevel; //The amount of XP needed to level up the hero
+    public int currentXP; //The current XP of the hero
+
 
     [Header("Hero Icons")]
     public Sprite heroIcon; //This is the sprite seen during dialog, overworld, and the main UI
@@ -30,8 +36,8 @@ public class HeroStats : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
-        currentHeat = maxHeat;
+        LoadHeroData();
+        xpToLevel = 100 * Level;
     }
 
     public void TakeDamage(NPC opponent)
@@ -55,4 +61,104 @@ public class HeroStats : MonoBehaviour
         currentHeat = 0;
         opponent.currentHealth -= damage;
     }
+
+    public void AddXP(int amount)
+    {
+        currentXP += amount;
+        if (currentXP >= xpToLevel)
+        {
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        Level++;
+        currentXP = 0;
+        xpToLevel = 100 * Level;
+        credixAmount += 100;
+        maxHealth += 10;
+        attack += 5;
+        defense += 5;
+        speed += 2;
+        maxHeat += 10;
+        currentHealth = maxHealth;
+        SaveHeroData();
+    }
+
+    private string GetFilePath()
+    {
+        return Path.Combine(Application.persistentDataPath, heroName + "_data.json");
+    }
+
+    public void SaveHeroData()
+    {
+        _ = new HeroData()
+        {
+            heroName = heroName,
+            heroSpecialAttackText = heroSpecialAttackText,
+            maxHealth = maxHealth,
+            Level = Level,
+            maxHeat = maxHeat,
+            attack = attack,
+            defense = defense,
+            speed = speed,
+            credixAmount = credixAmount,
+            currentHealth = currentHealth,
+            currentHeat = currentHeat,
+            xpToLevel = xpToLevel,
+            currentXP = currentXP
+        };
+        string json = JsonUtility.ToJson(this);
+        File.WriteAllText(GetFilePath(), json);
+    }
+
+    public void LoadHeroData()
+    {
+        string path = GetFilePath();
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            HeroData data = JsonUtility.FromJson<HeroData>(json);
+            heroName = data.heroName;
+            heroSpecialAttackText = data.heroSpecialAttackText;
+            maxHealth = data.maxHealth;
+            Level = data.Level;
+            maxHeat = data.maxHeat;
+            attack = data.attack;
+            defense = data.defense;
+            speed = data.speed;
+            credixAmount = data.credixAmount;
+            currentHealth = data.currentHealth > maxHealth ? maxHealth : data.currentHealth;
+            currentHeat = data.currentHeat > maxHeat ? maxHeat : data.currentHeat;
+            xpToLevel = data.xpToLevel;
+            currentXP = data.currentXP;
+        }
+        else
+        {
+            currentHealth = maxHealth;
+            currentHeat = 0;
+            currentXP = 0;
+            credixAmount = 0;
+            xpToLevel = Level * 100;
+        }
+    }
+}
+
+[System.Serializable]
+public class HeroData
+{
+    public string heroName;
+    public string heroSpecialAttackText;
+    public int maxHealth;
+    public int Level;
+    public int maxHeat;
+    public int attack;
+    public int defense;
+    public float speed;
+    public int credixAmount;
+    public int currentHealth;
+    public int currentHeat;
+    public int currentXP;
+    public int xpToLevel;
 }

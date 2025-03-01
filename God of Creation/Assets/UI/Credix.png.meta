@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: adc9249e6acc67fe7b51ce0760654787
+guid: 24a958fe1ab906645b6a0cc01c235390
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5632622120150330015
-    second: Dr.CreeperBattle_0
+      213: 4684849150441883363
+    second: Credix_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dr.CreeperBattle_0
+      name: Credix_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 0
-        width: 941
-        height: 741
+        x: 95
+        y: 127
+        width: 834
+        height: 834
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1659e6e4608e4d1b0800000000000000
-      internalID: -5632622120150330015
+      spriteID: 3e6016e1b7de30140800000000000000
+      internalID: 4684849150441883363
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Dr.CreeperBattle_0: -5632622120150330015
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

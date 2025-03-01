@@ -10,6 +10,7 @@ public class HeroUI : MonoBehaviour
     [SerializeField] Slider heroHealth; //The location that the hero's health will be displayed on the main UI
     [SerializeField] Slider heroHeat; //The location that the hero's heat will be displayed on the main UI
     [SerializeField] TextMeshProUGUI heroLevel; //The location that the hero's level will be displayed on the main UI
+    [SerializeField] TextMeshProUGUI heroCredix; //The location that the hero's credix will be displayed on the main UI
 
     private HeroStats heroStats; //The hero's stats
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,14 +20,16 @@ public class HeroUI : MonoBehaviour
         SetOverworldUI(heroStats);
     }
 
-    void SetOverworldUI(HeroStats heroStats)
+    public void SetOverworldUI(HeroStats heroStats)
     {
         heroName.text = heroStats.heroName;
         heroHealth.maxValue = heroStats.maxHealth;
         heroHeat.maxValue = heroStats.maxHeat;
         heroLevel.text = heroStats.Level.ToString();
+        heroCredix.text = heroStats.credixAmount.ToString();
         heroSprite.sprite = heroStats.heroIcon;
         typeSprite.sprite = heroStats.typeIcon;
+        UpdateOverworldUI(heroStats);
     }
 
     public void UpdateOverworldUI(HeroStats heroStats)

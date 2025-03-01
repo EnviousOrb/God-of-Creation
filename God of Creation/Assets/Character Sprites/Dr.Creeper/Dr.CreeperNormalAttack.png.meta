@@ -117,6 +117,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -309,7 +322,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Dr.CreeperNormalAttack_0: -8817402786221387653
+      Dr.CreeperNormalAttack_1: 7002441426956506063
+      Dr.CreeperNormalAttack_2: -6738826291199516794
+      Dr.CreeperNormalAttack_3: -7338955760645779791
+      Dr.CreeperNormalAttack_4: -7889188304447749725
+      Dr.CreeperNormalAttack_5: -1647397580552639224
+      Dr.CreeperNormalAttack_6: -6382063658610370393
+      Dr.CreeperNormalAttack_7: -6172950640514019014
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

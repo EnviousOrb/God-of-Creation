@@ -5,7 +5,6 @@ public class WheelButton : MonoBehaviour
     [SerializeField] private GameObject HeroToSpawn;
     private GameObject currentHero;
     private HeroUI heroUI;
-    private DialogSystem dialogSystem;
 
     private void Awake()
     {

@@ -64,6 +64,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroName: William
+  heroBio: A young man of mysterious origin. Found in an alleyway by EnviousOrb,
+    William awakes with no memory of his past, yet an innate ability to create whatever
+    he desire, and a drive to put an end to Anonymous' reign.
   heroSpecialAttackText: '"Creation Blast!"'
   maxHealth: 10
   Level: 1
@@ -72,9 +75,12 @@ MonoBehaviour:
   defense: 5
   speed: 10
   credixAmount: 0
+  xpToLevel: 0
+  currentXP: 0
   heroIcon: {fileID: -2327869246453644434, guid: 2397c33dd8da7916cae179be62587d88, type: 3}
   typeIcon: {fileID: -5765777680471872163, guid: ff18fafa207364834b26131c5c76dbf9, type: 3}
   battleIcon: {fileID: 7518903054759858335, guid: e66b863fa5083d03ea5368b4e15c0708, type: 3}
+  StatsIcon: {fileID: -859039708282134647, guid: 67f43196ac73cec49aa31a44a89e7809, type: 3}
   specialAttack: {fileID: 5605477561151560730, guid: 54582db44912f221f9fae91263078ce7, type: 3}
   normalAttack: {fileID: 5401521511747897442, guid: 55ad2814bcadce59da108a5014aa90ca, type: 3}
   heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}

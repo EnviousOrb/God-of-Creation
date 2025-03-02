@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class HeroUI : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer heroSprite; //The location that the hero's sprite will be displayed on the main UI
-    [SerializeField] SpriteRenderer typeSprite; //The location that the hero's type sprite will be displayed on the main UI
+    [SerializeField] Image heroSprite; //The location that the hero's sprite will be displayed on the main UI
+    [SerializeField] Image typeSprite; //The location that the hero's type sprite will be displayed on the main UI
     [SerializeField] TextMeshProUGUI heroName; //The location that the hero's name will be displayed on the main UI
     [SerializeField] Slider heroHealth; //The location that the hero's health will be displayed on the main UI
     [SerializeField] Slider heroHeat; //The location that the hero's heat will be displayed on the main UI

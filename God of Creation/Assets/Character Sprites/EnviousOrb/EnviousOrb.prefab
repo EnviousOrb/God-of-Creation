@@ -64,6 +64,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroName: EnviousOrb
+  heroBio: "EnviousOrb works as a mercenary trying to make a quick buck. But, ever
+    since he met William, he decides to quit his day job to help William in his efforts
+    to put an end to Anonymous' reign. The only person who really knows about EnviousOrb\u2019s
+    past is Dr.Creeper."
   heroSpecialAttackText: '"Swordenganza!"'
   maxHealth: 10
   Level: 1
@@ -72,9 +76,12 @@ MonoBehaviour:
   defense: 5
   speed: 5
   credixAmount: 0
+  xpToLevel: 0
+  currentXP: 0
   heroIcon: {fileID: 3434724875274373208, guid: 8d8a41c2e4a1e7d44a8320de61ca1e6a, type: 3}
   typeIcon: {fileID: 6736607540577446010, guid: 42953b8e4e8ccce4bb591ed5d78d7f94, type: 3}
   battleIcon: {fileID: 8227013097340461251, guid: 928bf6792e739d247a0dae4f0aabde78, type: 3}
+  StatsIcon: {fileID: 8748210560116370702, guid: 0d73b880c553e354e972f10234b9af26, type: 3}
   specialAttack: {fileID: 2552405005188330821, guid: e678b2eacf3750d099eb2a4dfbfc46a0, type: 3}
   normalAttack: {fileID: 8091474301813735051, guid: 7c1fe4894c9f5d20a99329a94dce3557, type: 3}
   heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}

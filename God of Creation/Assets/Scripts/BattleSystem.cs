@@ -78,7 +78,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator TypeText(string text, float delayAfterText = 2f)
     {
-        if(textCoroutine != null)
+        //If there is already text being displayed, stop it and display the new text
+        if (textCoroutine != null)
         {
             StopCoroutine(textCoroutine);
         }
@@ -88,6 +89,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator TypeTextCoroutine(string text, float delayAfterText)
     {
+        //Clear the text and then display it letter by letter
         battleHUD.BattleText.text = "";
         foreach (char letter in text.ToCharArray())
         {
@@ -99,8 +101,10 @@ public class BattleSystem : MonoBehaviour
 
     void PlayerTurn()
     {
+        //Save the hero's data before the player makes a choice
         GameManager.Instance.Currenthero.SaveHeroData();
 
+        //Enable the player's choices and display the text
         TurnOnControls();
 
         battleHUD.BattleText.colorGradientPreset = null;
@@ -356,7 +360,6 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitUntil(() => isBattleTextFinished);
         StopCoroutine(textCoroutine);
         GameManager.Instance.CurrentOpponent = null;
-        heroUI.UpdateOverworldUI(hero);
         GameManager.Instance.Currenthero.SaveHeroData();
         
         //Transition over to previous screen

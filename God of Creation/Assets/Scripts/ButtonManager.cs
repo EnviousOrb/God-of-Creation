@@ -4,7 +4,6 @@ using UnityEngine;
 public class ButtonManager : MonoBehaviour
 {
     [SerializeField] List<WheelButton> wheelButtons;
-
     private void Start()
     {
         if(wheelButtons == null)
@@ -14,7 +13,6 @@ public class ButtonManager : MonoBehaviour
 
         DeactivateWheel();
     }
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q))
@@ -26,7 +24,6 @@ public class ButtonManager : MonoBehaviour
             DeactivateWheel();
         }
     }
-
     private void ActivateWheel()
     {
         foreach (var button in wheelButtons)

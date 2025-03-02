@@ -64,6 +64,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroName: Dr.Creeper
+  heroBio: Before Anonymous' Reign, EnviousOrb and Dr.Creeper worked as a team, and
+    were regarded as the greatest heroes across the lands. But, a fight amogst the
+    two caused a rift between their friendship, leaving Dr.Creeper to retire in his
+    laboratory, where he spent his days in solitude.
   heroSpecialAttackText: '"Doctor''s Orders!"'
   maxHealth: 10
   Level: 1
@@ -72,9 +76,12 @@ MonoBehaviour:
   defense: 10
   speed: 5
   credixAmount: 0
+  xpToLevel: 0
+  currentXP: 0
   heroIcon: {fileID: -6624756602755002072, guid: c1facdf227cc0045e87ea04ac611e165, type: 3}
   typeIcon: {fileID: 2766963856828462096, guid: 90fcfd287a4733aa49ceb61652fd5c9f, type: 3}
   battleIcon: {fileID: -5632622120150330015, guid: adc9249e6acc67fe7b51ce0760654787, type: 3}
+  StatsIcon: {fileID: -2601193793617544164, guid: 1aec2aa2053aedf49ac2c6dbcdaf4639, type: 3}
   specialAttack: {fileID: 2814427055263183258, guid: 1d3b57ef10a0e7382ac3eb2442b92d64, type: 3}
   normalAttack: {fileID: 1481377462201954036, guid: b315fe8024aa8016d822eb0f25003ba2, type: 3}
   heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}

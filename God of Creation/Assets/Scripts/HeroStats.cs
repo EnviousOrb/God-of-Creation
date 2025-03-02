@@ -5,7 +5,8 @@ using UnityEngine;
 public class HeroStats : MonoBehaviour
 {
     [Header("Hero Stats")]
-    public string heroName;
+    public string heroName; //This is the name of the hero
+    public string heroBio; //This is the background info on the hero
     public string heroSpecialAttackText; //This is the text that appears when the hero uses their special attack
     [Range(0, 100)] public int maxHealth; //This is the maximum health of the hero
     [Range(0, 25)] public int Level; //This is the maximum level of the hero
@@ -24,6 +25,7 @@ public class HeroStats : MonoBehaviour
     public Sprite heroIcon; //This is the sprite seen during dialog, overworld, and the main UI
     public Sprite typeIcon; //This is the sprite seen on the main UI, used to show the type of the hero
     public Sprite battleIcon; //This is the sprite seen during battle
+    public Sprite StatsIcon; //This is the sprite seen on the stats screen
     public GameObject specialAttack; //This is the sprite seen on the battle UI, used to show the special attack of the hero
     public GameObject normalAttack; //This is the sprite seen on the battle UI, used to show the normal attack of the hero
     public GameObject heal; //This is the sprite seen on the battle UI, used to show the healing of the hero
@@ -37,7 +39,6 @@ public class HeroStats : MonoBehaviour
     private void Start()
     {
         LoadHeroData();
-        xpToLevel = 100 * Level;
     }
 
     public void TakeDamage(NPC opponent)
@@ -56,6 +57,7 @@ public class HeroStats : MonoBehaviour
 
     public void UseSpecialAttack(NPC opponent)
     {
+        // damage is calculated by the hero's attack multiplied by the hero's level minus the opponent's defense
         int damage = attack * Level - opponent.opponentDefense;
         damage = Mathf.Max(1, damage);
         currentHeat = 0;
@@ -64,15 +66,16 @@ public class HeroStats : MonoBehaviour
 
     public void AddXP(int amount)
     {
+        // Add the amount of XP to the hero and check if they need to level up
         currentXP += amount;
         if (currentXP >= xpToLevel)
         {
             LevelUp();
         }
     }
-
     private void LevelUp()
     {
+        // Increase the level of the hero and adjust the stats accordingly
         Level++;
         currentXP = 0;
         xpToLevel = 100 * Level;
@@ -88,14 +91,17 @@ public class HeroStats : MonoBehaviour
 
     private string GetFilePath()
     {
+        // Get the file path for the hero data, leads into AppData/LocalLow/SBKGames/God of Creation on Windows
         return Path.Combine(Application.persistentDataPath, heroName + "_data.json");
     }
 
     public void SaveHeroData()
     {
+        // Save the data to a file
         _ = new HeroData()
         {
             heroName = heroName,
+            heroBio = heroBio,
             heroSpecialAttackText = heroSpecialAttackText,
             maxHealth = maxHealth,
             Level = Level,
@@ -115,12 +121,14 @@ public class HeroStats : MonoBehaviour
 
     public void LoadHeroData()
     {
+        // Load the data from the file
         string path = GetFilePath();
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             HeroData data = JsonUtility.FromJson<HeroData>(json);
             heroName = data.heroName;
+            heroBio = data.heroBio;
             heroSpecialAttackText = data.heroSpecialAttackText;
             maxHealth = data.maxHealth;
             Level = data.Level;
@@ -149,6 +157,7 @@ public class HeroStats : MonoBehaviour
 public class HeroData
 {
     public string heroName;
+    public string heroBio;
     public string heroSpecialAttackText;
     public int maxHealth;
     public int Level;

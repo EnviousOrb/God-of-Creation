@@ -2759,7 +2759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a2d06c9d0df300c94e0ffe9b17f7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroUI: {fileID: 7498814093032667636, guid: d0cd4978c8be2dc40a3036ed9a1b9543, type: 3}
+  heroUI: {fileID: 4013434325735857877, guid: d24e73873ef0d5e47a4d0fbfd53328ca, type: 3}
   typingSpeed: 0.03
 --- !u!1 &1605995579
 GameObject:

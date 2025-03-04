@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -36,7 +38,10 @@ public class HeroStats : MonoBehaviour
     [HideInInspector] public int currentHealth; //This is the current health of the hero
     [HideInInspector] public int currentHeat; //This is the current heat of the hero
 
-    private void Start()
+    [Header("Hero Skills")]
+    public List<Skill> heroSkills; //This is the list of skills the hero has
+
+    private void Awake()
     {
         LoadHeroData();
     }
@@ -64,6 +69,13 @@ public class HeroStats : MonoBehaviour
         opponent.currentHealth -= damage;
     }
 
+    public void UseSkill(Skill skill, NPC opponenent)
+    {
+        // Apply the effect of the skill to the opponent
+        if(skill.IsUnlocked)
+            skill.ApplyEffect?.Invoke(this, opponenent);
+    }
+
     public void AddXP(int amount)
     {
         // Add the amount of XP to the hero and check if they need to level up
@@ -73,6 +85,7 @@ public class HeroStats : MonoBehaviour
             LevelUp();
         }
     }
+
     private void LevelUp()
     {
         // Increase the level of the hero and adjust the stats accordingly
@@ -92,31 +105,28 @@ public class HeroStats : MonoBehaviour
     private string GetFilePath()
     {
         // Get the file path for the hero data, leads into AppData/LocalLow/SBKGames/God of Creation on Windows
-        return Path.Combine(Application.persistentDataPath, heroName + "_data.json");
+        return Path.Combine(Application.persistentDataPath, heroName + "_data.txt");
     }
 
     public void SaveHeroData()
     {
         // Save the data to a file
-        _ = new HeroData()
-        {
-            heroName = heroName,
-            heroBio = heroBio,
-            heroSpecialAttackText = heroSpecialAttackText,
-            maxHealth = maxHealth,
-            Level = Level,
-            maxHeat = maxHeat,
-            attack = attack,
-            defense = defense,
-            speed = speed,
-            credixAmount = credixAmount,
-            currentHealth = currentHealth,
-            currentHeat = currentHeat,
-            xpToLevel = xpToLevel,
-            currentXP = currentXP
-        };
-        string json = JsonUtility.ToJson(this);
-        File.WriteAllText(GetFilePath(), json);
+        using StreamWriter writer = new StreamWriter(GetFilePath(), false);
+        writer.WriteLine(heroName);
+        writer.WriteLine(heroBio);
+        writer.WriteLine(heroSpecialAttackText);
+        writer.WriteLine(string.Join(", ", heroSkills.Where(skill => skill.IsUnlocked).Select(skill => skill.SkillName).ToArray()));
+        writer.WriteLine(maxHealth);
+        writer.WriteLine(Level);
+        writer.WriteLine(maxHeat);
+        writer.WriteLine(attack);
+        writer.WriteLine(defense);
+        writer.WriteLine(speed);
+        writer.WriteLine(credixAmount);
+        writer.WriteLine(currentHealth);
+        writer.WriteLine(currentHeat);
+        writer.WriteLine(currentXP);
+        writer.WriteLine(xpToLevel);
     }
 
     public void LoadHeroData()
@@ -125,22 +135,30 @@ public class HeroStats : MonoBehaviour
         string path = GetFilePath();
         if (File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            HeroData data = JsonUtility.FromJson<HeroData>(json);
-            heroName = data.heroName;
-            heroBio = data.heroBio;
-            heroSpecialAttackText = data.heroSpecialAttackText;
-            maxHealth = data.maxHealth;
-            Level = data.Level;
-            maxHeat = data.maxHeat;
-            attack = data.attack;
-            defense = data.defense;
-            speed = data.speed;
-            credixAmount = data.credixAmount;
-            currentHealth = data.currentHealth > maxHealth ? maxHealth : data.currentHealth;
-            currentHeat = data.currentHeat > maxHeat ? maxHeat : data.currentHeat;
-            xpToLevel = data.xpToLevel;
-            currentXP = data.currentXP;
+            using StreamReader reader = new(path);
+            heroName = reader.ReadLine();
+            heroBio = reader.ReadLine();
+            heroSpecialAttackText = reader.ReadLine();
+            string unlockedSkills = reader.ReadLine();
+            if(!string.IsNullOrEmpty(unlockedSkills))
+                heroSkills.Where(skill => unlockedSkills.Contains(skill.SkillName)).ToList().ForEach(skill => skill.IsUnlocked = true);
+            else
+                foreach (Skill skill in heroSkills)
+                    skill.IsUnlocked = false;
+
+            maxHealth = int.Parse(reader.ReadLine());
+            Level = int.Parse(reader.ReadLine());
+            maxHeat = int.Parse(reader.ReadLine());
+            attack = int.Parse(reader.ReadLine());
+            defense = int.Parse(reader.ReadLine());
+            speed = float.Parse(reader.ReadLine());
+            credixAmount = int.Parse(reader.ReadLine());
+            currentHealth = int.Parse(reader.ReadLine());
+            currentHeat = int.Parse(reader.ReadLine());
+            currentXP = int.Parse(reader.ReadLine());
+            xpToLevel = int.Parse(reader.ReadLine());
+
+            
         }
         else
         {
@@ -159,6 +177,7 @@ public class HeroData
     public string heroName;
     public string heroBio;
     public string heroSpecialAttackText;
+    public List<string> unlockedSkills;
     public int maxHealth;
     public int Level;
     public int maxHeat;

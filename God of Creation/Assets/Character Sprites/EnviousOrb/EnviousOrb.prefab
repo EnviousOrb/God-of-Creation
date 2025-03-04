@@ -88,6 +88,15 @@ MonoBehaviour:
   heroTextColor: {fileID: 11400000, guid: de8a64be95e06944ab1fd524d8dd35ea, type: 2}
   currentHealth: 0
   currentHeat: 0
+  heroSkills:
+  - {fileID: 3901791381372221459, guid: 6df964759feb7b54fa8abfb6c2d0f4a4, type: 3}
+  - {fileID: 3901791381372221459, guid: dbe860d1bb9010147b06fc7fbc30aa11, type: 3}
+  - {fileID: 3901791381372221459, guid: 45fed2e2eb084d84eae9d2b5549ae5e4, type: 3}
+  - {fileID: 3901791381372221459, guid: 1beb9f16871e28048ae7a2103be193d2, type: 3}
+  - {fileID: 3901791381372221459, guid: d4153b5c894a05943aac0ef47fab87a7, type: 3}
+  - {fileID: 3901791381372221459, guid: 6392c5bbf193f724f85a0b381f62ff58, type: 3}
+  - {fileID: 3901791381372221459, guid: c036b5cc2a7e4d142afdf3d2a18dfb7f, type: 3}
+  - {fileID: 3901791381372221459, guid: 54f3f035d191b36418e0883adf82f625, type: 3}
 --- !u!114 &111392152294516653
 MonoBehaviour:
   m_ObjectHideFlags: 0

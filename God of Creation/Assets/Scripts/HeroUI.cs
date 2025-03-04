@@ -16,7 +16,7 @@ public class HeroUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        heroStats = FindObjectsByType<HeroStats>(FindObjectsSortMode.None)[0];
+        heroStats = FindAnyObjectByType<HeroStats>();
         SetOverworldUI(heroStats);
     }
 
@@ -36,5 +36,6 @@ public class HeroUI : MonoBehaviour
     {
         heroHealth.value = heroStats.currentHealth;
         heroHeat.value = heroStats.currentHeat;
+        heroCredix.text = heroStats.credixAmount.ToString();
     }
 }

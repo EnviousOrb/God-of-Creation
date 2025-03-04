@@ -28,7 +28,7 @@ public class BattleSystem : MonoBehaviour
 
     private Coroutine textCoroutine;
 
-    public bool isBattleTextFinished { get { return battleHUD.BattleText.text == string.Empty; } }
+    public bool IsBattleTextFinished { get { return battleHUD.BattleText.text == string.Empty; } }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -190,6 +190,8 @@ public class BattleSystem : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
+
+        heroUI.UpdateOverworldUI(hero);
     }
 
     IEnumerator PlayerAttack()
@@ -357,11 +359,11 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndingToBattleSequence()
     {
-        yield return new WaitUntil(() => isBattleTextFinished);
+        yield return new WaitUntil(() => IsBattleTextFinished);
         StopCoroutine(textCoroutine);
         GameManager.Instance.CurrentOpponent = null;
         GameManager.Instance.Currenthero.SaveHeroData();
-        
+
         //Transition over to previous screen
         //SceneManager.LoadScene("Overworld");
         SceneManager.LoadScene("DevScene");

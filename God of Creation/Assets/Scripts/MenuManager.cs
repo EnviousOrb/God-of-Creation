@@ -5,20 +5,24 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
-    [SerializeField] GameObject StatsMenu;
-    [SerializeField] GameObject SettingsMenu;
-    [SerializeField] GameObject HatsMenu;
+    [SerializeField] GameObject statsMenu;
+    [SerializeField] GameObject settingsMenu;
+    [SerializeField] GameObject hatsMenu;
+    [SerializeField] GameObject skillTreeMenu;
     [SerializeField] Button settingsButton;
-    [SerializeField] Button HatsButton;
-    [SerializeField] Button StatsButton;
-    [SerializeField] Button CloseButton;
+    [SerializeField] Button hatsButton;
+    [SerializeField] Button statsButton;
+    [SerializeField] Button skillTreeButton;
+    [SerializeField] Button closeButton;
     private Stats stats;
+    private SkillTree skillTree;
     private readonly Stack<GameObject> menuStack = new();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        stats = StatsMenu.GetComponent<Stats>();
+        stats = statsMenu.GetComponent<Stats>();
+        skillTree = skillTreeMenu.GetComponent<SkillTree>();
     }
 
     // Update is called once per frame
@@ -40,26 +44,34 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        StatsButton.onClick.AddListener(() =>
+        statsButton.onClick.AddListener(() =>
         {
-            // Open the stats menu
-            OpenMenu(StatsMenu);
+            // Open the stats menu and set the stats to be that of the current hero at play
+            OpenMenu(statsMenu);
             stats.SetStats(GameManager.Instance.Currenthero);
         });
 
         settingsButton.onClick.AddListener(() =>
         {
             // Open the settings menu
-            OpenMenu(SettingsMenu);
+            OpenMenu(settingsMenu);
         });
 
-        HatsButton.onClick.AddListener(() =>
+        hatsButton.onClick.AddListener(() =>
         {
             // Open the hats menu
-            OpenMenu(HatsMenu);
+            OpenMenu(hatsMenu);
         });
 
-        CloseButton.onClick.AddListener(() =>
+        skillTreeButton.onClick.AddListener(() =>
+        {
+            // Open the skill tree menu
+            OpenMenu(skillTreeMenu);
+            skillTree.DisplaySkillTreeName(GameManager.Instance.Currenthero);
+            skillTree.DisplaySkillIcons(GameManager.Instance.Currenthero);
+        });
+
+        closeButton.onClick.AddListener(() =>
         {
             // Close the current menu
             CloseMenu();
@@ -73,7 +85,7 @@ public class MenuManager : MonoBehaviour
 
         menuStack.Push(menu); // Add the new menu to the stack
         menu.SetActive(true); // Show the new menu
-        CloseButton.gameObject.SetActive(true); // Show the close button
+        closeButton.gameObject.SetActive(true); // Show the close button
     }
 
     public void CloseMenu()
@@ -84,7 +96,7 @@ public class MenuManager : MonoBehaviour
             if (menuStack.Count > 0) // If there are still menus in the stack after popping
                 menuStack.Peek().SetActive(true);
 
-            CloseButton.gameObject.SetActive(menuStack.Count > 0); // If there are still menus in the stack after popping, show the close button
+            closeButton.gameObject.SetActive(menuStack.Count > 0); // If there are still menus in the stack after popping, show the close button
         }
     }
-}
+} 

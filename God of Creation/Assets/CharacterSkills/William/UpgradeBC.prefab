@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Nuh Uh!
   SkillDescription: Somehow, William's speed rubbed off on his party members, giving
     them the chance to dodge attacks
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: f2a9d0401122f7a40afa3502cc03c0f0, type: 3}
   IsUnlocked: 0
   SkillCost: 1000
   SkillIcon: {fileID: 5451585748897048628, guid: dcc89e7a74be0e24ebaf91b744fe9ece, type: 3}

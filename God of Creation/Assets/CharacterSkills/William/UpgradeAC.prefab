@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Apex Creationist
   SkillDescription: William's heroic aura has a chance to cause enemies to run away
     (Bosses excluded)
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 77f5b9c8dea3b004197f6057d607a8f4, type: 3}
   IsUnlocked: 0
   SkillCost: 1000
   SkillIcon: {fileID: 8462517119302859744, guid: fa66a638a2407cc44a5e526fd252c72d, type: 3}

@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Prideful Swordsman
   SkillDescription: EnviousOrb's overwhelming pride allows his party member to gain
     a boost in attack
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: d4153b5c894a05943aac0ef47fab87a7, type: 3}
   IsUnlocked: 0
   SkillCost: 600
   SkillIcon: {fileID: -2010332299894689129, guid: 0221c78ff14ca5b45a5821dfa8ed1155, type: 3}

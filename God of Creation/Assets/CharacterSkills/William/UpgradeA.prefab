@@ -46,6 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillName: Chain Attack
   SkillDescription: Allows WIlliam to attack multiple times during his turn
-  IsUnlocked: 0
+  PrequisiteSkill: {fileID: 0}
+  IsUnlocked: 1
   SkillCost: 200
   SkillIcon: {fileID: -1231773458833691671, guid: 480c7f98b98c9eb48a8dcbbd61426440, type: 3}
+  SkillPathIcon: {fileID: 7129470005612854962, guid: 3dbd3bf3f5b41794c979e9af1fb1f3f1, type: 3}
+  SkillPathDescription: 'Way of the Hero: Develop William''s skills as a combatant
+    and a hero through this path'

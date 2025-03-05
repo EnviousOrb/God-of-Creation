@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Fortified Axe
   SkillDescription: Fine-tuning of William's creation abilites allowed him to create
     a stronger axe, dealing more damage to enemies
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 09472668081c52047836252236eb8179, type: 3}
   IsUnlocked: 0
   SkillCost: 600
   SkillIcon: {fileID: -8794566799652434719, guid: b2ad32a6c5d4a854e9f32cc91853f7e8, type: 3}

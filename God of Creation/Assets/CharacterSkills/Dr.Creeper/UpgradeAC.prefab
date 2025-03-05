@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Built-in Brewing Station
   SkillDescription: Dr.Creeper has a chance to creating health potions at the beginning
     of his turn, allowing himself and others to use
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 696a93916c6868b4ca04875933101048, type: 3}
   IsUnlocked: 0
   SkillCost: 1000
   SkillIcon: {fileID: 8462517119302859744, guid: 46c31f8668ce8854ba4f0709b92c35f7, type: 3}

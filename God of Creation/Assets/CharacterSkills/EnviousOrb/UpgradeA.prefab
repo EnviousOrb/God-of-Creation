@@ -47,6 +47,10 @@ MonoBehaviour:
   SkillName: Improved Sword Techniques
   SkillDescription: EnviousOrb dusts off some old sword fighting techniques, allowing
     him to deal more damage to enemies
+  PrequisiteSkill: {fileID: 0}
   IsUnlocked: 0
   SkillCost: 200
   SkillIcon: {fileID: -1231773458833691671, guid: 0d272684b66c94747a8b42afa522907f, type: 3}
+  SkillPathIcon: {fileID: 7129470005612854962, guid: fd6b2d8cddd414c4f88cf4e35a76178f, type: 3}
+  SkillPathDescription: 'Way of the mercenary: Unlock some of EnviousOrb''s moves
+    he learned as a mercenary with this path'

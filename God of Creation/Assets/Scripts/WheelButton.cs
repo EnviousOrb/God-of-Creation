@@ -4,16 +4,6 @@ public class WheelButton : MonoBehaviour
 {
     [SerializeField] private GameObject HeroToSpawn;
     private GameObject currentHero;
-    private HeroUI heroUI;
-
-    private void Awake()
-    {
-        heroUI = FindAnyObjectByType<HeroUI>();
-        if (heroUI == null)
-        {
-            Debug.LogError("HeroUI is not assigned!");
-        }
-    }
 
     public void SwapHero()
     {
@@ -27,8 +17,5 @@ public class WheelButton : MonoBehaviour
         GameManager.Instance.Currenthero = newHero.GetComponent<HeroStats>();
         GameManager.Instance.Currenthero.LoadHeroData();
         Destroy(currentHero);
-
-        heroUI.SetOverworldUI(GameManager.Instance.Currenthero);
-        heroUI.UpdateOverworldUI(GameManager.Instance.Currenthero);
     }
 }

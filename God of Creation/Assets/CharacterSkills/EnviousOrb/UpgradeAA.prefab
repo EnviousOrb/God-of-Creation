@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Sharpened katana
   SkillDescription: EnviousOrb's Epic Katana has restored some of its former glory,
     dealing even more damage to enemies
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: d4153b5c894a05943aac0ef47fab87a7, type: 3}
   IsUnlocked: 0
   SkillCost: 600
   SkillIcon: {fileID: 1622203118372571198, guid: ff22a710046998e4b93edbf8eb5576e7, type: 3}

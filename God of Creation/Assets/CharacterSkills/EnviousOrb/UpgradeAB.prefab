@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Enhanced Senses
   SkillDescription: EnviousOrb's lack of sight improves his other senses, giving
     him the oppertunity to dodge enemy attacks
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: dbe860d1bb9010147b06fc7fbc30aa11, type: 3}
   IsUnlocked: 0
   SkillCost: 800
   SkillIcon: {fileID: 2084752970008229946, guid: 5ae977faf74a7f1498b62f43331eddf6, type: 3}

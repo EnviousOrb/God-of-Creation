@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Craftsmanship
   SkillDescription: A technique origininating from Dr.Creeper's homeworld, allows
     him an oppertunity to craft a random item for his inventory
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 743484b9a3b1981408e4165414271936, type: 3}
   IsUnlocked: 0
   SkillCost: 800
   SkillIcon: {fileID: -6854162823769991456, guid: b2c6fc91783eabd4db2bce95f4ca8ede, type: 3}

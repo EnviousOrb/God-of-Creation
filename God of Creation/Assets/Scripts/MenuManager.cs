@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject statsMenu;
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject hatsMenu;
-    [SerializeField] GameObject skillTreeMenu;
+    [SerializeField] public GameObject skillTreeMenu;
     [SerializeField] Button settingsButton;
     [SerializeField] Button hatsButton;
     [SerializeField] Button statsButton;
@@ -16,6 +16,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Button closeButton;
     private Stats stats;
     private SkillTree skillTree;
+    public HeroUI heroUI;
     private readonly Stack<GameObject> menuStack = new();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,6 +24,7 @@ public class MenuManager : MonoBehaviour
     {
         stats = statsMenu.GetComponent<Stats>();
         skillTree = skillTreeMenu.GetComponent<SkillTree>();
+        heroUI = FindFirstObjectByType<HeroUI>();
     }
 
     // Update is called once per frame
@@ -44,38 +46,10 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        statsButton.onClick.AddListener(() =>
-        {
-            // Open the stats menu and set the stats to be that of the current hero at play
-            OpenMenu(statsMenu);
-            stats.SetStats(GameManager.Instance.Currenthero);
-        });
-
-        settingsButton.onClick.AddListener(() =>
-        {
-            // Open the settings menu
-            OpenMenu(settingsMenu);
-        });
-
-        hatsButton.onClick.AddListener(() =>
-        {
-            // Open the hats menu
-            OpenMenu(hatsMenu);
-        });
-
-        skillTreeButton.onClick.AddListener(() =>
-        {
-            // Open the skill tree menu
-            OpenMenu(skillTreeMenu);
-            skillTree.DisplaySkillTreeName(GameManager.Instance.Currenthero);
-            skillTree.DisplaySkillIcons(GameManager.Instance.Currenthero);
-        });
-
-        closeButton.onClick.AddListener(() =>
-        {
-            // Close the current menu
-            CloseMenu();
-        });
+        if (skillTree.skillTreePathMenu.activeSelf)
+            closeButton.gameObject.SetActive(false);
+        else
+            closeButton.gameObject.SetActive(menuStack.Count > 0);
     }
 
     public void OpenMenu(GameObject menu)
@@ -98,5 +72,32 @@ public class MenuManager : MonoBehaviour
 
             closeButton.gameObject.SetActive(menuStack.Count > 0); // If there are still menus in the stack after popping, show the close button
         }
+    }
+
+    public void OnStatsButton()
+    {
+        // Open the stats menu and set the stats to be that of the current hero at play
+        OpenMenu(statsMenu);
+        stats.SetStats(GameManager.Instance.Currenthero);
+    }
+
+    public void OnSkillTreeButton()
+    {
+        // Open the skill tree menu and set the skill tree to be that of the current hero at play
+        OpenMenu(skillTreeMenu);
+        skillTree.DisplaySkillTreeName(GameManager.Instance.Currenthero);
+        skillTree.DisplaySkillIcons(GameManager.Instance.Currenthero);
+    }
+
+    public void OnSettingsButton()
+    {
+        // Open the settings menu
+        OpenMenu(settingsMenu);
+    }
+
+    public void OnHatsButton()
+    {
+        // Open the hats menu
+        OpenMenu(hatsMenu);
     }
 } 

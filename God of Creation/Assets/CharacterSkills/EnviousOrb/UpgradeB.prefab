@@ -46,6 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillName: Swordsman's Resolve
   SkillDescription: EnviousOrb's determination gives himself a base +5 to all stats
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 6df964759feb7b54fa8abfb6c2d0f4a4, type: 3}
   IsUnlocked: 0
   SkillCost: 400
   SkillIcon: {fileID: -8794566799652434719, guid: ee1ea60bb5c3cf343a111479a287e711, type: 3}
+  SkillPathIcon: {fileID: -3161793329637628188, guid: 6f89e61aa603b8240896d99e25e72d57, type: 3}
+  SkillPathDescription: 'Way of the Swordsman: Develop EnviousOrb''s skills as a
+    swordsman with this path'

@@ -47,6 +47,10 @@ MonoBehaviour:
   SkillName: Chemistry Refinement
   SkillDescription: Dr.Creeper dusts off the basics of chemistry, and through some
     experiments, gives himself a boost in attack and health
+  PrequisiteSkill: {fileID: 0}
   IsUnlocked: 0
   SkillCost: 200
   SkillIcon: {fileID: -1231773458833691671, guid: 29cec374ed7754a44a3f9eeb089969e9, type: 3}
+  SkillPathIcon: {fileID: 7129470005612854962, guid: 860d217645d030442a2ee5c8f7e24db0, type: 3}
+  SkillPathDescription: 'Way of The Chemist: Develop Dr.Creeper''s skills as a chemist
+    with this path'

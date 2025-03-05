@@ -20,7 +20,7 @@ public class HeroStats : MonoBehaviour
 
     [Header("Hero XP")]
     public int xpToLevel; //The amount of XP needed to level up the hero
-    public int currentXP; //The current XP of the hero
+    [HideInInspector] public int currentXP; //The current XP of the hero
 
 
     [Header("Hero Icons")]
@@ -40,9 +40,12 @@ public class HeroStats : MonoBehaviour
 
     [Header("Hero Skills")]
     public List<Skill> heroSkills; //This is the list of skills the hero has
+    [HideInInspector] public int chosenPath; //This is the path the hero has chosen
 
+    private MenuManager menuManager;
     private void Awake()
     {
+        menuManager = FindAnyObjectByType<MenuManager>();
         LoadHeroData();
     }
 
@@ -111,7 +114,7 @@ public class HeroStats : MonoBehaviour
     public void SaveHeroData()
     {
         // Save the data to a file
-        using StreamWriter writer = new StreamWriter(GetFilePath(), false);
+        using StreamWriter writer = new(GetFilePath(), false);
         writer.WriteLine(heroName);
         writer.WriteLine(heroBio);
         writer.WriteLine(heroSpecialAttackText);
@@ -127,6 +130,7 @@ public class HeroStats : MonoBehaviour
         writer.WriteLine(currentHeat);
         writer.WriteLine(currentXP);
         writer.WriteLine(xpToLevel);
+        writer.WriteLine(chosenPath);
     }
 
     public void LoadHeroData()
@@ -157,8 +161,7 @@ public class HeroStats : MonoBehaviour
             currentHeat = int.Parse(reader.ReadLine());
             currentXP = int.Parse(reader.ReadLine());
             xpToLevel = int.Parse(reader.ReadLine());
-
-            
+            chosenPath = int.Parse(reader.ReadLine());
         }
         else
         {
@@ -168,6 +171,9 @@ public class HeroStats : MonoBehaviour
             credixAmount = 0;
             xpToLevel = Level * 100;
         }
+
+        menuManager.heroUI.SetOverworldUI(this);
+        menuManager.skillTreeMenu.GetComponent<SkillTree>().OnCharacterSelect(this);
     }
 }
 
@@ -189,4 +195,5 @@ public class HeroData
     public int currentHeat;
     public int currentXP;
     public int xpToLevel;
+    public int chosenPath;
 }

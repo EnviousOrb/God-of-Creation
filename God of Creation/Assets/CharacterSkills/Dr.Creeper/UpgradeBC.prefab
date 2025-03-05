@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Mastery Craftsmenship
   SkillDescription: Refinement of his crafting skills allows Dr.Creeper to create
     more effective items to use
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 56b734265ee1b4e41b0ff2fc651686b5, type: 3}
   IsUnlocked: 0
   SkillCost: 1000
   SkillIcon: {fileID: 5451585748897048628, guid: 3e847f1e3ec2ee54ea2e1b06e64d085e, type: 3}

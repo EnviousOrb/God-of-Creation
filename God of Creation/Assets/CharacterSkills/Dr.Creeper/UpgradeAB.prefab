@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Chemist's Sword
   SkillDescription: Dr.Creeper coats his diamond sword in poison, potenially causing
     damage to the opponent at the beginning of their turn
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: e51a880fa86bfb144a9a949c0b20dc86, type: 3}
   IsUnlocked: 0
   SkillCost: 800
   SkillIcon: {fileID: 2084752970008229946, guid: 88575b14413950140a2b164b38a49593, type: 3}

@@ -47,6 +47,10 @@ MonoBehaviour:
   SkillName: Scientfic Method
   SkillDescription: Dr.Creeper's ingenuity allows him to predict what his opponent's
     next move is
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: e280215928db6c246b272f99e67c615b, type: 3}
   IsUnlocked: 0
   SkillCost: 400
   SkillIcon: {fileID: -8794566799652434719, guid: a2eb817250f01e94ab6dd80d669c434e, type: 3}
+  SkillPathIcon: {fileID: -3161793329637628188, guid: fc3c53cb285bf354c874121d159009ea, type: 3}
+  SkillPathDescription: 'Way of The Refugee: The skills of Dr.Creeper''s time as
+    a runaway refugee lies here'

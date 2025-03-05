@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Soul Slice
   SkillDescription: A forgotten technique for the Epic Katana that slices the souls
     of its opponents, causing damage over time
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 6392c5bbf193f724f85a0b381f62ff58, type: 3}
   IsUnlocked: 0
   SkillCost: 800
   SkillIcon: {fileID: -6854162823769991456, guid: 89ab2b6a3ae3c8747a504087915596ec, type: 3}

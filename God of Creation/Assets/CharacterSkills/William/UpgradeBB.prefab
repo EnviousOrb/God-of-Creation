@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Party Regen
   SkillDescription: William's overwhelming kindness allows him to heal other party
     members during his turn
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 5d2b579e01294cc4ebf84a520943ee9c, type: 3}
   IsUnlocked: 0
   SkillCost: 800
   SkillIcon: {fileID: -6854162823769991456, guid: 2faafc9e6f9000a4fbaa63310f06224f, type: 3}

@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Afterimages
   SkillDescription: A long-forgotten technique of the Epic Katana, allowing EnviousOrb
     to make afterimages of himself, and cause confusion for his enemies
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 45fed2e2eb084d84eae9d2b5549ae5e4, type: 3}
   IsUnlocked: 0
   SkillCost: 1000
   SkillIcon: {fileID: 8462517119302859744, guid: 6003cf46d900ef54c88e2eb466f2d988, type: 3}

@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Knight's Training
   SkillDescription: Dr.Creeper's time in his homeworld gives him the ability to parry
     enemy attacks
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: b144ee36cbc3bae45915f4db06ae47ad, type: 3}
   IsUnlocked: 0
   SkillCost: 600
   SkillIcon: {fileID: -2010332299894689129, guid: adbf8f2e76aab4e4bbc8fbdf6f33e8b3, type: 3}

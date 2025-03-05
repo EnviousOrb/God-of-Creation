@@ -47,6 +47,10 @@ MonoBehaviour:
   SkillName: Creationist's Regen
   SkillDescription: Allows William to regenerate a small amount of health at the
     beginning of his turn
-  IsUnlocked: 0
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: be3567ae5fcf1334db5409b101b3b8e9, type: 3}
+  IsUnlocked: 1
   SkillCost: 400
   SkillIcon: {fileID: -8794566799652434719, guid: 905b5a86a7dbe0649ac5eeed410ce83e, type: 3}
+  SkillPathIcon: {fileID: -3161793329637628188, guid: 642af1a0d644c444d854151e5c3b42c8, type: 3}
+  SkillPathDescription: 'Way of the Creationist: Develop William''s skills as a Creationist
+    through this path'

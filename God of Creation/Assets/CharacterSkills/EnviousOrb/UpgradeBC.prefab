@@ -47,6 +47,7 @@ MonoBehaviour:
   SkillName: Parry & Counterstrike
   SkillDescription: Mastery over the Epic Katana allows EnviousOrb to parry upcoming
     enemy attacks, and fight back with a critical strike of his own
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: c036b5cc2a7e4d142afdf3d2a18dfb7f, type: 3}
   IsUnlocked: 0
   SkillCost: 1000
   SkillIcon: {fileID: 5451585748897048628, guid: dfa09b2f10016db4b8ec6b651c045c1a, type: 3}

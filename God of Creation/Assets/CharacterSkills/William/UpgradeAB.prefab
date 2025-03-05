@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillName: Light-Footed
   SkillDescription: William enhanced speed allows him a chance to dodge enemy attacks
+  PrequisiteSkill: {fileID: 3901791381372221459, guid: 991c42a01b1afd44f93bb18270318fe6, type: 3}
   IsUnlocked: 0
   SkillCost: 800
   SkillIcon: {fileID: 2084752970008229946, guid: faf91285803858340ab91beeb6638bb7, type: 3}

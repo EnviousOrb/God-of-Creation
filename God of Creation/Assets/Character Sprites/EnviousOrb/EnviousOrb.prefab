@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6962390054949046605}
   - component: {fileID: 3051065382296739870}
   - component: {fileID: 5858030836010744391}
-  - component: {fileID: 111392152294516653}
   - component: {fileID: 739158645716038034}
   - component: {fileID: 7112142572225732232}
   - component: {fileID: 4867297758579501255}
@@ -86,6 +85,10 @@ MonoBehaviour:
   normalAttack: {fileID: 8091474301813735051, guid: 7c1fe4894c9f5d20a99329a94dce3557, type: 3}
   heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}
   heroTextColor: {fileID: 11400000, guid: de8a64be95e06944ab1fd524d8dd35ea, type: 2}
+  heroOpeningDialog: '"EnviousOrb, the kid''s swordsman, you need something?"'
+  heroVictoryDialog: '"Too easy...I''d should''ve taken a nap instead..."'
+  heroDefeatDialog: '"W-What?! I-It can''t be!"'
+  useOpeningLine: 1
   currentHealth: 0
   currentHeat: 0
   heroSkills:
@@ -97,23 +100,8 @@ MonoBehaviour:
   - {fileID: 3901791381372221459, guid: 6392c5bbf193f724f85a0b381f62ff58, type: 3}
   - {fileID: 3901791381372221459, guid: c036b5cc2a7e4d142afdf3d2a18dfb7f, type: 3}
   - {fileID: 3901791381372221459, guid: 54f3f035d191b36418e0883adf82f625, type: 3}
---- !u!114 &111392152294516653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74bb900c54638d8bea8eb7386829c706, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog:
-  - '"You need something?"'
-  characterName: 
-  characterAvatar: {fileID: 0}
-  textColor: {fileID: 0}
+  chosenPath: 0
+  heroTextSound: {fileID: 0}
 --- !u!212 &739158645716038034
 SpriteRenderer:
   m_ObjectHideFlags: 0

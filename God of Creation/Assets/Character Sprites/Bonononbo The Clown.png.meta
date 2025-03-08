@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: d595d53038aeea519868fbaf29820103
+guid: 6e3325ddb7da95f45b59bf197c0ffc29
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6281290070226964353
-    second: William Walk_0
-  - first:
-      213: 2446933757578953840
-    second: William Walk_1
+      213: 3745926290003076612
+    second: Bonononbo The Clown_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: William Walk_0
+      name: Bonononbo The Clown_0
       rect:
         serializedVersion: 2
-        x: 319
-        y: 1183
-        width: 450
-        height: 738
+        x: 0
+        y: 63
+        width: 929
+        height: 834
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18f01170a00ab2750800000000000000
-      internalID: 6281290070226964353
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: William Walk_1
-      rect:
-        serializedVersion: 2
-        x: 319
-        y: 159
-        width: 450
-        height: 738
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 074c761c94145f120800000000000000
-      internalID: 2446933757578953840
+      spriteID: 4062e6e2d143cf330800000000000000
+      internalID: 3745926290003076612
       vertices: []
       indices: 
       edges: []
@@ -172,9 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      William Walk_0: 6281290070226964353
-      William Walk_1: 2446933757578953840
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

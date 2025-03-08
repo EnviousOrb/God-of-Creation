@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4471157696856310567}
   - component: {fileID: 2164151764988708665}
   - component: {fileID: 3713615222924006131}
-  - component: {fileID: 8712413746744041487}
   - component: {fileID: 1608901162647058150}
   - component: {fileID: 8876227204819553839}
   - component: {fileID: 6453430086428758249}
@@ -86,6 +85,10 @@ MonoBehaviour:
   normalAttack: {fileID: 1481377462201954036, guid: b315fe8024aa8016d822eb0f25003ba2, type: 3}
   heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}
   heroTextColor: {fileID: 11400000, guid: 8e7726c91fcaa95d892ba3b84829e509, type: 2}
+  heroOpeningDialog: '"Doctor Steven M Creeper, at your service."'
+  heroVictoryDialog: '"Of course, my belief in science is what won this battle."'
+  heroDefeatDialog: '"I-Impossible! My calculations...must have been off!"'
+  useOpeningLine: 1
   currentHealth: 0
   currentHeat: 0
   heroSkills:
@@ -97,23 +100,8 @@ MonoBehaviour:
   - {fileID: 3901791381372221459, guid: 743484b9a3b1981408e4165414271936, type: 3}
   - {fileID: 3901791381372221459, guid: 56b734265ee1b4e41b0ff2fc651686b5, type: 3}
   - {fileID: 3901791381372221459, guid: 8e70141c96e0d4c438413c179b2ef491, type: 3}
---- !u!114 &8712413746744041487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5514574421456458225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74bb900c54638d8bea8eb7386829c706, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog:
-  - '"Are you in need of assistance?"'
-  characterName: 
-  characterAvatar: {fileID: 0}
-  textColor: {fileID: 0}
+  chosenPath: 0
+  heroTextSound: {fileID: 0}
 --- !u!212 &1608901162647058150
 SpriteRenderer:
   m_ObjectHideFlags: 0

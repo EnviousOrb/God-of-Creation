@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ public class HeroStats : MonoBehaviour
     [Range(0, 100)] public int attack; //Base attack of the hero
     [Range(0, 100)] public int defense; //Base defense of the hero
     [Range(0, 100)] public float speed; //Base speed of the hero
+    private float dodgeChance; //The chance the hero has to dodge an attack
     [HideInInspector] public int credixAmount; //The amount of credix the hero has
 
     [Header("Hero XP")]
@@ -35,12 +37,20 @@ public class HeroStats : MonoBehaviour
     [Header("Hero Color")]
     public TMP_ColorGradient heroTextColor; //The color of the hero's dialog text
 
+    [Header("Hero Dialogue")]
+    public string heroOpeningDialog; //This is the opening dialog of the hero
+    public string heroVictoryDialog; //This is the victory dialog of the hero
+    public string heroDefeatDialog; //This is the defeat dialog of the hero
+
     [HideInInspector] public int currentHealth; //This is the current health of the hero
     [HideInInspector] public int currentHeat; //This is the current heat of the hero
 
     [Header("Hero Skills")]
     public List<Skill> heroSkills; //This is the list of skills the hero has
     [HideInInspector] public int chosenPath; //This is the path the hero has chosen
+
+    [Header("Hero Audio")]
+    public AudioClip heroTextSound; //This is the sound that plays when the hero speaks
 
     private MenuManager menuManager;
     private void Awake()
@@ -57,6 +67,13 @@ public class HeroStats : MonoBehaviour
             return;
             //Handle death stuff for hero here
         }
+
+        if(Random.value < dodgeChance)
+        {
+            //Dodge the attack
+            return;
+        }
+
         // damage is calculated by the opponent's damage multiplied by 1 plus the opponent's level divided by 10 minus the hero's defense
         int damage = opponent.opponentDamage * (1 + (opponent.opponentLevel / 10) - defense);
         damage = Mathf.Max(1, damage);
@@ -85,7 +102,215 @@ public class HeroStats : MonoBehaviour
         currentXP += amount;
         if (currentXP >= xpToLevel)
         {
-            LevelUp();
+            if(Level < 25)
+                LevelUp();
+            else
+                currentXP = xpToLevel;
+        }
+    }
+
+    private void LoadWilliamSkills()
+    {
+        foreach (var skill in heroSkills)
+        {
+            switch (skill.SkillName)
+            {
+                case "Chain Attack":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        for(int i = 0; i < 3; i++)
+                        {
+                            int damage = hero.attack * hero.Level - opponent.opponentDefense;
+                            damage = Mathf.Max(1, damage);
+                            opponent.currentHealth -= damage;
+                        }
+                    };
+                    break;
+                case "Creationist's Regen":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        hero.currentHealth += 5;
+                    };
+                    break;
+                case "Fortified Axe":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        int damage = hero.attack * hero.Level + 10 - opponent.opponentDefense;
+                        damage = Mathf.Max(1, damage);
+                        opponent.currentHealth -= damage;
+                    };
+                    break;
+                case "Light-Footed":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        hero.speed += 4;
+                    };
+                    break;
+                case "Fortified Regen":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        hero.currentHealth += 10;
+                    };
+                    break;
+                case "Party Regen":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        foreach (var partyMember in GameManager.Instance.heroParty)
+                        {
+                            partyMember.currentHealth += 5;
+                        }
+                    };
+                    break;
+                case "Nuh Uh!":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        foreach (var partyMember in GameManager.Instance.heroParty)
+                        {
+                            partyMember.speed += 5;
+                            partyMember.defense += 5;
+                        }
+                    };
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+    private void LoadEnviousOrbSkills()
+    {
+        foreach (var skill in heroSkills)
+        {
+            switch (skill.SkillName)
+            {
+                case "Improved Sword Techniques":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        int damage = hero.attack * hero.Level + 5 - opponent.opponentDefense;
+                        damage = Mathf.Max(1, damage);
+                        opponent.currentHealth -= damage;
+                    };
+                    break;
+                case "Swordsman's Resolve":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        hero.attack += 5;
+                        hero.defense += 5;
+                        hero.speed += 5;
+                    };
+                    break;
+                case "Sharpened Katana":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        int damage = hero.attack * hero.Level + 10 - opponent.opponentDefense;
+                        damage = Mathf.Max(1, damage);
+                        opponent.currentHealth -= damage;
+                    };
+                    break;
+                case "Enhanced Senses":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        dodgeChance = 0.5f;
+                    };
+                    break;
+                case "Prideful Swordsman":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                       foreach(var partyMember in GameManager.Instance.heroParty)
+                        {
+                            partyMember.attack += 5;
+                        }
+                    };
+                    break;
+                case "Soul Slice":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        hero.StartCoroutine(DealDamageOverTime(hero, opponent, 5, 1.0f));
+                    };
+                    break;
+                case "Parry & Counterstrike":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        dodgeChance = 1.0f;
+                        int damage = hero.attack * hero.Level + 15 - opponent.opponentDefense;
+                        damage = Mathf.Max(1, damage);
+                        opponent.currentHealth -= damage;
+                    };
+                    break;
+            }
+        }
+    }
+    private void LoadDrCreeperSkills()
+    {
+        foreach (var skill in heroSkills)
+        {
+            switch (skill.SkillName)
+            {
+                case "Chemistry Refinement":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        hero.attack += 5;
+                        hero.maxHealth += 10;
+                    };
+                    break;
+                case "99.1% Purity":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        hero.attack += 10;
+                        hero.defense += 10;
+                        hero.maxHealth += 20;
+                    };
+                    break;
+                case "Chemist's Sword":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        if(Random.value < 0.3f)
+                            StartCoroutine(DealDamageOverTime(hero, opponent, 2, 2.0f));
+                    };
+                    break;
+                case "Knight's Training":
+                    skill.ApplyEffect = (hero, opponent) =>
+                    {
+                        dodgeChance = Random.value;
+                    };
+                    break;
+
+            }
+        }
+    }
+
+    public bool DoesOpponentFlee(NPC Opponent)
+    {
+        var acSkill = heroSkills.Find(skill => skill.SkillName == "Apex Creationist");
+        if(acSkill !=  null && acSkill.IsUnlocked && !Opponent.CompareTag("Boss"))
+        {
+            float fleeChance = 0.5f;
+            return Random.value < fleeChance;
+        }
+        return false;
+    }
+
+    public bool IsEnemyConfused()
+    {
+        var aiSkill = heroSkills.Find(skill => skill.SkillName == "Afterimages");
+        if (aiSkill != null && aiSkill.IsUnlocked)
+        {
+            float confuseChance = 0.5f;
+            return Random.value < confuseChance;
+        }
+        return false;
+    }
+
+    private IEnumerator DealDamageOverTime(HeroStats hero, NPC opponent, int damage, float time)
+    {
+        int damagerPerTick = damage / 5;
+        float tick = time / 5;
+
+        for (int i = 0; i < 5; i++)
+        {
+            int Totaldamage = Mathf.Max(1, damagerPerTick - opponent.opponentDefense);
+            opponent.currentHealth -= Totaldamage;
+            yield return new WaitForSeconds(tick);
         }
     }
 
@@ -149,6 +374,12 @@ public class HeroStats : MonoBehaviour
             else
                 foreach (Skill skill in heroSkills)
                     skill.IsUnlocked = false;
+            if (heroName == "William")
+                LoadWilliamSkills();
+            if(heroName == "EnviousOrb")
+                LoadEnviousOrbSkills();
+            if(heroName == "Dr.Creeper")
+                LoadDrCreeperSkills();
 
             maxHealth = int.Parse(reader.ReadLine());
             Level = int.Parse(reader.ReadLine());

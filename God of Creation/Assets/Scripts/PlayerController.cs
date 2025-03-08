@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Camera cam;
     private float moveDir;
+    private NPC currentNPC;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,6 +20,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(IsDialogActive())
+        {
+            moveDir = 0;
+            return;
+        }
         moveDir = Input.GetAxisRaw("Horizontal");
         if(moveDir > 0)
         {
@@ -35,5 +41,26 @@ public class PlayerController : MonoBehaviour
     {
         transform.position += speed * Time.deltaTime * new Vector3(moveDir, 0, 0);
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("NPC"))
+        {
+            currentNPC = collision.GetComponent<NPC>();
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                currentNPC.StartDialog();
+            }
+        }
+    }
+
+    private bool IsDialogActive()
+    {
+        if(currentNPC)
+            return currentNPC.IsDialogActive();
+        else
+            return false;
     }
 }

@@ -28,6 +28,10 @@ public class BattleSystem : MonoBehaviour
 
     private Coroutine textCoroutine;
 
+    private int choice;
+
+    private int cooldown;
+
     public bool IsBattleTextFinished { get { return battleHUD.BattleText.text == string.Empty; } }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -46,7 +50,9 @@ public class BattleSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hero.currentHealth <= 0)
+        choice = UnityEngine.Random.Range(0, 2);
+
+        if (hero.currentHealth <= 0)
         {
             currentState = BattleStates.LOSE;
             EndBattle();
@@ -99,8 +105,54 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(delayAfterText);
     }
 
+    private void CallBuffs()
+    {
+        if (cooldown == 0)
+        {
+            if (hero.heroName == "William")
+            {
+                for (int i = 1; i < hero.heroSkills.Count; i++)
+                {
+                    hero.UseSkill(hero.heroSkills[i], opponent);
+                }
+            }
+            else if (hero.heroName == "EnviousOrb")
+            {
+                hero.UseSkill(hero.heroSkills[0], opponent);
+                hero.UseSkill(hero.heroSkills[1], opponent);
+                hero.UseSkill(hero.heroSkills[2], opponent);
+                hero.UseSkill(hero.heroSkills[3], opponent);
+                hero.UseSkill(hero.heroSkills[5], opponent);
+                hero.UseSkill(hero.heroSkills[7], opponent);
+            }
+            else if (hero.heroName == "Dr.Creeper")
+            {
+                for(int i = 0; i < hero.heroSkills.Count; i++)
+                {
+                    if(i == 1)
+                        continue;
+
+                    hero.UseSkill(hero.heroSkills[i], opponent);
+                }
+            }
+
+            cooldown = 5;
+        }
+    }
+
     void PlayerTurn()
     {
+        CallBuffs();
+        if (cooldown > 0)
+        {
+            cooldown--;
+        }
+        var smSkill = hero.heroSkills.Find(skill => skill.SkillName == "Scientfic Method");
+        if (smSkill != null && smSkill.IsUnlocked)
+        {
+            battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
+            StartCoroutine(TypeText("The Opponent's next move is: " + GetOpponentNextMove()));
+        }
         //Save the hero's data before the player makes a choice
         GameManager.Instance.Currenthero.SaveHeroData();
 
@@ -125,12 +177,22 @@ public class BattleSystem : MonoBehaviour
 
         StartCoroutine(TypeText("Opponent's turn..."));
 
+        if(hero.speed >= opponent.opponentSpeed)
+        {
+            if (hero.DoesOpponentFlee(opponent))
+            {
+                battleHUD.BattleText.colorGradientPreset = opponent.npcTextColor;
+                StartCoroutine(TypeText("Woah! That's scary! I'm outta here!"));
+                StartCoroutine(EndingToBattleSequence());
+            }
+        }
+
         //Figure out a choice depending on health and likelyhood of winning
         //If your health is low, then defend or heal, depends on hidden coin toss mechanic
         //If health is high, then attack
         //If the hero's special was just used, then block for a turn
         //For now, just attack or heal randomly
-        int choice = UnityEngine.Random.Range(0, 2);
+ 
         if(choice == 0)
         {
             StartCoroutine(OpponentAttack());
@@ -197,14 +259,32 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerAttack()
     {
         //Deal damage based on factors (level and attack)
+
         GameObject normalAttack = Instantiate(hero.normalAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
         Destroy(normalAttack, 0.3f);
-        opponent.TakeDamage(hero);
+        if(hero.heroName == "William")
+        {
+            hero.UseSkill(hero.heroSkills[0], opponent);
+            opponent.TakeDamage(hero);
+        }
+        else if (hero.heroName == "EnviousOrb")
+        {
+            hero.UseSkill(hero.heroSkills[6], opponent);
+            opponent.TakeDamage(hero);
+        }
+        else
+            opponent.TakeDamage(hero);
+
+
         hero.currentHeat += 2;
+        if(hero.currentHeat > hero.maxHeat)
+        {
+            hero.currentHeat = hero.maxHeat;
+        }
         yield return new WaitForSeconds(1f);
 
         //Check if the opponent is dead
-        if(opponent.currentHealth <= 0)
+        if (opponent.currentHealth <= 0)
         {
             currentState = BattleStates.WIN;
             GameManager.Instance.MarkOpponentAsDefeated(opponent);
@@ -258,24 +338,49 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator OpponentAttack()
     {
-        //Deal damage based on factors (level and attack)
-        GameObject opponentAttack = Instantiate(opponent.opponentAttack, battleHUD.heroSprite.transform.position, Quaternion.identity);
-        Destroy(opponentAttack, 0.3f);
-        
-        hero.TakeDamage(opponent);
-        yield return new WaitForSeconds(1f);
+        if (hero.IsEnemyConfused())
+        {
+            GameObject confusedOpponentAttack = Instantiate(opponent.opponentAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+            Destroy(confusedOpponentAttack, 0.3f);
 
-        //Check if the hero is dead
-        if(hero.currentHealth <= 0)
-        {
-            currentState = BattleStates.LOSE;
-            EndBattle();
-        }
-        else
-        {
+            int RandomDamage = UnityEngine.Random.Range(1, 10);
+            opponent.TakeDamage(RandomDamage);
+
+            yield return new WaitForSeconds(1f);
             currentState = BattleStates.PLAYERCHOICE;
             PlayerTurn();
         }
+        else
+        {
+            //Deal damage based on factors (level and attack)
+            GameObject opponentAttackInstance = Instantiate(opponent.opponentAttack, battleHUD.heroSprite.transform.position, Quaternion.identity);
+            Destroy(opponentAttackInstance, 0.3f);
+
+            hero.TakeDamage(opponent);
+            yield return new WaitForSeconds(1f);
+
+            //Check if the hero is dead
+            if (hero.currentHealth <= 0)
+            {
+                currentState = BattleStates.LOSE;
+                EndBattle();
+            }
+            else
+            {
+                currentState = BattleStates.PLAYERCHOICE;
+                PlayerTurn();
+            }
+        }
+    }
+
+    private string GetOpponentNextMove()
+    {
+        if (choice == 0)
+            return "Attack";
+        else if (choice == 1)
+            return "Heal";
+        else
+            return "Unknown";
     }
 
     public void OnAttack()

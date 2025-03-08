@@ -5,7 +5,7 @@ public class Skill : MonoBehaviour
     public string SkillName;
     public string SkillDescription;
     public Skill PrequisiteSkill;
-    public bool IsUnlocked;
+    [HideInInspector] public bool IsUnlocked;
     public int SkillCost;
     public Sprite SkillIcon;
     public Sprite SkillPathIcon;

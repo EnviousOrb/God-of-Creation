@@ -7,7 +7,7 @@ using System.Collections;
 public class NPC : MonoBehaviour
 {
     //Overworld visuals/Generic set-up
-    private DialogSystem dialogBox;
+    [SerializeField] public GameObject DialogBox;
     public Sprite npcIcon;
     public string npcName;
     public TMP_ColorGradient npcTextColor; //The color of the npc/opponent's dialog text
@@ -32,7 +32,6 @@ public class NPC : MonoBehaviour
 
     void Awake()
     {
-        dialogBox = FindObjectsByType<DialogSystem>(FindObjectsSortMode.None)[0];
     }
 
     private void Start()
@@ -41,26 +40,22 @@ public class NPC : MonoBehaviour
         {
             if (GameManager.Instance.IsOpponentDefeated(this))
             {
-                //Destroy(gameObject);
+               Destroy(gameObject);
             }
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+
+    public void StartDialog()
     {
-        if(other.CompareTag("Player"))
-        {
-
-            dialogBox.gameObject.SetActive(true);
-            dialogBox.dialogs = FindObjectsByType<Dialog>(FindObjectsSortMode.None);
-            dialogBox.StartDialog();
-
-            if (isFightable)
-            {
-                StartCoroutine(IntroToBattleSequence());
-            }
-        }
+        DialogBox.SetActive(true);
     }
+
+    public bool IsDialogActive()
+    {
+        return DialogBox.activeSelf;
+    }
+
     public void TakeDamage(HeroStats heroStats)
     {
         if (currentHealth <= 0)
@@ -73,15 +68,28 @@ public class NPC : MonoBehaviour
         damage = Mathf.Max(1, damage);
         currentHealth -= damage;
     }
-
-    private IEnumerator IntroToBattleSequence()
+    public void TakeDamage(int damageTaken)
     {
-        yield return new WaitUntil(() => dialogBox.IsDialogFinished);
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            //Handle death stuff
+        }
+
+        int damage = damageTaken - opponentDefense;
+        damage = Mathf.Max(1, damage);
+        currentHealth -= damage;
+    }
+    public IEnumerator IntroToBattleSequence()
+    {
+        yield return new WaitForSeconds(1f);
 
         GameManager.Instance.CurrentOpponent = this;
         SceneManager.LoadScene("BattleScene");
     }
 }
+
+#if UNITY_EDITOR
 
 [CustomEditor(typeof(NPC))]
 public class NPCEditor : Editor
@@ -92,6 +100,7 @@ public class NPCEditor : Editor
         npc.npcName = EditorGUILayout.TextField("NPC Name", npc.npcName);
         npc.npcIcon = (Sprite)EditorGUILayout.ObjectField("NPC Icon", npc.npcIcon, typeof(Sprite), false);
         npc.npcTextColor = (TMP_ColorGradient)EditorGUILayout.ObjectField("NPC Text Color", npc.npcTextColor, typeof(TMP_ColorGradient), false);
+        npc.DialogBox = (GameObject)EditorGUILayout.ObjectField("Dialog Box", npc.DialogBox, typeof(GameObject), true);
         npc.isFightable = EditorGUILayout.Toggle("Is Fightable", npc.isFightable);
         if (npc.isFightable)
         {
@@ -109,3 +118,5 @@ public class NPCEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+
+#endif

@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: d595d53038aeea519868fbaf29820103
+guid: 4804d7eb470b84d45a740c8ba75996f7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6281290070226964353
-    second: William Walk_0
-  - first:
-      213: 2446933757578953840
-    second: William Walk_1
+      213: 4664059782688275314
+    second: DropdownArrow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: William Walk_0
+      name: DropdownArrow_0
       rect:
         serializedVersion: 2
-        x: 319
-        y: 1183
-        width: 450
-        height: 738
+        x: 127
+        y: 415
+        width: 738
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18f01170a00ab2750800000000000000
-      internalID: 6281290070226964353
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: William Walk_1
-      rect:
-        serializedVersion: 2
-        x: 319
-        y: 159
-        width: 450
-        height: 738
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 074c761c94145f120800000000000000
-      internalID: 2446933757578953840
+      spriteID: 27bf15e39a11ab040800000000000000
+      internalID: 4664059782688275314
       vertices: []
       indices: 
       edges: []
@@ -172,9 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      William Walk_0: 6281290070226964353
-      William Walk_1: 2446933757578953840
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

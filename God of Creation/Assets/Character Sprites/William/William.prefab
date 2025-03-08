@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2707069154257533930}
   - component: {fileID: 6598399135495932058}
   - component: {fileID: 7155605322719778313}
-  - component: {fileID: 5731778194603668117}
   - component: {fileID: 6478258704923970515}
   - component: {fileID: 1396752064511451321}
   - component: {fileID: 6221102121954332577}
@@ -97,23 +96,7 @@ MonoBehaviour:
   - {fileID: 3901791381372221459, guid: f2a9d0401122f7a40afa3502cc03c0f0, type: 3}
   - {fileID: 3901791381372221459, guid: 628d52af882845b4298201f301188a82, type: 3}
   chosenPath: 0
---- !u!114 &5731778194603668117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3480805550908349681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74bb900c54638d8bea8eb7386829c706, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog:
-  - '"Hello There!"'
-  characterName: William
-  characterAvatar: {fileID: -2327869246453644434, guid: 2397c33dd8da7916cae179be62587d88, type: 3}
-  textColor: {fileID: 11400000, guid: 09f7cb28f414e1a539abba36e339c28d, type: 2}
+  heroTextSound: {fileID: 8300000, guid: 272cdb86fd38c014f802abc24b198ac7, type: 3}
 --- !u!212 &6478258704923970515
 SpriteRenderer:
   m_ObjectHideFlags: 0

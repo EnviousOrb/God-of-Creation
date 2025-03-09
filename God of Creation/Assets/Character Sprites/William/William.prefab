@@ -84,6 +84,9 @@ MonoBehaviour:
   normalAttack: {fileID: 5401521511747897442, guid: 55ad2814bcadce59da108a5014aa90ca, type: 3}
   heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}
   heroTextColor: {fileID: 11400000, guid: 09f7cb28f414e1a539abba36e339c28d, type: 2}
+  heroOpeningDialog: '"William, your local Creationist, ready!"'
+  heroVictoryDialog: '"And the day is saved thanks to...me!"'
+  heroDefeatDialog: '"N-no, I can''t...lose here...not when Anonymous...is out there!"'
   currentHealth: 0
   currentHeat: 0
   heroSkills:
@@ -97,6 +100,9 @@ MonoBehaviour:
   - {fileID: 3901791381372221459, guid: 628d52af882845b4298201f301188a82, type: 3}
   chosenPath: 0
   heroTextSound: {fileID: 8300000, guid: 272cdb86fd38c014f802abc24b198ac7, type: 3}
+  heroSpecialAttackSound: {fileID: 8300000, guid: 916d73b257e2ee94d95dbc078d4302a4, type: 3}
+  heroNormalAttackSound: {fileID: 8300000, guid: b40a0c864f58769478e04f53766ae01d, type: 3}
+  heroHealSound: {fileID: 8300000, guid: a6f7477ab0bb28c43b177d512c788702, type: 3}
 --- !u!212 &6478258704923970515
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -208,7 +214,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.18}
+  m_Offset: {x: -0.013778031, y: 0.18000007}
   m_SpriteTilingProperty:
     border: {x: 3.76, y: 1.5699999, z: 3.83, w: 1.1999999}
     pivot: {x: 0.5, y: 0.5}
@@ -218,7 +224,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3, y: 7.6}
+  m_Size: {x: 2.8074455, y: 7.6}
   m_EdgeRadius: 0
 --- !u!50 &5472897164701120854
 Rigidbody2D:

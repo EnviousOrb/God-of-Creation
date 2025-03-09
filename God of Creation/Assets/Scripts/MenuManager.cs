@@ -22,9 +22,13 @@ public class MenuManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        stats = statsMenu.GetComponent<Stats>();
-        skillTree = skillTreeMenu.GetComponent<SkillTree>();
+        if (statsMenu)
+            stats = statsMenu.GetComponent<Stats>();
+        if (skillTreeMenu)
+            skillTree = skillTreeMenu.GetComponent<SkillTree>();
         heroUI = FindFirstObjectByType<HeroUI>();
+
+        settingsMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -46,10 +50,13 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        if (skillTree.skillTreePathMenu.activeSelf)
-            closeButton.gameObject.SetActive(false);
-        else
-            closeButton.gameObject.SetActive(menuStack.Count > 0);
+        if (skillTreeMenu)
+        {
+            if (skillTree.skillTreePathMenu.activeSelf)
+                closeButton.gameObject.SetActive(false);
+            else
+                closeButton.gameObject.SetActive(menuStack.Count > 0);
+        }
     }
 
     public void OpenMenu(GameObject menu)

@@ -14,7 +14,7 @@ public class NPC : MonoBehaviour
 
     public bool isFightable;
 
-    //Battle visuals
+    [Header("Opponent visuals/stats")]
     [SerializeField] public Sprite opponentIcon;
     public string[] opponentFlavorTexts; //The text that appears right as soon as a battle begins
 
@@ -27,6 +27,10 @@ public class NPC : MonoBehaviour
     [Range(0, 100)] public int opponentDamage;
     [Range(0, 100)] public float opponentSpeed;
     [Range(0, 100)] public int opponentDefense;
+
+    [Header("Opponent Audio")]
+    public AudioClip opponentAttackSound;
+    public AudioClip opponentHealSound;
 
     [HideInInspector] public int currentHealth;
 
@@ -44,7 +48,6 @@ public class NPC : MonoBehaviour
             }
         }
     }
-
 
     public void StartDialog()
     {
@@ -82,7 +85,7 @@ public class NPC : MonoBehaviour
     }
     public IEnumerator IntroToBattleSequence()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => !IsDialogActive());
 
         GameManager.Instance.CurrentOpponent = this;
         SceneManager.LoadScene("BattleScene");
@@ -114,6 +117,8 @@ public class NPCEditor : Editor
             npc.opponentDamage = EditorGUILayout.IntSlider("Opponent Damage", npc.opponentDamage, 0, 100);
             npc.opponentSpeed = EditorGUILayout.Slider("Opponent Speed", npc.opponentSpeed, 0, 100);
             npc.opponentDefense = EditorGUILayout.IntSlider("Opponent Defense", npc.opponentDefense, 0, 100);
+            npc.opponentAttackSound = (AudioClip)EditorGUILayout.ObjectField("Opponent Attack Sound", npc.opponentAttackSound, typeof(AudioClip), false);
+            npc.opponentHealSound = (AudioClip)EditorGUILayout.ObjectField("Opponent Heal Sound", npc.opponentHealSound, typeof(AudioClip), false);
         }
         serializedObject.ApplyModifiedProperties();
     }

@@ -1,5 +1,7 @@
-using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -7,7 +9,8 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
-    [SerializeField] private List<AudioClip> musicClips;
+    private Slider musicSlider;
+    private Slider sfxSlider;
 
     private void Awake()
     {
@@ -15,10 +18,26 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            PlayMusic(musicClips[0]);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
         }
         else
             Destroy(gameObject);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>())
+        {
+            musicSlider.value = GetMusicVolume();
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
+
+        if (sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>())
+        {
+            sfxSlider.value = GetSFXVolume();
+            sfxSlider.onValueChanged.AddListener(SetSFXVolume);
+        }
     }
 
     public void PlayMusic(AudioClip music)

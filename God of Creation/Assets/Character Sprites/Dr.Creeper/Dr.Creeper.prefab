@@ -88,7 +88,6 @@ MonoBehaviour:
   heroOpeningDialog: '"Doctor Steven M Creeper, at your service."'
   heroVictoryDialog: '"Of course, my belief in science is what won this battle."'
   heroDefeatDialog: '"I-Impossible! My calculations...must have been off!"'
-  useOpeningLine: 1
   currentHealth: 0
   currentHeat: 0
   heroSkills:
@@ -101,7 +100,10 @@ MonoBehaviour:
   - {fileID: 3901791381372221459, guid: 56b734265ee1b4e41b0ff2fc651686b5, type: 3}
   - {fileID: 3901791381372221459, guid: 8e70141c96e0d4c438413c179b2ef491, type: 3}
   chosenPath: 0
-  heroTextSound: {fileID: 0}
+  heroTextSound: {fileID: 8300000, guid: cd2e2866403c98947bfae39c45fcf59c, type: 3}
+  heroSpecialAttackSound: {fileID: 8300000, guid: f4dcad36bb44e6142b8f90b442440dfa, type: 3}
+  heroNormalAttackSound: {fileID: 8300000, guid: 338f5518ec9258c4283638daf2f42220, type: 3}
+  heroHealSound: {fileID: 8300000, guid: a6f7477ab0bb28c43b177d512c788702, type: 3}
 --- !u!212 &1608901162647058150
 SpriteRenderer:
   m_ObjectHideFlags: 0

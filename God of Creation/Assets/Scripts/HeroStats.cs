@@ -51,6 +51,9 @@ public class HeroStats : MonoBehaviour
 
     [Header("Hero Audio")]
     public AudioClip heroTextSound; //This is the sound that plays when the hero speaks
+    public AudioClip heroSpecialAttackSound; //This is the sound that plays when the hero uses their special attack
+    public AudioClip heroNormalAttackSound; //This is the sound that plays when the hero uses their normal attack
+    public AudioClip heroHealSound; //This is the sound that plays when the hero heals
 
     private MenuManager menuManager;
     private void Awake()

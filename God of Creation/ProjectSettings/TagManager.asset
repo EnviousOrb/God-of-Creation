@@ -40,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BelowUI
+    uniqueID: 3842160387
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

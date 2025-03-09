@@ -52,6 +52,11 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.E))
             {
                 currentNPC.StartDialog();
+
+                if (currentNPC.isFightable)
+                {
+                    StartCoroutine(currentNPC.IntroToBattleSequence());
+                }
             }
         }
     }

@@ -88,7 +88,6 @@ MonoBehaviour:
   heroOpeningDialog: '"EnviousOrb, the kid''s swordsman, you need something?"'
   heroVictoryDialog: '"Too easy...I''d should''ve taken a nap instead..."'
   heroDefeatDialog: '"W-What?! I-It can''t be!"'
-  useOpeningLine: 1
   currentHealth: 0
   currentHeat: 0
   heroSkills:
@@ -101,7 +100,10 @@ MonoBehaviour:
   - {fileID: 3901791381372221459, guid: c036b5cc2a7e4d142afdf3d2a18dfb7f, type: 3}
   - {fileID: 3901791381372221459, guid: 54f3f035d191b36418e0883adf82f625, type: 3}
   chosenPath: 0
-  heroTextSound: {fileID: 0}
+  heroTextSound: {fileID: 8300000, guid: 4bf412d03fad21248af7dd396678bcd9, type: 3}
+  heroSpecialAttackSound: {fileID: 8300000, guid: e41516b424f5d934f810f827355d9fb7, type: 3}
+  heroNormalAttackSound: {fileID: 8300000, guid: 239b4c2d031f44a4eb5ba03abe2053cd, type: 3}
+  heroHealSound: {fileID: 8300000, guid: a6f7477ab0bb28c43b177d512c788702, type: 3}
 --- !u!212 &739158645716038034
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -102,7 +102,7 @@ public class BattleSystem : MonoBehaviour
             battleHUD.BattleText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
-        yield return new WaitForSeconds(delayAfterText);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
     }
 
     private void CallBuffs()
@@ -208,6 +208,7 @@ public class BattleSystem : MonoBehaviour
             }
 
             GameObject heal = Instantiate(opponent.opponentHeal, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySFX(opponent.opponentHealSound);
             Destroy(heal, 0.3f);
 
             //Display the amount healed
@@ -261,6 +262,7 @@ public class BattleSystem : MonoBehaviour
         //Deal damage based on factors (level and attack)
 
         GameObject normalAttack = Instantiate(hero.normalAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+        AudioManager.Instance.PlaySFX(hero.heroNormalAttackSound);
         Destroy(normalAttack, 0.3f);
         if(hero.heroName == "William")
         {
@@ -311,6 +313,7 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(TypeText("You healed for " + healAmount + " health!"));
 
         GameObject heal = Instantiate(hero.heal, battleHUD.heroSprite.transform.position, Quaternion.identity);
+        AudioManager.Instance.PlaySFX(hero.heroHealSound);
         Destroy(heal, 0.3f);
 
         //Update the UI
@@ -327,6 +330,7 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(TypeText(hero.heroSpecialAttackText));
 
         GameObject specialAttack = Instantiate(hero.specialAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+        AudioManager.Instance.PlaySFX(hero.heroSpecialAttackSound);
         Destroy(specialAttack, 0.3f);
 
         hero.UseSpecialAttack(opponent);
@@ -341,6 +345,7 @@ public class BattleSystem : MonoBehaviour
         if (hero.IsEnemyConfused())
         {
             GameObject confusedOpponentAttack = Instantiate(opponent.opponentAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySFX(opponent.opponentAttackSound);
             Destroy(confusedOpponentAttack, 0.3f);
 
             int RandomDamage = UnityEngine.Random.Range(1, 10);
@@ -354,6 +359,8 @@ public class BattleSystem : MonoBehaviour
         {
             //Deal damage based on factors (level and attack)
             GameObject opponentAttackInstance = Instantiate(opponent.opponentAttack, battleHUD.heroSprite.transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySFX(opponent.opponentAttackSound);
+
             Destroy(opponentAttackInstance, 0.3f);
 
             hero.TakeDamage(opponent);

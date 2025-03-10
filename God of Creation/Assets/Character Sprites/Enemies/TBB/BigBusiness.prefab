@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &653122638165223731
+--- !u!1 &1112207650619658542
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,12 +8,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3586827947714523532}
-  - component: {fileID: 3904780707042190745}
-  - component: {fileID: 4344941953008251665}
-  - component: {fileID: 5557274001714432917}
-  - component: {fileID: 2658306132564194715}
-  - component: {fileID: 3890034242921415335}
+  - component: {fileID: 5102429175132288158}
+  - component: {fileID: 9084938989938307181}
+  - component: {fileID: 2949435113577055132}
+  - component: {fileID: 4028287664797813184}
+  - component: {fileID: 726529623955479530}
+  - component: {fileID: 8579959703364548175}
   m_Layer: 0
   m_Name: BigBusiness
   m_TagString: NPC
@@ -21,13 +21,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &3586827947714523532
+--- !u!224 &5102429175132288158
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653122638165223731}
+  m_GameObject: {fileID: 1112207650619658542}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.3, z: 1}
@@ -37,24 +37,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -155.2, y: -13.1}
+  m_AnchoredPosition: {x: 8.27, y: -2.14}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3904780707042190745
+--- !u!222 &9084938989938307181
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653122638165223731}
+  m_GameObject: {fileID: 1112207650619658542}
   m_CullTransparentMesh: 1
---- !u!114 &4344941953008251665
+--- !u!114 &2949435113577055132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653122638165223731}
+  m_GameObject: {fileID: 1112207650619658542}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 403b4a13aa0c976e8be7ff8e3c5143c7, type: 3}
@@ -77,16 +77,16 @@ MonoBehaviour:
   opponentDamage: 5
   opponentSpeed: 2
   opponentDefense: 3
-  opponentAttackSound: {fileID: 0}
-  opponentHealSound: {fileID: 0}
+  opponentAttackSound: {fileID: 8300000, guid: 73cd83985ca87e1468d74413611cfccc, type: 3}
+  opponentHealSound: {fileID: 8300000, guid: a6f7477ab0bb28c43b177d512c788702, type: 3}
   currentHealth: 0
---- !u!212 &5557274001714432917
+--- !u!212 &4028287664797813184
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653122638165223731}
+  m_GameObject: {fileID: 1112207650619658542}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -135,13 +135,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2658306132564194715
+--- !u!61 &726529623955479530
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653122638165223731}
+  m_GameObject: {fileID: 1112207650619658542}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -181,13 +181,13 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.289608, y: 11.86}
   m_EdgeRadius: 0
---- !u!61 &3890034242921415335
+--- !u!61 &8579959703364548175
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653122638165223731}
+  m_GameObject: {fileID: 1112207650619658542}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1

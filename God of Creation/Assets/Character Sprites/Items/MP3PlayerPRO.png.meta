@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6e3325ddb7da95f45b59bf197c0ffc29
+guid: 2ed7c8f76a4efa64c84d6214824fd8f8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3745926290003076612
-    second: Bonononbo The Clown_0
+      213: -113426318617333739
+    second: MP3PlayerPRO_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bonononbo The Clown_0
+      name: MP3PlayerPRO_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 63
-        width: 929
-        height: 834
+        x: 255
+        y: 127
+        width: 514
+        height: 770
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4062e6e2d143cf330800000000000000
-      internalID: 3745926290003076612
+      spriteID: 51032aa3d570d6ef0800000000000000
+      internalID: -113426318617333739
       vertices: []
       indices: 
       edges: []

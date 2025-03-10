@@ -49,6 +49,8 @@ public class SceneMusicManager : MonoBehaviour
                 return sceneMusic[0];
             case "BattleScene":
                 return sceneMusic[1];
+                case "ShopScene":
+                return sceneMusic[2];
             default:
                 return null;
         }

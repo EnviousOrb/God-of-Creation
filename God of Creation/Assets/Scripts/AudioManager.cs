@@ -1,4 +1,4 @@
-using UnityEditor.PackageManager;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -27,17 +27,24 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>())
+        musicSlider = FindObjectByName<Slider>("MusicSlider");
+        if (musicSlider != null)
         {
             musicSlider.value = GetMusicVolume();
             musicSlider.onValueChanged.AddListener(SetMusicVolume);
         }
 
-        if (sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>())
+        sfxSlider = FindObjectByName<Slider>("SFXSlider");
+        if (sfxSlider != null)
         {
             sfxSlider.value = GetSFXVolume();
             sfxSlider.onValueChanged.AddListener(SetSFXVolume);
         }
+    }
+
+    private T FindObjectByName<T>(string name) where T : Component
+    {
+        return Resources.FindObjectsOfTypeAll<T>().FirstOrDefault(obj => obj.name == name);
     }
 
     public void PlayMusic(AudioClip music)

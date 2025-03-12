@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d50fb2cd9b305184a92f60ba25043222, type: 3}
+  m_Name: Staminfuel
+  m_EditorClassIdentifier: 
+  ItemName: Staminfuel
+  ItemDescription: '"Staminfuel turns the weak men of this world into the real alphas
+    that they''re supposed to be! Drink up, or Shut Up: Staminfuel." When used, the
+    current hero''s heat and health is restored a small amount.'
+  ItemCost: 200
+  ItemCount: 10
+  ItemIcon: {fileID: -8340809513945542748, guid: 38e16b304548f2c478a6b55ecc167e8f, type: 3}
+  MaxStackCount: 25
+  IsSoldOut: 0
+  Cooldown: 0

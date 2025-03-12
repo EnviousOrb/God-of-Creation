@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
@@ -36,6 +37,9 @@ public class MenuManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && menuStack.Count <= 0)
         {
+            if (SceneManager.GetActiveScene().name == "ShopScene")
+                return;
+               
             if (pauseMenu.activeSelf)
             {
                 // If the pause menu is active, deactivate it and set the time scale to 1

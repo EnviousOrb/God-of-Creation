@@ -19,6 +19,7 @@ public class HeroStats : MonoBehaviour
     [Range(0, 100)] public float speed; //Base speed of the hero
     private float dodgeChance; //The chance the hero has to dodge an attack
     [HideInInspector] public int credixAmount; //The amount of credix the hero has
+    [HideInInspector] public Inventory inventory; //The inventory of the hero
 
     [Header("Hero XP")]
     public int xpToLevel; //The amount of XP needed to level up the hero
@@ -59,6 +60,7 @@ public class HeroStats : MonoBehaviour
     private void Awake()
     {
         menuManager = FindAnyObjectByType<MenuManager>();
+        inventory = GetComponent<Inventory>();
         LoadHeroData();
     }
 
@@ -359,6 +361,11 @@ public class HeroStats : MonoBehaviour
         writer.WriteLine(currentXP);
         writer.WriteLine(xpToLevel);
         writer.WriteLine(chosenPath);
+
+        foreach (var item in inventory.items)
+        {
+           writer.WriteLine($"{item.ItemName}:{item.ItemCount}");
+        }
     }
 
     public void LoadHeroData()
@@ -372,16 +379,16 @@ public class HeroStats : MonoBehaviour
             heroBio = reader.ReadLine();
             heroSpecialAttackText = reader.ReadLine();
             string unlockedSkills = reader.ReadLine();
-            if(!string.IsNullOrEmpty(unlockedSkills))
+            if (!string.IsNullOrEmpty(unlockedSkills))
                 heroSkills.Where(skill => unlockedSkills.Contains(skill.SkillName)).ToList().ForEach(skill => skill.IsUnlocked = true);
             else
                 foreach (Skill skill in heroSkills)
                     skill.IsUnlocked = false;
             if (heroName == "William")
                 LoadWilliamSkills();
-            if(heroName == "EnviousOrb")
+            if (heroName == "EnviousOrb")
                 LoadEnviousOrbSkills();
-            if(heroName == "Dr.Creeper")
+            if (heroName == "Dr.Creeper")
                 LoadDrCreeperSkills();
 
             maxHealth = int.Parse(reader.ReadLine());
@@ -396,6 +403,24 @@ public class HeroStats : MonoBehaviour
             currentXP = int.Parse(reader.ReadLine());
             xpToLevel = int.Parse(reader.ReadLine());
             chosenPath = int.Parse(reader.ReadLine());
+
+            inventory.items.Clear();
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+
+                if (string.IsNullOrEmpty(line))
+                    continue;
+
+                var parts = line.Split(':');
+                if (parts.Length == 2)
+                {
+                    Item item = ScriptableObject.CreateInstance<Item>();
+                    item.ItemName = parts[0];
+                    item.ItemCount = int.Parse(parts[1]);
+                    inventory.items.Add(item);
+                }
+            }
         }
         else
         {
@@ -430,4 +455,11 @@ public class HeroData
     public int currentXP;
     public int xpToLevel;
     public int chosenPath;
+}
+
+[System.Serializable]
+public class InventoryData 
+{
+    public string itemName;
+    public int itemCount;
 }

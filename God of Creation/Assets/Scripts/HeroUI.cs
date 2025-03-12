@@ -16,7 +16,7 @@ public class HeroUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        heroStats = FindAnyObjectByType<HeroStats>();
+        heroStats = GameManager.Instance.Currenthero;
         SetOverworldUI(heroStats);
     }
 

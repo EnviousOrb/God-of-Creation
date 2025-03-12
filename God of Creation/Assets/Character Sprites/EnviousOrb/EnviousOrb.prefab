@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6962390054949046605}
   - component: {fileID: 3051065382296739870}
   - component: {fileID: 5858030836010744391}
+  - component: {fileID: 3332316416459672197}
   - component: {fileID: 739158645716038034}
   - component: {fileID: 7112142572225732232}
   - component: {fileID: 4867297758579501255}
@@ -75,6 +76,7 @@ MonoBehaviour:
   defense: 5
   speed: 5
   credixAmount: 0
+  inventory: {fileID: 0}
   xpToLevel: 0
   currentXP: 0
   heroIcon: {fileID: 3434724875274373208, guid: 8d8a41c2e4a1e7d44a8320de61ca1e6a, type: 3}
@@ -104,6 +106,18 @@ MonoBehaviour:
   heroSpecialAttackSound: {fileID: 8300000, guid: e41516b424f5d934f810f827355d9fb7, type: 3}
   heroNormalAttackSound: {fileID: 8300000, guid: 239b4c2d031f44a4eb5ba03abe2053cd, type: 3}
   heroHealSound: {fileID: 8300000, guid: a6f7477ab0bb28c43b177d512c788702, type: 3}
+--- !u!114 &3332316416459672197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2497966245288797340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00633263d48fc24dbb9b84ad06bdd52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &739158645716038034
 SpriteRenderer:
   m_ObjectHideFlags: 0

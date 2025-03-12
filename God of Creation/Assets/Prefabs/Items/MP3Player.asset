@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d50fb2cd9b305184a92f60ba25043222, type: 3}
+  m_Name: MP3Player
+  m_EditorClassIdentifier: 
+  ItemName: "SOMA\xA9 XJ9-Runman"
+  ItemDescription: '"A MP3 Player that seems to be filled with today''s hits. Pioneering
+    Technology, That''s SOMA." When used, it charges the party''s heat to half of
+    their max heat.'
+  ItemCost: 750
+  ItemCount: 5
+  ItemIcon: {fileID: -1819751209158670820, guid: afe58514692df9a498b6aab2212da391, type: 3}
+  MaxStackCount: 25
+  IsSoldOut: 0
+  Cooldown: 0

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
+  m_Name: UpgradeAB
+  m_EditorClassIdentifier: 
+  SkillName: Chemist's Sword
+  SkillDescription: Dr.Creeper coats his diamond sword in poison, potenially causing
+    damage to the opponent at the beginning of their turn
+  PrequisiteSkill: {fileID: 11400000, guid: f2104f8950b1bff429e351ae717458ff, type: 2}
+  SkillCost: 800
+  SkillIcon: {fileID: 2084752970008229946, guid: 88575b14413950140a2b164b38a49593, type: 3}
+  SkillPathIcon: {fileID: 0}
+  SkillPathDescription: 
+  IsUnlocked: 0

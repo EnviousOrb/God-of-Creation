@@ -17,9 +17,10 @@ MonoBehaviour:
     children''s cartoon, Chibi-Bean." When used, it heals the current hero''s HP
     to full, but due to the high amount of sugar present in the ''Care Pack'', they
     will have to skip a turn.'
+  PictureID: ChibiFirstAid
   ItemCost: 250
   ItemCount: 5
-  ItemIcon: {fileID: 4201907891522265591, guid: 50cc6cf5135517c42a30ef46a937ee7b, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: 4201907891522265591, guid: ba32f63ffe90ec74288e6d5df2443303, type: 3}
   IsSoldOut: 0
   Cooldown: 0

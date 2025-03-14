@@ -17,9 +17,10 @@ MonoBehaviour:
     Max holds the past, present, and future''s greatest hits, all in one convenient
     device. Pioneering Technology, That''s SOMA." When used, the party''s heat is
     charged to the max.'
+  PictureID: MP3PlayerPRO
   ItemCost: 1000
   ItemCount: 5
-  ItemIcon: {fileID: -113426318617333739, guid: 2ed7c8f76a4efa64c84d6214824fd8f8, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: -113426318617333739, guid: aa190ede8ceddb141a4cb7ad244f34ae, type: 3}
   IsSoldOut: 0
   Cooldown: 0

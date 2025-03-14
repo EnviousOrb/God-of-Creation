@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
+  m_Name: UpgradeAC
+  m_EditorClassIdentifier: 
+  SkillName: Afterimages
+  SkillDescription: A long-forgotten technique of the Epic Katana, allowing EnviousOrb
+    to make afterimages of himself, and cause confusion for his enemies
+  PrequisiteSkill: {fileID: 11400000, guid: 4eda06fe5472f25459149096a8c8893f, type: 2}
+  SkillCost: 1000
+  SkillIcon: {fileID: 8462517119302859744, guid: 6003cf46d900ef54c88e2eb466f2d988, type: 3}
+  SkillPathIcon: {fileID: 0}
+  SkillPathDescription: 
+  IsUnlocked: 0

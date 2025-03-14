@@ -16,9 +16,10 @@ MonoBehaviour:
   ItemDescription: '"Revitanix X takes the impossible, and makes it SUPER with it''s
     new and improved formula, feel the heat unlike no other with Revitanix X!" When
     used, the current hero''s heat is charged by a medium amount.'
+  PictureID: RevitanixX
   ItemCost: 400
   ItemCount: 10
-  ItemIcon: {fileID: -6083403385375588069, guid: 5c7e073f5b8e6664a97cde8ac0e9298c, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: -6083403385375588069, guid: 757ecf1e6065cce4da36734d83df495c, type: 3}
   IsSoldOut: 0
   Cooldown: 0

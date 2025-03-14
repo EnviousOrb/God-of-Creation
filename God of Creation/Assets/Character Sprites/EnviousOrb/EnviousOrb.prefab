@@ -77,7 +77,7 @@ MonoBehaviour:
   speed: 5
   credixAmount: 0
   inventory: {fileID: 0}
-  xpToLevel: 0
+  xpToLevel: 100
   currentXP: 0
   heroIcon: {fileID: 3434724875274373208, guid: 8d8a41c2e4a1e7d44a8320de61ca1e6a, type: 3}
   typeIcon: {fileID: 6736607540577446010, guid: 42953b8e4e8ccce4bb591ed5d78d7f94, type: 3}
@@ -90,17 +90,17 @@ MonoBehaviour:
   heroOpeningDialog: '"EnviousOrb, the kid''s swordsman, you need something?"'
   heroVictoryDialog: '"Too easy...I''d should''ve taken a nap instead..."'
   heroDefeatDialog: '"W-What?! I-It can''t be!"'
-  currentHealth: 0
-  currentHeat: 0
+  currentHealth: 10
+  currentHeat: 5
   heroSkills:
-  - {fileID: 3901791381372221459, guid: 6df964759feb7b54fa8abfb6c2d0f4a4, type: 3}
-  - {fileID: 3901791381372221459, guid: d4153b5c894a05943aac0ef47fab87a7, type: 3}
-  - {fileID: 3901791381372221459, guid: dbe860d1bb9010147b06fc7fbc30aa11, type: 3}
-  - {fileID: 3901791381372221459, guid: 45fed2e2eb084d84eae9d2b5549ae5e4, type: 3}
-  - {fileID: 3901791381372221459, guid: 1beb9f16871e28048ae7a2103be193d2, type: 3}
-  - {fileID: 3901791381372221459, guid: 6392c5bbf193f724f85a0b381f62ff58, type: 3}
-  - {fileID: 3901791381372221459, guid: c036b5cc2a7e4d142afdf3d2a18dfb7f, type: 3}
-  - {fileID: 3901791381372221459, guid: 54f3f035d191b36418e0883adf82f625, type: 3}
+  - {fileID: 11400000, guid: 9742a332d12520e4ea156c32db3ffbf3, type: 2}
+  - {fileID: 11400000, guid: 7cadc7e724b34fb4cb53d6175dc9e284, type: 2}
+  - {fileID: 11400000, guid: 9392309847a9a3b4783dc907c892e370, type: 2}
+  - {fileID: 11400000, guid: a542b510db754fc49af034eee4775bd9, type: 2}
+  - {fileID: 11400000, guid: 0e6ef518de46cc9419e18c2e8ed5fd50, type: 2}
+  - {fileID: 11400000, guid: 21aa6836d2ae0024188339082943850d, type: 2}
+  - {fileID: 11400000, guid: 4eda06fe5472f25459149096a8c8893f, type: 2}
+  - {fileID: 11400000, guid: a9d97af13444c9e40854699ea501d1a6, type: 2}
   chosenPath: 0
   heroTextSound: {fileID: 8300000, guid: 4bf412d03fad21248af7dd396678bcd9, type: 3}
   heroSpecialAttackSound: {fileID: 8300000, guid: e41516b424f5d934f810f827355d9fb7, type: 3}
@@ -118,6 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00633263d48fc24dbb9b84ad06bdd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items:
+  - {fileID: 0}
 --- !u!212 &739158645716038034
 SpriteRenderer:
   m_ObjectHideFlags: 0

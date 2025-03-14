@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class HeroStats : MonoBehaviour
 {
+    #region Fields
     [Header("Hero Stats")]
     public string heroName; //This is the name of the hero
     public string heroBio; //This is the background info on the hero
@@ -57,6 +58,8 @@ public class HeroStats : MonoBehaviour
     public AudioClip heroHealSound; //This is the sound that plays when the hero heals
 
     private MenuManager menuManager;
+    #endregion
+
     private void Awake()
     {
         menuManager = FindAnyObjectByType<MenuManager>();
@@ -64,13 +67,14 @@ public class HeroStats : MonoBehaviour
         LoadHeroData();
     }
 
+    #region Public Methods
     public void TakeDamage(NPC opponent)
     {
         if(currentHealth <= 0)
         {
             currentHealth = 0;
-            return;
             //Handle death stuff for hero here
+            return;
         }
 
         if(Random.value < dodgeChance)
@@ -79,26 +83,25 @@ public class HeroStats : MonoBehaviour
             return;
         }
 
-        // damage is calculated by the opponent's damage multiplied by 1 plus the opponent's level divided by 10 minus the hero's defense
-        int damage = opponent.opponentDamage * (1 + (opponent.opponentLevel / 10) - defense);
-        damage = Mathf.Max(1, damage);
+        //Calcualte the damage the hero takes
+        int damage = CalculateDamage(opponent.opponentDamage, opponent.opponentLevel, defense);
         currentHealth -= damage;
     }
 
     public void UseSpecialAttack(NPC opponent)
     {
-        // damage is calculated by the hero's attack multiplied by the hero's level minus the opponent's defense
+        //Apply the effect of the special attack to the opponent
         int damage = attack * Level - opponent.opponentDefense;
         damage = Mathf.Max(1, damage);
         currentHeat = 0;
         opponent.currentHealth -= damage;
     }
 
-    public void UseSkill(Skill skill, NPC opponenent)
+    public void UseSkill(Skill skill, NPC opponent)
     {
         // Apply the effect of the skill to the opponent
         if(skill.IsUnlocked)
-            skill.ApplyEffect?.Invoke(this, opponenent);
+            skill.ApplyEffect?.Invoke(this, opponent);
     }
 
     public void AddXP(int amount)
@@ -111,6 +114,194 @@ public class HeroStats : MonoBehaviour
                 LevelUp();
             else
                 currentXP = xpToLevel;
+        }
+    }
+
+    public bool DoesOpponentFlee(NPC Opponent)
+    {
+        var acSkill = heroSkills.Find(skill => skill.SkillName == "Apex Creationist");
+        if (acSkill != null && acSkill.IsUnlocked && !Opponent.CompareTag("Boss"))
+        {
+            float fleeChance = 0.5f;
+            return Random.value < fleeChance;
+        }
+        return false;
+    }
+
+    public bool IsEnemyConfused()
+    {
+        var aiSkill = heroSkills.Find(skill => skill.SkillName == "Afterimages");
+        if (aiSkill != null && aiSkill.IsUnlocked)
+        {
+            float confuseChance = 0.5f;
+            return Random.value < confuseChance;
+        }
+        return false;
+    }
+
+    public void SaveHeroData()
+    {
+        // Save the data to a file
+        using StreamWriter writer = new(GetFilePath(), false);
+        writer.WriteLine(heroName);
+        writer.WriteLine(heroBio);
+        writer.WriteLine(heroSpecialAttackText);
+        writer.WriteLine(string.Join(", ", heroSkills.Where(skill => skill.IsUnlocked).Select(skill => skill.SkillName).ToArray()));
+        writer.WriteLine(maxHealth);
+        writer.WriteLine(Level);
+        writer.WriteLine(maxHeat);
+        writer.WriteLine(attack);
+        writer.WriteLine(defense);
+        writer.WriteLine(speed);
+        writer.WriteLine(credixAmount);
+        writer.WriteLine(currentHealth);
+        writer.WriteLine(currentHeat);
+        writer.WriteLine(currentXP);
+        writer.WriteLine(xpToLevel);
+        writer.WriteLine(chosenPath);
+
+        foreach (var item in inventory.items)
+        {
+            writer.WriteLine($"{item.ItemName}:{item.ItemCount}:{item.PictureID}");
+        }
+    }
+
+    public void LoadHeroData()
+    {
+        // Load the data from the file
+        string path = GetFilePath();
+        if (File.Exists(path))
+        {
+            using StreamReader reader = new(path);
+            heroName = reader.ReadLine();
+            heroBio = reader.ReadLine();
+            heroSpecialAttackText = reader.ReadLine();
+            string unlockedSkills = reader.ReadLine();
+            if (!string.IsNullOrEmpty(unlockedSkills))
+                heroSkills.Where(skill => unlockedSkills.Contains(skill.SkillName)).ToList().ForEach(skill => skill.IsUnlocked = true);
+            else
+                foreach (Skill skill in heroSkills)
+                    skill.IsUnlocked = false;
+
+            LoadHeroSKills();
+
+            maxHealth = int.Parse(reader.ReadLine());
+            Level = int.Parse(reader.ReadLine());
+            maxHeat = int.Parse(reader.ReadLine());
+            attack = int.Parse(reader.ReadLine());
+            defense = int.Parse(reader.ReadLine());
+            speed = float.Parse(reader.ReadLine());
+            credixAmount = int.Parse(reader.ReadLine());
+            currentHealth = int.Parse(reader.ReadLine());
+            currentHeat = int.Parse(reader.ReadLine());
+            currentXP = int.Parse(reader.ReadLine());
+            xpToLevel = int.Parse(reader.ReadLine());
+            chosenPath = int.Parse(reader.ReadLine());
+
+            LoadInventory(reader);
+        }
+        else
+        {
+            InitalizeHeroSkills();
+        }
+
+        menuManager.heroUI.SetOverworldUI(this);
+        menuManager.skillTreeMenu.GetComponent<SkillTree>().OnCharacterSelect(this);
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private void LoadHeroSKills()
+    {
+        if (heroName == "William")
+            LoadWilliamSkills();
+        else if (heroName == "EnviousOrb")
+            LoadEnviousOrbSkills();
+        else if (heroName == "Dr.Creeper")
+            LoadDrCreeperSkills();
+    }
+
+    private void LoadInventory(StreamReader reader)
+    {
+        if (inventory.items == null)
+            inventory.items = new List<Item>();
+        else
+            inventory.items.Clear();
+
+        while (!reader.EndOfStream)
+        {
+            string line = reader.ReadLine();
+
+            if (string.IsNullOrEmpty(line))
+                continue;
+
+            var parts = line.Split(':');
+            if (parts.Length == 3)
+            {
+                Item item = ScriptableObject.CreateInstance<Item>();
+                item.ItemName = parts[0];
+                item.ItemCount = int.Parse(parts[1]);
+                item.ItemIcon = LoadSprite(parts[2]);
+                inventory.items.Add(item);
+            }
+        }
+    }
+
+    private void InitalizeHeroSkills()
+    {
+        currentHealth = maxHealth;
+        currentHeat = 0;
+        currentXP = 0;
+        credixAmount = 0;
+        xpToLevel = Level * 100;
+    }
+
+    private int CalculateDamage(int opponentDamage, int opponentLevel, int heroDefense)
+    {
+        int damage = opponentDamage * (1 + (opponentLevel / 10) - heroDefense);
+        return Mathf.Max(1, damage);
+    }
+
+    private void LevelUp()
+    {
+        // Increase the level of the hero and adjust the stats accordingly
+        Level++;
+        currentXP = 0;
+        xpToLevel = 100 * Level;
+        credixAmount += 100;
+        maxHealth += 10;
+        attack += 5;
+        defense += 5;
+        speed += 2;
+        maxHeat += 10;
+        currentHealth = maxHealth;
+        SaveHeroData();
+    }
+
+    private string GetFilePath()
+    {
+        // Get the file path for the hero data, leads into AppData/LocalLow/SBKGames/God of Creation on Windows
+        return Path.Combine(Application.persistentDataPath, heroName + "_data.txt");
+    }
+
+    private Sprite LoadSprite(string pictureIndex)
+    {
+        // Load the sprite from the resources folder
+        return Resources.Load<Sprite>("Items/" + pictureIndex);
+    }
+
+    private IEnumerator DealDamageOverTime(HeroStats hero, NPC opponent, int damage, float time)
+    {
+        int damagerPerTick = damage / 5;
+        float tick = time / 5;
+
+        for (int i = 0; i < 5; i++)
+        {
+            int Totaldamage = Mathf.Max(1, damagerPerTick - opponent.opponentDefense);
+            opponent.currentHealth -= Totaldamage;
+            yield return new WaitForSeconds(tick);
         }
     }
 
@@ -283,157 +474,7 @@ public class HeroStats : MonoBehaviour
             }
         }
     }
-
-    public bool DoesOpponentFlee(NPC Opponent)
-    {
-        var acSkill = heroSkills.Find(skill => skill.SkillName == "Apex Creationist");
-        if(acSkill !=  null && acSkill.IsUnlocked && !Opponent.CompareTag("Boss"))
-        {
-            float fleeChance = 0.5f;
-            return Random.value < fleeChance;
-        }
-        return false;
-    }
-
-    public bool IsEnemyConfused()
-    {
-        var aiSkill = heroSkills.Find(skill => skill.SkillName == "Afterimages");
-        if (aiSkill != null && aiSkill.IsUnlocked)
-        {
-            float confuseChance = 0.5f;
-            return Random.value < confuseChance;
-        }
-        return false;
-    }
-
-    private IEnumerator DealDamageOverTime(HeroStats hero, NPC opponent, int damage, float time)
-    {
-        int damagerPerTick = damage / 5;
-        float tick = time / 5;
-
-        for (int i = 0; i < 5; i++)
-        {
-            int Totaldamage = Mathf.Max(1, damagerPerTick - opponent.opponentDefense);
-            opponent.currentHealth -= Totaldamage;
-            yield return new WaitForSeconds(tick);
-        }
-    }
-
-    private void LevelUp()
-    {
-        // Increase the level of the hero and adjust the stats accordingly
-        Level++;
-        currentXP = 0;
-        xpToLevel = 100 * Level;
-        credixAmount += 100;
-        maxHealth += 10;
-        attack += 5;
-        defense += 5;
-        speed += 2;
-        maxHeat += 10;
-        currentHealth = maxHealth;
-        SaveHeroData();
-    }
-
-    private string GetFilePath()
-    {
-        // Get the file path for the hero data, leads into AppData/LocalLow/SBKGames/God of Creation on Windows
-        return Path.Combine(Application.persistentDataPath, heroName + "_data.txt");
-    }
-
-    public void SaveHeroData()
-    {
-        // Save the data to a file
-        using StreamWriter writer = new(GetFilePath(), false);
-        writer.WriteLine(heroName);
-        writer.WriteLine(heroBio);
-        writer.WriteLine(heroSpecialAttackText);
-        writer.WriteLine(string.Join(", ", heroSkills.Where(skill => skill.IsUnlocked).Select(skill => skill.SkillName).ToArray()));
-        writer.WriteLine(maxHealth);
-        writer.WriteLine(Level);
-        writer.WriteLine(maxHeat);
-        writer.WriteLine(attack);
-        writer.WriteLine(defense);
-        writer.WriteLine(speed);
-        writer.WriteLine(credixAmount);
-        writer.WriteLine(currentHealth);
-        writer.WriteLine(currentHeat);
-        writer.WriteLine(currentXP);
-        writer.WriteLine(xpToLevel);
-        writer.WriteLine(chosenPath);
-
-        foreach (var item in inventory.items)
-        {
-           writer.WriteLine($"{item.ItemName}:{item.ItemCount}");
-        }
-    }
-
-    public void LoadHeroData()
-    {
-        // Load the data from the file
-        string path = GetFilePath();
-        if (File.Exists(path))
-        {
-            using StreamReader reader = new(path);
-            heroName = reader.ReadLine();
-            heroBio = reader.ReadLine();
-            heroSpecialAttackText = reader.ReadLine();
-            string unlockedSkills = reader.ReadLine();
-            if (!string.IsNullOrEmpty(unlockedSkills))
-                heroSkills.Where(skill => unlockedSkills.Contains(skill.SkillName)).ToList().ForEach(skill => skill.IsUnlocked = true);
-            else
-                foreach (Skill skill in heroSkills)
-                    skill.IsUnlocked = false;
-            if (heroName == "William")
-                LoadWilliamSkills();
-            if (heroName == "EnviousOrb")
-                LoadEnviousOrbSkills();
-            if (heroName == "Dr.Creeper")
-                LoadDrCreeperSkills();
-
-            maxHealth = int.Parse(reader.ReadLine());
-            Level = int.Parse(reader.ReadLine());
-            maxHeat = int.Parse(reader.ReadLine());
-            attack = int.Parse(reader.ReadLine());
-            defense = int.Parse(reader.ReadLine());
-            speed = float.Parse(reader.ReadLine());
-            credixAmount = int.Parse(reader.ReadLine());
-            currentHealth = int.Parse(reader.ReadLine());
-            currentHeat = int.Parse(reader.ReadLine());
-            currentXP = int.Parse(reader.ReadLine());
-            xpToLevel = int.Parse(reader.ReadLine());
-            chosenPath = int.Parse(reader.ReadLine());
-
-            inventory.items.Clear();
-            while (!reader.EndOfStream)
-            {
-                string line = reader.ReadLine();
-
-                if (string.IsNullOrEmpty(line))
-                    continue;
-
-                var parts = line.Split(':');
-                if (parts.Length == 2)
-                {
-                    Item item = ScriptableObject.CreateInstance<Item>();
-                    item.ItemName = parts[0];
-                    item.ItemCount = int.Parse(parts[1]);
-                    inventory.items.Add(item);
-                }
-            }
-        }
-        else
-        {
-            currentHealth = maxHealth;
-            currentHeat = 0;
-            currentXP = 0;
-            credixAmount = 0;
-            xpToLevel = Level * 100;
-        }
-
-        menuManager.heroUI.SetOverworldUI(this);
-        menuManager.skillTreeMenu.GetComponent<SkillTree>().OnCharacterSelect(this);
-    }
+    #endregion
 }
 
 [System.Serializable]

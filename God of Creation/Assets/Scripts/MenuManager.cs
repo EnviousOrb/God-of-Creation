@@ -5,34 +5,32 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    [Header("Menu Elements")]
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject statsMenu;
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject hatsMenu;
-    [SerializeField] public GameObject skillTreeMenu;
+    public GameObject skillTreeMenu;
+
+    [Header("Menu Buttons")]
     [SerializeField] Button settingsButton;
     [SerializeField] Button hatsButton;
     [SerializeField] Button statsButton;
     [SerializeField] Button skillTreeButton;
     [SerializeField] Button closeButton;
+
     private Stats stats;
     private SkillTree skillTree;
     public HeroUI heroUI;
     private readonly Stack<GameObject> menuStack = new();
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (statsMenu)
-            stats = statsMenu.GetComponent<Stats>();
-        if (skillTreeMenu)
-            skillTree = skillTreeMenu.GetComponent<SkillTree>();
+        InitalizeMenus();
         heroUI = FindFirstObjectByType<HeroUI>();
-
         settingsMenu.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && menuStack.Count <= 0)
@@ -40,27 +38,26 @@ public class MenuManager : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "ShopScene")
                 return;
                
-            if (pauseMenu.activeSelf)
-            {
-                // If the pause menu is active, deactivate it and set the time scale to 1
-                pauseMenu.SetActive(false);
-                Time.timeScale = 1;
-            }
-            else
-            {
-                // If the pause menu is not active, activate it and set the time scale to 0
-                pauseMenu.SetActive(true);
-                Time.timeScale = 0;
-            }
+            TogglePauseMenu();
         }
 
+        if(skillTreeMenu)
+            closeButton.gameObject.SetActive(!skillTree.skillTreePathMenu.activeSelf && menuStack.Count > 0);
+    }
+
+    private void InitalizeMenus()
+    {
+        if (statsMenu)
+            stats = statsMenu.GetComponent<Stats>();
         if (skillTreeMenu)
-        {
-            if (skillTree.skillTreePathMenu.activeSelf)
-                closeButton.gameObject.SetActive(false);
-            else
-                closeButton.gameObject.SetActive(menuStack.Count > 0);
-        }
+            skillTree = skillTreeMenu.GetComponent<SkillTree>(); 
+    }
+
+    private void TogglePauseMenu()
+    {
+        bool isActive = pauseMenu.activeSelf;
+        pauseMenu.SetActive(!isActive);
+        Time.timeScale = isActive ? 1 : 0;
     }
 
     public void OpenMenu(GameObject menu)

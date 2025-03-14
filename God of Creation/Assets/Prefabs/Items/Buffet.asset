@@ -15,9 +15,10 @@ MonoBehaviour:
   ItemName: Captain Spark's "All-In-One" Buffet Stew
   ItemDescription: '"A ''Buffet Stew'' that seems to hold the same amount of calories
     as a 5-course meal." When used, it heals the party''s health to full.'
+  PictureID: Buffet
   ItemCost: 500
   ItemCount: 5
-  ItemIcon: {fileID: 382705912839514685, guid: cc0f01786b7b617468cd854f63d0457c, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: 382705912839514685, guid: 3e17838ca45bc394bb48c26139229034, type: 3}
   IsSoldOut: 0
   Cooldown: 0

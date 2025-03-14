@@ -1440,22 +1440,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 880211292}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1158936218}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2055026376}
+        m_TargetAssemblyTypeName: ShopSystem, Assembly-CSharp
+        m_MethodName: CloseBuyPanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3548,12 +3536,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb1158db7a7c214089d8c99db7bac86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemIcons:
+  shopkeeperDialog:
+  - '"You won''t find a better deal elsewhere..."'
+  - '"I remember when items cost half a nickle..."'
+  - '"Things aren''t the way they used to be..."'
+  - '"I wonder if there''s a cure for back pain in here..."'
+  - '"Have you met my granddaughter yet? She''s just the cutest thing..."'
+  - '"Mayonaise is an instrument..."'
+  - '"You know, you look just like him..."'
+  - '"Z...Z...Z...z...z.."'
+  - '"My eyes may be poor, but I can tell you''re a smart shopper..."'
+  - '"You''re so skinny! Are you eating correctly at home?"'
+  - '"Don''t get old like I did..."'
+  - '"It''s nice interacting with the youth..."'
+  shopkeeperVoice: {fileID: 8300000, guid: c15b19e8de61a514e8ebc734d14ccfa6, type: 3}
+  speechbubble: {fileID: 1609264938}
+  shopkeeperDialogArea: {fileID: 804746653}
+  itemIcons:
   - {fileID: 312905454}
   - {fileID: 1673203389}
   - {fileID: 1377768413}
   - {fileID: 876416372}
-  Items:
+  items:
   - {fileID: 11400000, guid: e7574f2b662e53e45a5e8ff8da3b5595, type: 2}
   - {fileID: 11400000, guid: 386d3406ba52fbb46822246355ebdb73, type: 2}
   - {fileID: 11400000, guid: 8d05a42af8057df4c95144b08741b6b2, type: 2}
@@ -3566,35 +3570,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 483127557ae0cd24781440f1314341a4, type: 2}
   - {fileID: 11400000, guid: e8df7de304e45a546bc5f417618b5c72, type: 2}
   - {fileID: 11400000, guid: 07f19f939db2a1746820dacd39b02500, type: 2}
-  ShopkeeperDialog:
-  - '"You won''t find a better deal elsewhere..."'
-  - '"I remember when things cost half a nickle..."'
-  - '"Things aren''t the way they used to be..."'
-  - '"Ah...to be young again..."'
-  - '"My, look how skinny you are! Are you eating well?"'
-  - '"You must meet my granddaughter, she''s just the sweetest thing..."'
-  - '"I wonder if there''s a cure for back pain in here..."'
-  - '"My eyesight may be poor, but I can tell you''re a smart shopper..."'
-  - '"I knew I forgot something back home..."'
-  - '"My back hurts..."'
-  - '"Don''t get old like I did..."'
-  - '"Z...Z....z....z...."'
-  - '"You know, you look just like him..."'
-  - '"Mayonaise is an instrument..."'
-  - '"A good cup of tea can clear the foggiest of minds..."'
-  ShopkeeperVoice: {fileID: 8300000, guid: c15b19e8de61a514e8ebc734d14ccfa6, type: 3}
-  ItemDescriptionDisplayArea: {fileID: 17682403}
-  ItemNameDisplayArea: {fileID: 1746864628}
-  ItemPriceDisplayArea: {fileID: 216710714}
-  ShopkeeperDialogArea: {fileID: 804746653}
-  Speechbubble: {fileID: 1609264938}
-  soldOutImage: {fileID: -6441601820918230257, guid: a3d35e299cfb8b94f9c545427bedebc8, type: 3}
-  BuyAmountPanel: {fileID: 880211292}
-  PlusButton: {fileID: 1570692128}
-  MinusButton: {fileID: 83746432}
-  BuyButton: {fileID: 212908812}
-  CancelButton: {fileID: 1158936218}
-  AmountText: {fileID: 1276739793}
+  itemDescriptionDisplayArea: {fileID: 17682403}
+  itemNameDisplayArea: {fileID: 1746864628}
+  itemPriceDisplayArea: {fileID: 216710714}
+  buyAmountPanel: {fileID: 880211292}
+  plusButton: {fileID: 1570692128}
+  minusButton: {fileID: 83746432}
+  buyButton: {fileID: 212908812}
+  cancelButton: {fileID: 428620811}
+  amountText: {fileID: 1276739793}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

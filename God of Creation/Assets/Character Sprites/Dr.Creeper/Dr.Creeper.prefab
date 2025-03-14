@@ -91,16 +91,16 @@ MonoBehaviour:
   heroVictoryDialog: '"Of course, my belief in science is what won this battle."'
   heroDefeatDialog: '"I-Impossible! My calculations...must have been off!"'
   currentHealth: 0
-  currentHeat: 0
+  currentHeat: 2
   heroSkills:
-  - {fileID: 3901791381372221459, guid: e280215928db6c246b272f99e67c615b, type: 3}
-  - {fileID: 3901791381372221459, guid: b144ee36cbc3bae45915f4db06ae47ad, type: 3}
-  - {fileID: 3901791381372221459, guid: e51a880fa86bfb144a9a949c0b20dc86, type: 3}
-  - {fileID: 3901791381372221459, guid: 696a93916c6868b4ca04875933101048, type: 3}
-  - {fileID: 3901791381372221459, guid: afae30cbfeba80b4bafb4bda91e9ad83, type: 3}
-  - {fileID: 3901791381372221459, guid: 743484b9a3b1981408e4165414271936, type: 3}
-  - {fileID: 3901791381372221459, guid: 56b734265ee1b4e41b0ff2fc651686b5, type: 3}
-  - {fileID: 3901791381372221459, guid: 8e70141c96e0d4c438413c179b2ef491, type: 3}
+  - {fileID: 11400000, guid: fe743679c9a884848bc870c53422df78, type: 2}
+  - {fileID: 11400000, guid: e730c4f2f8503db489c8f92cd6197f5c, type: 2}
+  - {fileID: 11400000, guid: 108b617d89ac2fa42a24623e6875cce5, type: 2}
+  - {fileID: 11400000, guid: 5746ba7d1c3034945b8339c5e1d41041, type: 2}
+  - {fileID: 11400000, guid: 4245aea9a23a6bc4aa1293db87989032, type: 2}
+  - {fileID: 11400000, guid: f2104f8950b1bff429e351ae717458ff, type: 2}
+  - {fileID: 11400000, guid: ff7882c001a71d146a6718d641d3e428, type: 2}
+  - {fileID: 11400000, guid: 9f8af7a9c27bace4385eb0fa4d3c6a86, type: 2}
   chosenPath: 0
   heroTextSound: {fileID: 8300000, guid: cd2e2866403c98947bfae39c45fcf59c, type: 3}
   heroSpecialAttackSound: {fileID: 8300000, guid: f4dcad36bb44e6142b8f90b442440dfa, type: 3}
@@ -118,6 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00633263d48fc24dbb9b84ad06bdd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items:
+  - {fileID: 0}
 --- !u!212 &1608901162647058150
 SpriteRenderer:
   m_ObjectHideFlags: 0

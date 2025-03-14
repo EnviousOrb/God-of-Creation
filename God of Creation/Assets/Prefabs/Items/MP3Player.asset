@@ -16,9 +16,10 @@ MonoBehaviour:
   ItemDescription: '"A MP3 Player that seems to be filled with today''s hits. Pioneering
     Technology, That''s SOMA." When used, it charges the party''s heat to half of
     their max heat.'
+  PictureID: MP3Player
   ItemCost: 750
   ItemCount: 5
-  ItemIcon: {fileID: -1819751209158670820, guid: afe58514692df9a498b6aab2212da391, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: -1819751209158670820, guid: f7dada754eed62c4cab915479abb4795, type: 3}
   IsSoldOut: 0
   Cooldown: 0

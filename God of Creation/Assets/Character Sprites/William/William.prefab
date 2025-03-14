@@ -90,16 +90,16 @@ MonoBehaviour:
   heroVictoryDialog: '"And the day is saved thanks to...me!"'
   heroDefeatDialog: '"N-no, I can''t...lose here...not when Anonymous...is out there!"'
   currentHealth: 0
-  currentHeat: 0
+  currentHeat: 2
   heroSkills:
-  - {fileID: 3901791381372221459, guid: be3567ae5fcf1334db5409b101b3b8e9, type: 3}
-  - {fileID: 3901791381372221459, guid: 09472668081c52047836252236eb8179, type: 3}
-  - {fileID: 3901791381372221459, guid: 991c42a01b1afd44f93bb18270318fe6, type: 3}
-  - {fileID: 3901791381372221459, guid: 77f5b9c8dea3b004197f6057d607a8f4, type: 3}
-  - {fileID: 3901791381372221459, guid: d82194d0789dc0744a39a1113841daf9, type: 3}
-  - {fileID: 3901791381372221459, guid: 5d2b579e01294cc4ebf84a520943ee9c, type: 3}
-  - {fileID: 3901791381372221459, guid: f2a9d0401122f7a40afa3502cc03c0f0, type: 3}
-  - {fileID: 3901791381372221459, guid: 628d52af882845b4298201f301188a82, type: 3}
+  - {fileID: 11400000, guid: d01c3ba1a22aa474b9c6af47d1ffef14, type: 2}
+  - {fileID: 11400000, guid: ecb2fbccc0adfd444b6d7aa25e70a7b9, type: 2}
+  - {fileID: 11400000, guid: 871372ef13e02bc46a6f7edff39cb0a0, type: 2}
+  - {fileID: 11400000, guid: 7dc8dc857c45a41409b83765776bc489, type: 2}
+  - {fileID: 11400000, guid: c03e4026c34935d4498b05be99d50a60, type: 2}
+  - {fileID: 11400000, guid: e29a5bba778ebbb4d874f2ba35edbbcf, type: 2}
+  - {fileID: 11400000, guid: 5f8061997997a6940b2757e71f172c35, type: 2}
+  - {fileID: 11400000, guid: 4170dfbccf852e74293dfd7bc5857ef1, type: 2}
   chosenPath: 0
   heroTextSound: {fileID: 8300000, guid: 272cdb86fd38c014f802abc24b198ac7, type: 3}
   heroSpecialAttackSound: {fileID: 8300000, guid: 916d73b257e2ee94d95dbc078d4302a4, type: 3}
@@ -117,6 +117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00633263d48fc24dbb9b84ad06bdd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items:
+  - {fileID: 0}
 --- !u!212 &6478258704923970515
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -16,9 +16,10 @@ MonoBehaviour:
   ItemDescription: '"Staminfuel turns the weak men of this world into the real alphas
     that they''re supposed to be! Drink up, or Shut Up: Staminfuel." When used, the
     current hero''s heat and health is restored a small amount.'
+  PictureID: Staminfuel
   ItemCost: 200
   ItemCount: 10
-  ItemIcon: {fileID: -8340809513945542748, guid: 38e16b304548f2c478a6b55ecc167e8f, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: -8340809513945542748, guid: cf7d592dbe77d0243b026ccb88fa4ca8, type: 3}
   IsSoldOut: 0
   Cooldown: 0

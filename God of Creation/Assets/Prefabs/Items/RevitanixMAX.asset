@@ -16,9 +16,10 @@ MonoBehaviour:
   ItemDescription: '"Get ready to go beyond with Revitanix MAX, superheroes and villains
     alike are unable to stop the force of reckoning that is you!" When used, the
     current hero''s heat is charged by a large amount.'
+  PictureID: RevitanixMAX
   ItemCost: 800
   ItemCount: 10
-  ItemIcon: {fileID: -2262113628259040011, guid: 8b9499e89af895e4fa05ee1c5c101f2d, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: -2262113628259040011, guid: a6589012ff72ae34cb1bf487b5657b88, type: 3}
   IsSoldOut: 0
   Cooldown: 0

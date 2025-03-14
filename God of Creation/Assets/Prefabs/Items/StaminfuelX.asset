@@ -16,9 +16,10 @@ MonoBehaviour:
   ItemDescription: '"Not satsifed with the standard? Then get ready for Staminfuel
     X! The real pioneer of turning undesirables into the peak of human fantasy!"
     When used, the current hero''s heat and health is restored by a medium amount.'
+  PictureID: StaminfuelX
   ItemCost: 400
   ItemCount: 10
-  ItemIcon: {fileID: -2636634913507144836, guid: 93f70548af6067d4686df752474ab68d, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: -2636634913507144836, guid: 9bb0f8ae0bd78d143bbc0f343c3dff33, type: 3}
   IsSoldOut: 0
   Cooldown: 0

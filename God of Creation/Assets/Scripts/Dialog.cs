@@ -49,9 +49,7 @@ namespace DialogSystem
                 textSound = hero.heroTextSound;
 
                 if(UseHeroOpeningLine)
-                {
                     dialogText = hero.heroOpeningDialog;
-                }
             }
             else
             {

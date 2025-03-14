@@ -16,9 +16,10 @@ MonoBehaviour:
   ItemDescription: '"Abandon your humanity with Staminfuel MAX. No man or woman is
     able to withstand the absolute AURA you will put off by drinking this!" When
     used, the current hero''s health and heat is restored by a large amount.'
+  PictureID: StaminfuelMAX
   ItemCost: 800
   ItemCount: 10
-  ItemIcon: {fileID: 8346400544374555728, guid: 8f6ef62ec480cf34495585545151cff8, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: 8346400544374555728, guid: 29f08fedbdcff7f47a4da48380d2ac95, type: 3}
   IsSoldOut: 0
   Cooldown: 0

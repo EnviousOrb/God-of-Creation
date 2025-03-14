@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
+  m_Name: UpgradeB
+  m_EditorClassIdentifier: 
+  SkillName: Creationist's Regen
+  SkillDescription: Allows William to regenerate a small amount of health at the
+    beginning of his turn
+  PrequisiteSkill: {fileID: 11400000, guid: fe743679c9a884848bc870c53422df78, type: 2}
+  SkillCost: 400
+  SkillIcon: {fileID: -8794566799652434719, guid: 905b5a86a7dbe0649ac5eeed410ce83e, type: 3}
+  SkillPathIcon: {fileID: -3161793329637628188, guid: 642af1a0d644c444d854151e5c3b42c8, type: 3}
+  SkillPathDescription: 'Way of the Creationist: Develop William''s skills as a Creationist
+    through this path'
+  IsUnlocked: 0

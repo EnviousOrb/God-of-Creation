@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
+  m_Name: UpgradeB
+  m_EditorClassIdentifier: 
+  SkillName: Scientfic Method
+  SkillDescription: Dr.Creeper's ingenuity allows him to predict what his opponent's
+    next move is
+  PrequisiteSkill: {fileID: 11400000, guid: fe743679c9a884848bc870c53422df78, type: 2}
+  SkillCost: 400
+  SkillIcon: {fileID: -8794566799652434719, guid: a2eb817250f01e94ab6dd80d669c434e, type: 3}
+  SkillPathIcon: {fileID: -3161793329637628188, guid: fc3c53cb285bf354c874121d159009ea, type: 3}
+  SkillPathDescription: 'Way of The Refugee: The skills of Dr.Creeper''s time as
+    a runaway refugee lies here'
+  IsUnlocked: 0

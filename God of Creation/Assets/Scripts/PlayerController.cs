@@ -9,15 +9,12 @@ public class PlayerController : MonoBehaviour
     private float moveDir;
     private NPC currentNPC;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cam = Camera.main;
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(IsDialogActive())
@@ -25,19 +22,25 @@ public class PlayerController : MonoBehaviour
             moveDir = 0;
             return;
         }
-        moveDir = Input.GetAxisRaw("Horizontal");
-        if(moveDir > 0)
-        {
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        else if (moveDir < 0)
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
+        HandleMovementInput();
         animator.SetFloat("HeroSpeed", Mathf.Abs(moveDir));
     }
 
     void FixedUpdate()
+    {
+        MovePlayer();
+    }
+
+    private void HandleMovementInput()
+    {
+        moveDir = Input.GetAxisRaw("Horizontal");
+        if(moveDir != 0)
+        {
+            transform.localScale = new Vector3(Mathf.Sign(moveDir) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+    }
+
+    private void MovePlayer()
     {
         transform.position += speed * Time.deltaTime * new Vector3(moveDir, 0, 0);
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
@@ -63,9 +66,6 @@ public class PlayerController : MonoBehaviour
 
     private bool IsDialogActive()
     {
-        if(currentNPC)
-            return currentNPC.IsDialogActive();
-        else
-            return false;
+        return currentNPC != null && currentNPC.IsDialogActive();
     }
 }

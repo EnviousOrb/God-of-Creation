@@ -14,8 +14,11 @@ public class WheelButton : MonoBehaviour
         GameObject newHero = Instantiate(HeroToSpawn, currentHero.transform.position, Quaternion.identity);
         newHero.name = HeroToSpawn.name;
 
+        // Set the new hero as the current hero
         GameManager.Instance.Currenthero = newHero.GetComponent<HeroStats>();
         GameManager.Instance.Currenthero.LoadHeroData();
+
+        // Destory the old hero
         Destroy(currentHero);
     }
 }

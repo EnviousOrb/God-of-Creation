@@ -16,9 +16,10 @@ MonoBehaviour:
   ItemDescription: '"A bandage from the popular children''s cartoon Chibi-Bean. The
     cover features one of her friends, Ms.Slime." When used, it recovers a small
     amount of the hero''s health.'
+  PictureID: Bandage
   ItemCost: 25
   ItemCount: 10
-  ItemIcon: {fileID: 1462799768519014029, guid: 62c345d7d6e511447966969ef255c443, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: 1462799768519014029, guid: 8d6f3d79f323f0640b4604ba56cce707, type: 3}
   IsSoldOut: 0
   Cooldown: 0

@@ -15,9 +15,10 @@ MonoBehaviour:
   ItemName: First-Aid Kit
   ItemDescription: '"A standard First-Aid kit, ready for all of your emergency needs."
     When used, the party''s health is healed up to half of their max health.'
+  PictureID: First-Aid Kit
   ItemCost: 750
   ItemCount: 5
-  ItemIcon: {fileID: 2478546836029583341, guid: 79f2fd30bfd42324681e8c0338817ca2, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: 2478546836029583341, guid: aab7eaf96ee2dd64090e86186062068a, type: 3}
   IsSoldOut: 0
   Cooldown: 0

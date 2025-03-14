@@ -15,9 +15,10 @@ MonoBehaviour:
   ItemName: Revitanix
   ItemDescription: '"With Revitanix, you''ll fee0l the heat like never before!" When
     used, the current hero''s heat is charged by a small amount.'
+  PictureID: Revitanix
   ItemCost: 200
   ItemCount: 10
-  ItemIcon: {fileID: -7244610683906809985, guid: e6fbae7fc16bcd64ba5a9bce1843265e, type: 3}
   MaxStackCount: 25
+  ItemIcon: {fileID: -7244610683906809985, guid: 04f8a947450e6f14d8b06950c837a536, type: 3}
   IsSoldOut: 0
   Cooldown: 0

@@ -9,19 +9,9 @@ public class Inventory : MonoBehaviour
     {
         var existingItem = items.Find(i => i.ItemName == item.ItemName);
         if (existingItem != null)
-        {
             existingItem.ItemCount += amount;
-        }
         else
-        {
-            var newItem = ScriptableObject.CreateInstance<Item>();
-            newItem.ItemName = item.ItemName;
-            newItem.ItemDescription = item.ItemDescription;
-            newItem.ItemCount = amount;
-            newItem.ItemIcon = item.ItemIcon;
-            newItem.ApplyEffect = item.ApplyEffect;
-            items.Add(newItem);
-        }
+            items.Add(CreateItem(item, amount));
     }
 
     public void RemoveItem(Item item)
@@ -29,25 +19,26 @@ public class Inventory : MonoBehaviour
         var existingItem = items.Find(i => i.ItemName == item.ItemName);
         if (existingItem != null)
         {
-            existingItem.ItemCount -= item.ItemCount;
-            if (existingItem.ItemCount <= 0)
+            if (existingItem.ItemCount > 1)
+                existingItem.ItemCount -= 1;
+            else
                 items.Remove(existingItem);
         }
     }
 
-    public bool HasItem(Item item)
-    {
-        return items.Exists(i => i.ItemName == item.ItemName);
-    }
+    public int GetItemCount(Item item) => items.Find(i => i.ItemName == item.ItemName)?.ItemCount ?? 0;
 
-    public int GetItemCount(Item item)
-    {
-        var existingItem = items.Find(i => i.ItemName == item.ItemName);
-        return existingItem != null ? existingItem.ItemCount : 0;
-    }
+    public Item GetItem(string itemName) => items.Find(i => i.ItemName == itemName);
 
-    public Item GetItem(string itemName)
+    private Item CreateItem(Item item, int amount)
     {
-        return items.Find(i => i.ItemName == itemName);
+        var newItem = ScriptableObject.CreateInstance<Item>();
+        newItem.ItemName = item.ItemName;
+        newItem.ItemDescription = item.ItemDescription;
+        newItem.ItemCount = amount;
+        newItem.ItemIcon = item.ItemIcon;
+        newItem.PictureID = item.PictureID;
+        newItem.ApplyEffect = item.ApplyEffect;
+        return newItem;
     }
 }

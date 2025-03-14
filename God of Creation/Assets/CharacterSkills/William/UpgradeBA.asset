@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
+  m_Name: UpgradeBA
+  m_EditorClassIdentifier: 
+  SkillName: Fortified Regen
+  SkillDescription: Through his resolve, William is able to recover even more health
+  PrequisiteSkill: {fileID: 11400000, guid: ecb2fbccc0adfd444b6d7aa25e70a7b9, type: 2}
+  SkillCost: 600
+  SkillIcon: {fileID: -2010332299894689129, guid: 34436723a400ae84f90484338845eddf, type: 3}
+  SkillPathIcon: {fileID: 0}
+  SkillPathDescription: 
+  IsUnlocked: 0

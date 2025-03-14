@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
+  m_Name: UpgradeBB
+  m_EditorClassIdentifier: 
+  SkillName: Party Regen
+  SkillDescription: William's overwhelming kindness allows him to heal other party
+    members during his turn
+  PrequisiteSkill: {fileID: 11400000, guid: 871372ef13e02bc46a6f7edff39cb0a0, type: 2}
+  SkillCost: 800
+  SkillIcon: {fileID: -6854162823769991456, guid: 2faafc9e6f9000a4fbaa63310f06224f, type: 3}
+  SkillPathIcon: {fileID: 0}
+  SkillPathDescription: 
+  IsUnlocked: 0

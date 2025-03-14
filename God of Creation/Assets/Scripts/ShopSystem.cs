@@ -8,48 +8,45 @@ using UnityEngine.UI;
 
 public class ShopSystem : MonoBehaviour
 {
-    [SerializeField] private Image[] ItemIcons;
-    [SerializeField] private Item[] Items;
-    [SerializeField] private string[] ShopkeeperDialog;
-    [SerializeField] private AudioClip ShopkeeperVoice;
-    [SerializeField] private TextMeshProUGUI ItemDescriptionDisplayArea;
-    [SerializeField] private TextMeshProUGUI ItemNameDisplayArea;
-    [SerializeField] private TextMeshProUGUI ItemPriceDisplayArea;
-    [SerializeField] private TextMeshProUGUI ShopkeeperDialogArea;
-    [SerializeField] private GameObject Speechbubble;
-    [SerializeField] private Sprite soldOutImage;
-    [SerializeField] private GameObject BuyAmountPanel;
-    [SerializeField] private Button PlusButton;
-    [SerializeField] private Button MinusButton;
-    [SerializeField] private Button BuyButton;
-    [SerializeField] private GameObject CancelButton;
-    [SerializeField] private TextMeshProUGUI AmountText;
+    #region Script Variables
+    [Header("ShopKeeper Settings")]
+    [SerializeField] private string[] shopkeeperDialog;
+    [SerializeField] private AudioClip shopkeeperVoice;
+    [SerializeField] private GameObject speechbubble;
+    [SerializeField] private TextMeshProUGUI shopkeeperDialogArea;
+
+    [Header("Shop Items")]
+    [SerializeField] private Image[] itemIcons;
+    [SerializeField] private Item[] items;
+    [SerializeField] private TextMeshProUGUI itemDescriptionDisplayArea;
+    [SerializeField] private TextMeshProUGUI itemNameDisplayArea;
+    [SerializeField] private TextMeshProUGUI itemPriceDisplayArea;
+
+    [Header("Buy Panel")]
+    [SerializeField] private GameObject buyAmountPanel;
+    [SerializeField] private Button plusButton;
+    [SerializeField] private Button minusButton;
+    [SerializeField] private Button buyButton;
+    [SerializeField] private GameObject cancelButton;
+    [SerializeField] private TextMeshProUGUI amountText;
 
     private Animator ShopkeeperAnimator;
     private Item selectedItem;
 
     private SceneTransition sceneTransition;
     private bool isWriting = false;
+    #endregion
+
+    #region Unity functions
     private void Start()
     {
-        ItemNameDisplayArea.text = "";
-        ItemDescriptionDisplayArea.text = "";
-        ItemPriceDisplayArea.text = "";
-        Speechbubble.SetActive(false);
+        InitalizeUI();
 
         sceneTransition = FindFirstObjectByType<SceneTransition>();
         ShopkeeperAnimator = GetComponent<Animator>();
         DisplayRandomItem();
-        foreach (var itemIcon in ItemIcons)
-        {
-            var eventTrigger = itemIcon.gameObject.AddComponent<EventTrigger>();
-            var pointerEnter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
-            pointerEnter.callback.AddListener((data) => { OnItemHovered(itemIcon); });
-            eventTrigger.triggers.Add(pointerEnter);
-            var pointerExit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
-            pointerExit.callback.AddListener((data) => { OnItemUnhovered(); });
-            eventTrigger.triggers.Add(pointerExit);
-        }
+
+        SetupItemIcons();
 
         InvokeRepeating(nameof(DisplayShopkeeperDialog), 5f, 5f);
     }
@@ -62,57 +59,34 @@ public class ShopSystem : MonoBehaviour
                 StartCoroutine(sceneTransition.LoadScene());
         }
 
-        foreach(var item in Items)
+        UpdateItems();
+    }
+    #endregion
+
+    #region Public Methods
+    public void OnAmountIncrease()
+    {
+        int amount = int.Parse(amountText.text);
+        amount = Mathf.Min(amount + 1, selectedItem.ItemCount);
+        amountText.text = amount.ToString();
+    }
+
+    public void OnAmountDecrease()
+    {
+        int amount = int.Parse(amountText.text);
+        amount = Mathf.Min(amount - 1, 1);
+        amountText.text = amount.ToString();
+    }
+
+    public void OnBuyAmount()
+    {
+        if (selectedItem)
         {
-            if (item.IsSoldOut)
-            {
-                item.Cooldown -= Time.deltaTime;
-                if (item.Cooldown <= 0)
-                {
-                    item.IsSoldOut = false;
-                    item.Cooldown = 0;
-                    ItemIcons[System.Array.IndexOf(Items, item)].GameObject().SetActive(true);
-                }
-            }
+            ProcessPurchase();
         }
-    }
-
-    private void OnItemHovered(Image itemIcon)
-    {
-        var item = GetItemFromIcon(itemIcon);
-        if (item != null)
+        else
         {
-            ItemNameDisplayArea.text = item.ItemName;
-            ItemDescriptionDisplayArea.text = item.ItemDescription;
-            ItemPriceDisplayArea.text = "Cost: " + item.ItemCost + " Credix\n" +
-                "In Inventory: " + GameManager.Instance.Currenthero.inventory.GetItemCount(item);
-        }
-    }
 
-    private void OnItemUnhovered()
-    {
-        ItemNameDisplayArea.text = "";
-        ItemDescriptionDisplayArea.text = "";
-        ItemPriceDisplayArea.text = "";
-    }
-
-    private Item GetItemFromIcon(Image itemIcon)
-    {
-        int index = System.Array.IndexOf(ItemIcons, itemIcon);
-        if (index >= 0 && index < Items.Length)
-        {
-            return Items[index];
-        }
-        return null;
-    }
-
-    private void DisplayRandomItem()
-    {
-        Items = Items.OrderBy(x => Random.value).ToArray();
-
-        for (int i = 0; i < ItemIcons.Length && i < Items.Length; i++)
-        {
-            ItemIcons[i].sprite = Items[i].ItemIcon;
         }
     }
 
@@ -125,81 +99,162 @@ public class ShopSystem : MonoBehaviour
             int currentItemCount = currentHero.inventory.GetItemCount(selectedItem);
             if (selectedItem.ItemCount <= currentItemCount)
             {
-                ItemNameDisplayArea.text = "";
-                ItemDescriptionDisplayArea.text = "Max Capacity! You cannot buy anymore of this item!";
-                ItemPriceDisplayArea.text = "";
+                DisplayMessage("Max Capacity! You cannot buy anymore of this item!");
                 return;
             }
             else
             {
-                BuyAmountPanel.SetActive(true);
-                CancelButton.SetActive(true);
-                AmountText.text = "1";
-                BuyButton.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+                ShowBuyPanel();
             }
         }
     }
 
-    public void OnAmountIncrease()
+    public void CloseBuyPanel()
     {
-        int amount = int.Parse(AmountText.text);
-        if(selectedItem && amount < selectedItem.ItemCount)
-            amount++;
-        else
-            amount = selectedItem.ItemCount;
-        AmountText.text = amount.ToString();
+        buyAmountPanel.SetActive(false);
+        cancelButton.SetActive(false);
     }
 
-    public void OnAmountDecrease()
+    #endregion
+
+    #region Private Methods
+    private void InitalizeUI()
     {
-        int amount = int.Parse(AmountText.text);
-        amount--;
-        if (amount < 1)
-            amount = 1;
-        AmountText.text = amount.ToString();
+        shopkeeperDialogArea.text = "";
+        speechbubble.SetActive(false);
+        itemNameDisplayArea.text = "";
+        itemDescriptionDisplayArea.text = "";
+        itemPriceDisplayArea.text = "";
+        buyAmountPanel.SetActive(false);
+        cancelButton.SetActive(false);
     }
 
-    public void OnBuyAmount()
+    private void UpdateItems()
     {
-        if (selectedItem)
+        foreach (var item in items)
         {
-            var amount = int.Parse(AmountText.text);
-            var totalCost = selectedItem.ItemCost * amount;
-            var currentHero = GameManager.Instance.Currenthero;
-
-            if (totalCost <= currentHero.credixAmount)
+            if (item.IsSoldOut)
             {
-                currentHero.credixAmount -= totalCost;
-                currentHero.inventory.AddItem(selectedItem, amount);
-                selectedItem.ItemCount -= amount;
-
-                currentHero.SaveHeroData();
-                BuyAmountPanel.SetActive(false);
-                CancelButton.SetActive(false);
-
-                if (selectedItem.ItemCount <= 0)
+                item.Cooldown -= Time.deltaTime;
+                if (item.Cooldown <= 0)
                 {
-                    selectedItem.IsSoldOut = true;
-                    selectedItem.Cooldown = 10;
-                    ItemIcons[System.Array.IndexOf(Items, selectedItem)].GameObject().SetActive(false);
+                    item.IsSoldOut = false;
+                    item.Cooldown = 0;
+                    itemIcons[System.Array.IndexOf(items, item)].GameObject().SetActive(true);
                 }
             }
-            else
-            {
-                BuyButton.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-            }
+        }
+    }
+
+    private void SetupItemIcons()
+    {
+        foreach (var itemIcon in itemIcons)
+        {
+            var eventTrigger = itemIcon.gameObject.AddComponent<EventTrigger>();
+            AddEventTrigger(eventTrigger, EventTriggerType.PointerEnter, (data) => OnItemHovered(itemIcon));
+            AddEventTrigger(eventTrigger, EventTriggerType.PointerExit, (data) => OnItemUnhovered());
+        }
+    }
+
+    private void AddEventTrigger(EventTrigger eventTrigger, EventTriggerType eventType, UnityEngine.Events.UnityAction<BaseEventData> action)
+    {
+        var entry = new EventTrigger.Entry { eventID = eventType };
+        entry.callback.AddListener(action);
+        eventTrigger.triggers.Add(entry);
+    }
+
+    private void OnItemHovered(Image itemIcon)
+    {
+        var item = GetItemFromIcon(itemIcon);
+        if (item != null)
+        {
+            itemNameDisplayArea.text = item.ItemName;
+            itemDescriptionDisplayArea.text = item.ItemDescription;
+            itemPriceDisplayArea.text = $"Cost: { item.ItemCost } Credix\nIn Inventory: { GameManager.Instance.Currenthero.inventory.GetItemCount(item) }";
+        }
+    }
+
+    private void OnItemUnhovered()
+    {
+        itemNameDisplayArea.text = "";
+        itemDescriptionDisplayArea.text = "";
+        itemPriceDisplayArea.text = "";
+    }
+
+    private Item GetItemFromIcon(Image itemIcon)
+    {
+        int index = System.Array.IndexOf(itemIcons, itemIcon);
+        return index >= 0 && index < items.Length ? items[index] : null;
+    }
+
+    private void DisplayRandomItem()
+    {
+        items = items.OrderBy(x => Random.value).ToArray();
+
+        for (int i = 0; i < itemIcons.Length && i < items.Length; i++)
+        {
+            itemIcons[i].sprite = items[i].ItemIcon;
+        }
+    }
+
+    private void DisplayMessage(string message)
+    {
+        itemNameDisplayArea.text = "";
+        itemDescriptionDisplayArea.text = message;
+        itemPriceDisplayArea.text = "";
+    }
+
+    private void ShowBuyPanel()
+    {
+        buyAmountPanel.SetActive(true);
+        cancelButton.SetActive(true);
+        amountText.text = "1";
+        buyButton.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+    }
+
+    private void ProcessPurchase()
+    {
+        var amount = int.Parse(amountText.text);
+        var totalCost = selectedItem.ItemCost * amount;
+        var currentHero = GameManager.Instance.Currenthero;
+
+        if (totalCost <= currentHero.credixAmount)
+        {
+            CompletePurchase(amount, totalCost, currentHero);
+        }
+        else
+        {
+            buyButton.GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        }
+    }
+
+    private void CompletePurchase(int amount, int totalCost, HeroStats currentHero)
+    {
+        currentHero.credixAmount -= totalCost;
+        currentHero.inventory.AddItem(selectedItem, amount);
+        selectedItem.ItemCount -= amount;
+
+        currentHero.SaveHeroData();
+        buyAmountPanel.SetActive(false);
+        cancelButton.SetActive(false);
+
+        if (selectedItem.ItemCount <= 0)
+        {
+            selectedItem.IsSoldOut = true;
+            selectedItem.Cooldown = 10;
+            itemIcons[System.Array.IndexOf(items, selectedItem)].GameObject().SetActive(false);
         }
     }
 
     private void DisplayShopkeeperDialog()
     {
-        if(ShopkeeperDialog.Length == 0 || isWriting)
+        if(shopkeeperDialog.Length == 0 || isWriting)
             return;
 
-        ShopkeeperDialogArea.text = "";
-        Speechbubble.SetActive(true);
-        var dialog = ShopkeeperDialog[Random.Range(0, ShopkeeperDialog.Length)];
-        StartCoroutine(WriteText(dialog, ShopkeeperDialogArea, 0.09f, ShopkeeperVoice));
+        shopkeeperDialogArea.text = "";
+        speechbubble.SetActive(true);
+        var dialog = shopkeeperDialog[Random.Range(0, shopkeeperDialog.Length)];
+        StartCoroutine(WriteText(dialog, shopkeeperDialogArea, 0.09f, shopkeeperVoice));
     }
 
     private IEnumerator WriteText(string text, TextMeshProUGUI textDisplay, float delay, AudioClip textSound)
@@ -215,8 +270,10 @@ public class ShopSystem : MonoBehaviour
         }
         yield return new WaitForSeconds(2f);
         textDisplay.text = "";
-        Speechbubble.SetActive(false);
+        speechbubble.SetActive(false);
         isWriting = false;
         ShopkeeperAnimator.SetBool("isTalking", false);
     }
+
+    #endregion
 }

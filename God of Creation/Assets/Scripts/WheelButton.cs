@@ -4,7 +4,6 @@ public class WheelButton : MonoBehaviour
 {
     [SerializeField] private GameObject HeroToSpawn;
     private GameObject currentHero;
-
     public void SwapHero()
     {
         currentHero = GameObject.FindGameObjectWithTag("Player");
@@ -18,6 +17,7 @@ public class WheelButton : MonoBehaviour
         GameManager.Instance.Currenthero = newHero.GetComponent<HeroStats>();
         GameManager.Instance.Currenthero.LoadHeroData();
 
+        GameManager.Instance.heroIDtoFind = GameManager.Instance.Currenthero.HeroID;
         // Destory the old hero
         Destroy(currentHero);
     }

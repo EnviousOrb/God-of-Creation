@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d50fb2cd9b305184a92f60ba25043222, type: 3}
+  m_Name: Minecart
+  m_EditorClassIdentifier: 
+  ItemName: Minecart
+  ItemDescription: '"Did someone catch the plate of that cart?" when used, the player
+    has a 50% chance of escaping or dealing a large amount of damage to the opponent."'
+  PictureID: Minecart
+  ItemCost: 0
+  ItemCount: 999
+  MaxStackCount: 25
+  ItemIcon: {fileID: -1309158792645468770, guid: d3621aa3174cff74796d3aed9107fa37, type: 3}
+  IsSoldOut: 0
+  Cooldown: 0

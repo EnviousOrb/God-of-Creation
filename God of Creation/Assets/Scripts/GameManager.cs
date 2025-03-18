@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,17 +13,46 @@ public class GameManager : MonoBehaviour
 
     public List<HeroStats> heroParty = new();
 
+    private HeroStats heroInScene;
+
+    [HideInInspector] public int heroIDtoFind;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Currenthero = heroParty[0];
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(SceneManager.GetActiveScene().name == "DevScene")
+        {
+            heroInScene = FindAnyObjectByType<HeroStats>();
+            if (heroInScene != null)
+            {
+                Currenthero = heroInScene;
+            }
+            else
+            {
+                heroInScene = heroParty.Find(hero => hero.HeroID == heroIDtoFind);
+                Instantiate(heroInScene);
+                Currenthero = heroInScene;
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void MarkOpponentAsDefeated(NPC opponent)

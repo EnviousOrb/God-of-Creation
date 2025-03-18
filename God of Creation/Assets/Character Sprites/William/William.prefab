@@ -76,7 +76,8 @@ MonoBehaviour:
   speed: 10
   credixAmount: 0
   inventory: {fileID: 0}
-  xpToLevel: 0
+  HeroID: 0
+  xpToLevel: 100
   currentXP: 0
   heroIcon: {fileID: -2327869246453644434, guid: 2397c33dd8da7916cae179be62587d88, type: 3}
   typeIcon: {fileID: -5765777680471872163, guid: ff18fafa207364834b26131c5c76dbf9, type: 3}
@@ -89,8 +90,8 @@ MonoBehaviour:
   heroOpeningDialog: '"William, your local Creationist, ready!"'
   heroVictoryDialog: '"And the day is saved thanks to...me!"'
   heroDefeatDialog: '"N-no, I can''t...lose here...not when Anonymous...is out there!"'
-  currentHealth: 0
-  currentHeat: 2
+  currentHealth: 10
+  currentHeat: 5
   heroSkills:
   - {fileID: 11400000, guid: d01c3ba1a22aa474b9c6af47d1ffef14, type: 2}
   - {fileID: 11400000, guid: ecb2fbccc0adfd444b6d7aa25e70a7b9, type: 2}
@@ -117,8 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00633263d48fc24dbb9b84ad06bdd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 0}
+  items: []
 --- !u!212 &6478258704923970515
 SpriteRenderer:
   m_ObjectHideFlags: 0

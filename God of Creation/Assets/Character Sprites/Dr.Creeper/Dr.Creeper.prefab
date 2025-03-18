@@ -77,6 +77,7 @@ MonoBehaviour:
   speed: 5
   credixAmount: 0
   inventory: {fileID: 0}
+  HeroID: 1614
   xpToLevel: 0
   currentXP: 0
   heroIcon: {fileID: -6624756602755002072, guid: c1facdf227cc0045e87ea04ac611e165, type: 3}
@@ -118,8 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00633263d48fc24dbb9b84ad06bdd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 0}
+  items: []
 --- !u!212 &1608901162647058150
 SpriteRenderer:
   m_ObjectHideFlags: 0

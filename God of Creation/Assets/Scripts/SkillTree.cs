@@ -5,67 +5,144 @@ using UnityEngine.EventSystems;
 
 public class SkillTree : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI skillTreeNameDisplayArea;
-    [SerializeField] private TextMeshProUGUI skillTreeDescriptionDisplayArea;
-    [SerializeField] private TextMeshProUGUI skillTreeUpgradeNameDisplayArea;
-    [SerializeField] private TextMeshProUGUI skillTreeUpgradePriceDisplayArea;
-    [SerializeField] private TextMeshProUGUI skillTreePathDisplayArea;
+    [SerializeField] private TextMeshProUGUI SkillTreeNameDisplayArea;
+    [SerializeField] private TextMeshProUGUI SkillTreeDescriptionDisplayArea;
+    [SerializeField] private TextMeshProUGUI SkillTreeUpgradeNameDisplayArea;
+    [SerializeField] private TextMeshProUGUI SkillTreeUpgradePriceDisplayArea;
+    [SerializeField] private TextMeshProUGUI SkillTreePathDisplayArea;
     [SerializeField] private Image[] skillIconAreas;
     [SerializeField] public GameObject skillTreePathMenu;
     [SerializeField] private Button skillPath1Button;
-    [SerializeField] private Button skillPath2Button;
+    [SerializeField] private Button SkillPath2Button;
+
 
     private void Start()
     {
-        InitalizeSkillIcons();
-
-        InitalizeSkilPath();
-    }
-
-    #region Public Methods
-    public void ResetSkillTreePaths()
-    {
         foreach (var skillIcon in skillIconAreas)
         {
-            skillIcon.gameObject.SetActive(true);
+            var eventTrigger = skillIcon.gameObject.AddComponent<EventTrigger>();
+            var pointerEnter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+            pointerEnter.callback.AddListener((data) => { OnSkillHovered(skillIcon); });
+            eventTrigger.triggers.Add(pointerEnter);
+
+            var pointerExit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
+            pointerExit.callback.AddListener((data) => { OnSkillUnhovered(); });
+            eventTrigger.triggers.Add(pointerExit);
+        }
+
+        var eventTrigger1 = skillPath1Button.gameObject.AddComponent<EventTrigger>();
+        var pointerClick1 = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+        pointerClick1.callback.AddListener((data) => { OnButtonHovered(skillPath1Button); });
+        eventTrigger1.triggers.Add(pointerClick1);
+
+        var eventTrigger2 = SkillPath2Button.gameObject.AddComponent<EventTrigger>();
+        var pointerClick2 = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+        pointerClick2.callback.AddListener((data) => { OnButtonHovered(SkillPath2Button); });
+        eventTrigger2.triggers.Add(pointerClick2);
+
+    }
+
+    private void OnSkillHovered(Image skillIcon)
+    {
+        var skill = GetSkillFromIcon(skillIcon);
+        if (skill != null)
+        {
+            if (skill.IsUnlocked)
+            {
+                SkillTreeUpgradeNameDisplayArea.text = skill.SkillName + " (Unlocked)";
+                SkillTreeDescriptionDisplayArea.text = skill.SkillDescription;
+                SkillTreeUpgradePriceDisplayArea.text = "";
+                return;
+            }
+            SkillTreeUpgradeNameDisplayArea.text = skill.SkillName;
+            SkillTreeDescriptionDisplayArea.text = skill.SkillDescription;
+            SkillTreeUpgradePriceDisplayArea.text = "Cost: " + skill.SkillCost + " Credix";
         }
     }
 
-    public void OnCharacterSelect(HeroStats hero)
+    private void OnButtonHovered(Button button)
     {
-        ResetSkillTreePaths();
-        DisplaySkillTreeName(hero);
-        DisplaySkillIcons(hero);
+        var skillPath = GetSkillPathFromButton(button);
 
-        if (hero.chosenPath == 1)
+        if (skillPath != null)
         {
-            SetSkillIconsActive(5, 7, false);
-        }
-        else if (hero.chosenPath == 2)
-        {
-            SetSkillIconsActive(2, 4, false);
+            SkillTreePathDisplayArea.text = skillPath.SkillPathDescription;
         }
     }
 
-    public void OnSkillPathSelected(int path)
+    private void OnSkillUnhovered()
     {
-        if (path == 1)
+        SkillTreeUpgradeNameDisplayArea.text = "";
+        SkillTreeDescriptionDisplayArea.text = "";
+        SkillTreeUpgradePriceDisplayArea.text = "";
+    }
+
+    private Skill GetSkillFromIcon(Image skillIcon)
+    {
+        int Index = System.Array.IndexOf(skillIconAreas, skillIcon);
+        if (Index >= 0 && Index < GameManager.Instance.Currenthero.heroSkills.Count)
         {
-            SetSkillIconsActive(5, 7, false);
-            GameManager.Instance.Currenthero.chosenPath = 1;
+            return GameManager.Instance.Currenthero.heroSkills[Index];
         }
-        else if (path == 2)
+        return null;
+    }
+
+    private Skill GetSkillPathFromButton(Button button)
+    {
+        if (button == skillPath1Button)
         {
-            SetSkillIconsActive(2, 4, false);
-            GameManager.Instance.Currenthero.chosenPath = 2;
+            return GameManager.Instance.Currenthero.heroSkills.Find(skill => skill.name == "UpgradeA");
         }
-        skillTreePathMenu.SetActive(false);
-        GameManager.Instance.Currenthero.SaveHeroData();
+        else if (button == SkillPath2Button)
+        {
+            return GameManager.Instance.Currenthero.heroSkills.Find(skill => skill.name == "UpgradeB");
+        }
+        return null;
+    }
+
+    public bool UnlockSkill(string skillName, HeroStats hero)
+    {
+        var Skill = hero.heroSkills.Find(skill => skill.SkillName == skillName);
+        if (Skill != null && !Skill.IsUnlocked)
+        {
+            if (Skill.PrequisiteSkill != null && !Skill.PrequisiteSkill.IsUnlocked)
+            {
+                SkillTreeUpgradeNameDisplayArea.text = "";
+                SkillTreeDescriptionDisplayArea.text = "Prerequisite Skill Not Unlocked!";
+                SkillTreeUpgradePriceDisplayArea.text = "";
+                return false;
+            }
+
+            if (hero.credixAmount <= Skill.SkillCost)
+            {
+                SkillTreeUpgradeNameDisplayArea.text = "";
+                SkillTreeDescriptionDisplayArea.text = "Not Enough Credix!";
+                SkillTreeUpgradePriceDisplayArea.text = "";
+                return false;
+            }
+
+            hero.credixAmount -= Skill.SkillCost;
+            Skill.IsUnlocked = true;
+            hero.SaveHeroData();
+            if (Skill.name == "UpgradeA" || Skill.name == "UpgradeB")
+            {
+                Skill UpgradeA = hero.heroSkills.Find(skill => skill.name == "UpgradeA");
+                Skill UpgradeB = hero.heroSkills.Find(skill => skill.name == "UpgradeB");
+                if (UpgradeA.IsUnlocked && UpgradeB.IsUnlocked)
+                {
+                    skillTreePathMenu.SetActive(true);
+                    skillPath1Button.image.sprite = UpgradeA.SkillPathIcon;
+                    SkillPath2Button.image.sprite = UpgradeB.SkillPathIcon;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public void DisplaySkillTreeName(HeroStats hero)
     {
-        skillTreeNameDisplayArea.text = hero.heroName + "'s Skill Tree";
+        SkillTreeNameDisplayArea.text = hero.heroName + "'s Skill Tree";
     }
 
     public void DisplaySkillIcons(HeroStats hero)
@@ -86,138 +163,14 @@ public class SkillTree : MonoBehaviour
 
     public void OnSkillBuy()
     {
-        var skillName = skillTreeUpgradeNameDisplayArea.text;
+        var skillName = SkillTreeUpgradeNameDisplayArea.text;
         if (UnlockSkill(skillName, GameManager.Instance.Currenthero))
         {
-            DisplayMessage("Skill Unlocked!");
+            SkillTreeUpgradeNameDisplayArea.text = "";
+            SkillTreeDescriptionDisplayArea.text = "Sold!";
+            SkillTreeUpgradePriceDisplayArea.text = "";
         }
         UpdateSkillIcons();
-    }
-
-    public bool UnlockSkill(string skillName, HeroStats hero)
-    {
-        var Skill = hero.heroSkills.Find(skill => skill.SkillName == skillName);
-        if (Skill != null && !Skill.IsUnlocked)
-        {
-            if (Skill.PrequisiteSkill != null && !Skill.PrequisiteSkill.IsUnlocked)
-            {
-                DisplayMessage("Prerequisite Skill Not Unlocked!");
-                return false;
-            }
-
-            if (hero.credixAmount <= Skill.SkillCost)
-            {
-                DisplayMessage("Not Enough Credix!");
-                return false;
-            }
-
-            hero.credixAmount -= Skill.SkillCost;
-            Skill.IsUnlocked = true;
-            hero.SaveHeroData();
-            UpdateSkillPathMenu(hero);
-            return true;
-        }
-        return false;
-    }
-
-    #endregion
-
-    #region Event Handlers
-    private void OnSkillHovered(Image skillIcon)
-    {
-        var skill = GetSkillFromIcon(skillIcon);
-        if (skill != null)
-        {
-            skillTreeUpgradeNameDisplayArea.text = skill.SkillName + (skill.IsUnlocked ? " (Unlocked)" : "");
-            skillTreeDescriptionDisplayArea.text = skill.SkillDescription;
-            skillTreeUpgradePriceDisplayArea.text = skill.IsUnlocked ? "" : "Cost: " + skill.SkillCost + " Credix";
-        }
-    }
-
-    private void OnButtonHovered(Button button)
-    {
-        var skillPath = GetSkillPathFromButton(button);
-        if (skillPath != null)
-        {
-            skillTreePathDisplayArea.text = skillPath.SkillPathDescription;
-        }
-    }
-
-    private void OnSkillUnhovered()
-    {
-        skillTreeUpgradeNameDisplayArea.text = "";
-        skillTreeDescriptionDisplayArea.text = "";
-        skillTreeUpgradePriceDisplayArea.text = "";
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    private void InitalizeSkillIcons()
-    {
-        foreach (var skillIcon in skillIconAreas)
-        {
-            AddEventTrigger(skillIcon.gameObject, EventTriggerType.PointerEnter, (data) => { OnSkillHovered(skillIcon); });
-            AddEventTrigger(skillIcon.gameObject, EventTriggerType.PointerExit, (data) => { OnSkillUnhovered(); });
-        }
-    }
-
-    private void InitalizeSkilPath()
-    {
-        AddEventTrigger(skillPath1Button.gameObject, EventTriggerType.PointerEnter, (data) => { OnButtonHovered(skillPath1Button); });
-        AddEventTrigger(skillPath2Button.gameObject, EventTriggerType.PointerEnter, (data) => { OnButtonHovered(skillPath2Button); });
-    }
-
-    private void AddEventTrigger(GameObject gameObject, EventTriggerType eventTriggerType, System.Action<BaseEventData> action)
-    {
-        var eventTrigger = gameObject.AddComponent<EventTrigger>();
-        var pointerClick = new EventTrigger.Entry { eventID = eventTriggerType };
-        pointerClick.callback.AddListener((data) => { action(data); });
-        eventTrigger.triggers.Add(pointerClick);
-    }
-
-    private Skill GetSkillFromIcon(Image skillIcon)
-    {
-       int Index = System.Array.IndexOf(skillIconAreas, skillIcon);
-       if(Index >= 0 && Index < GameManager.Instance.Currenthero.heroSkills.Count)
-       {
-           return GameManager.Instance.Currenthero.heroSkills[Index];
-       }
-       return null;
-    }
-
-    private Skill GetSkillPathFromButton(Button button)
-    {
-        if (button == skillPath1Button)
-        {
-            return GameManager.Instance.Currenthero.heroSkills.Find(skill => skill.SkillName == "UpgradeA");
-        }
-        else if (button == skillPath2Button)
-        {
-            return GameManager.Instance.Currenthero.heroSkills.Find(skill => skill.SkillName == "UpgradeB");
-        }
-        return null;
-    }
-
-    private void DisplayMessage(string message)
-    {
-        skillTreeUpgradeNameDisplayArea.text = "";
-        skillTreeDescriptionDisplayArea.text = message;
-        skillTreeUpgradePriceDisplayArea.text = "";
-    }
-
-    private void UpdateSkillPathMenu(HeroStats hero)
-    {
-        var upgradeA = hero.heroSkills.Find(skill => skill.name == "UpgradeA");
-        var upgradeB = hero.heroSkills.Find(skill => skill.name == "UpgradeB");
-
-        if (upgradeA != null && upgradeB != null && upgradeA.IsUnlocked && upgradeB.IsUnlocked)
-        {
-            skillTreePathMenu.SetActive(true);
-            skillPath1Button.image.sprite = upgradeA.SkillPathIcon;
-            skillPath2Button.image.sprite = upgradeB.SkillPathIcon;
-        }
     }
 
     private void UpdateSkillIcons()
@@ -232,13 +185,56 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    private void SetSkillIconsActive(int start, int end, bool active)
+    public void OnSkillPathSelected(int path)
     {
-        for (int i = start; i <= end; i++)
+        if (path == 1)
         {
-            skillIconAreas[i].gameObject.SetActive(active);
+            for (int i = 5; i <= 7; i++)
+            {
+                skillIconAreas[i].gameObject.SetActive(false);
+            }
+            skillTreePathMenu.SetActive(false);
+            GameManager.Instance.Currenthero.chosenPath = 1;
+        }
+        else if (path == 2)
+        {
+            for (int i = 2; i <= 4; i++)
+            {
+                skillIconAreas[i].gameObject.SetActive(false);
+            }
+            skillTreePathMenu.SetActive(false);
+            GameManager.Instance.Currenthero.chosenPath = 2;
+        }
+        GameManager.Instance.Currenthero.SaveHeroData();
+    }
+
+    public void ResetSkillTreePaths()
+    {
+        for (int i = 0; i < skillIconAreas.Length; i++)
+        {
+            skillIconAreas[i].gameObject.SetActive(true);
         }
     }
 
-    #endregion
+    public void OnCharacterSelect(HeroStats hero)
+    {
+        ResetSkillTreePaths();
+        DisplaySkillTreeName(hero);
+        DisplaySkillIcons(hero);
+
+        if (hero.chosenPath == 1)
+        {
+            for (int i = 5; i <= 7; i++)
+            {
+                skillIconAreas[i].gameObject.SetActive(false);
+            }
+        }
+        else if (hero.chosenPath == 2)
+        {
+            for (int i = 2; i <= 4; i++)
+            {
+                skillIconAreas[i].gameObject.SetActive(false);
+            }
+        }
+    }
 }

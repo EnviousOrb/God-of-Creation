@@ -26,9 +26,16 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public int GetItemCount(Item item) => items.Find(i => i.ItemName == item.ItemName)?.ItemCount ?? 0;
+    public int GetItemCount(Item item)
+    {
+        var foundItem = items.Find(i => i.ItemName == item.ItemName);
+        return foundItem != null ? foundItem.ItemCount : 0;
+    }
 
-    public Item GetItem(string itemName) => items.Find(i => i.ItemName == itemName);
+    public Item GetItem(string itemName)
+    {
+        return items.Find(i => i.ItemName == itemName);
+    }
 
     private Item CreateItem(Item item, int amount)
     {

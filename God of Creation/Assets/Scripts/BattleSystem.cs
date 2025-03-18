@@ -1,4 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,9 +17,14 @@ public enum BattleStates
 }
 public class BattleSystem : MonoBehaviour
 {
+    #region Script Variables
     private BattleStates currentState;
 
+    [SerializeField] GameObject NextMoveContainer;
+
     [SerializeField] HeroUI heroUI;
+
+    [SerializeField] List<Item> itemsToCreate;
 
     private HeroStats hero;
     private NPC opponent;
@@ -29,10 +37,21 @@ public class BattleSystem : MonoBehaviour
 
     private int choice;
     private int cooldown;
-    private int skipTurns;
+    private int playerSkipTurns;
+    private int opponentSkipTurns;
+
+    private int originalHealth;
+    private int originalHeat;
+    private int originalAttack;
+    private int originalDefense;
+    private float originalSpeed;
+
+    private List<Item> generatedItems = new();
 
     public bool IsBattleTextFinished { get { return battleHUD.BattleText.text == string.Empty; } }
+    #endregion
 
+    #region Unity Functions
     void Start()
     {
         InitalizeBattle();
@@ -42,12 +61,121 @@ public class BattleSystem : MonoBehaviour
     {
         UpdateBattleState();
     }
+    #endregion
+
+    #region Public Methods
+    public void OnAttack()
+    {
+        if (currentState != BattleStates.PLAYERCHOICE)
+            return;
+
+        if (battleHUD.InventoryPanel.activeSelf)
+        {
+            battleHUD.InventoryPanel.SetActive(false);
+        }
+
+        TurnOffControls();
+        StartCoroutine(PlayerAttack());
+    }
+
+    public void OnInventory()
+    {
+        if (currentState != BattleStates.PLAYERCHOICE)
+            return;
+
+        battleHUD.ToggleInventory();
+    }
+
+    public void UseItem(Item item)
+    {
+        if (item.ItemCount <= 0)
+            return;
+
+        if (item.ApplyEffect == null)
+            return;
+
+        if(generatedItems.Contains(item))
+        {
+            generatedItems.Remove(item);
+        }
+
+        item.ApplyEffect(hero);
+        hero.inventory.RemoveItem(item);
+        battleHUD.UpdateBattleUI(hero, opponent);
+        LoadInventory();
+        battleHUD.InventoryPanel.SetActive(false);
+
+        StartCoroutine(TypeText(hero.heroName + " Used a " + item.ItemName + "!"));
+        currentState = BattleStates.OPPONENTCHOICE;
+        OpponentTurn();
+    }
+
+    public void OnSpecial()
+    {
+        if (currentState != BattleStates.PLAYERCHOICE)
+            return;
+
+        if (hero.currentHeat < hero.maxHeat)
+        {
+            battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
+            StartCoroutine(TypeText("Gotta build up more heat first..."));
+            battleHUD.BattleText.colorGradientPreset = null;
+            return;
+        }
+
+        if (battleHUD.InventoryPanel.activeSelf)
+        {
+            battleHUD.InventoryPanel.SetActive(false);
+        }
+
+        TurnOffControls();
+        StartCoroutine(PlayerSpecial());
+    }
+
+    public void OnRun()
+    {
+        if (currentState != BattleStates.PLAYERCHOICE)
+            return;
+
+        if (battleHUD.InventoryPanel.activeSelf)
+        {
+            battleHUD.InventoryPanel.SetActive(false);
+        }
+
+        TurnOffControls();
+
+        if (hero.speed >= opponent.opponentSpeed)
+        {
+            StartCoroutine(TypeText("You got away safely!"));
+            StartCoroutine(EndingToBattleSequence());
+        }
+
+        else
+        {
+            StartCoroutine(TypeText("You couldn't get away!"));
+            currentState = BattleStates.OPPONENTCHOICE;
+            OpponentTurn();
+        }
+    }
+    #endregion
+
+    #region Private Methods
+    private string GetOpponentNextMove()
+    {
+        return choice == 0 ? "Attack" : "Heal";
+    }
 
     private void InitalizeBattle()
     {
         hero = GameManager.Instance.Currenthero;
         opponent = GameManager.Instance.CurrentOpponent;
         battleHUD = FindObjectsByType<BattleHUD>(FindObjectsSortMode.None)[0];
+
+        originalHealth = hero.maxHealth;
+        originalHeat = hero.maxHeat;
+        originalAttack = hero.attack;
+        originalDefense = hero.defense;
+        originalSpeed = hero.speed;
 
         battleHUD.SetBattleUI(hero, opponent);
         currentState = BattleStates.START;
@@ -115,48 +243,95 @@ public class BattleSystem : MonoBehaviour
     //YandereDev-like code, don't touch
     private void LoadItemEffects()
     {
-            foreach (var item in hero.inventory.items)
+        foreach (var item in hero.inventory.items)
+        {
+            switch (item.ItemName)
             {
-                switch (item.ItemName)
-                {
-                    case "Chibi-Bean© Ms.Slime Bandage":
-                        item.ApplyEffect = (hero) => { hero.currentHealth += 3; };
-                        break;
-                    case "Captain Spark's \"All-In-One\" Buffet Stew":
-                        item.ApplyEffect = (hero) => { GameManager.Instance.heroParty.ForEach(hero => hero.currentHealth = hero.maxHealth); };
-                        break;
-                    case "Chibi-Bean© \"Friends Forever!\" Care Package":
-                        item.ApplyEffect = (hero) => { hero.currentHealth = hero.maxHealth; skipTurns = 1; };
-                        break;
-                    case "First-Aid Kit":
-                        item.ApplyEffect = (hero) => { hero.currentHealth = hero.maxHealth / 2; };
-                        break;
-                    case "SOMA© XJ9-Runman":
-                        item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, hero.maxHeat / 2, true); };
-                        break;
-                    case "SOMA© XJ9-Runman Pro Max":
-                        item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, hero.maxHeat, true); };
-                        break;
-                    case "Revitanix":
-                        item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 3, false); };
-                        break;
-                    case "Revitanix X":
-                        item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 9, false); };
+                case "Chibi-Bean© Ms.Slime Bandage":
+                    item.ApplyEffect = (hero) => { hero.currentHealth += 3; };
                     break;
-                    case "Revitanix MAX":
-                        item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 21, false); };
+                case "Captain Spark's \"All-In-One\" Buffet Stew":
+                    item.ApplyEffect = (hero) => { GameManager.Instance.heroParty.ForEach(hero => hero.currentHealth = hero.maxHealth); };
                     break;
-                    case "Staminfuel":
-                        item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 3, false); ApplyHeatEffect(hero, 3, false); };
+                case "Chibi-Bean© \"Friends Forever!\" Care Package":
+                    item.ApplyEffect = (hero) => { hero.currentHealth = hero.maxHealth; playerSkipTurns += 1; };
                     break;
-                    case "Staminfuel X":
-                        item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 9, false); ApplyHeatEffect(hero, 9, false); };
+                case "First-Aid Kit":
+                    item.ApplyEffect = (hero) => { hero.currentHealth = hero.maxHealth / 2; };
                     break;
-                    case "Staminfuel MAX":
-                        item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 21, false); ApplyHeatEffect(hero, 21, false); };
+                case "SOMA© XJ9-Runman":
+                    item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, hero.maxHeat / 2, true); };
                     break;
-                }
+                case "SOMA© XJ9-Runman Pro Max":
+                    item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, hero.maxHeat, true); };
+                    break;
+                case "Revitanix":
+                    item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 3, false); };
+                    break;
+                case "Revitanix X":
+                    item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 9, false); };
+                break;
+                case "Revitanix MAX":
+                    item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 21, false); };
+                break;
+                case "Staminfuel":
+                    item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 3, false); ApplyHeatEffect(hero, 3, false); };
+                break;
+                case "Staminfuel X":
+                    item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 9, false); ApplyHeatEffect(hero, 9, false); };
+                break;
+                case "Staminfuel MAX":
+                    item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 21, false); ApplyHeatEffect(hero, 21, false); };
+                break;
             }
+        }
+    }
+
+    private void LoadRandomItemEffects()
+    {
+        foreach (var item in hero.inventory.items)
+        {
+            switch (item.ItemName)
+            {
+                case "Fireworks":
+                    item.ApplyEffect = (hero) => 
+                    { 
+                        int chance = UnityEngine.Random.Range(0, 100);
+                        if(chance > 50)
+                        {
+                            opponentSkipTurns += 1;
+                        }
+                    };
+                    break;
+                case "Bucket of Lava":
+                    item.ApplyEffect = (hero) => { opponent.currentHealth = UnityEngine.Random.Range(opponent.currentHealth / 3, opponent.currentHealth / 2); };
+                    break;
+                case "Minecart":
+                    item.ApplyEffect = (hero) => 
+                    {
+                        int chance = UnityEngine.Random.Range(0, 100);
+                        if (chance > 50)
+                        {
+                            StartCoroutine(EndingToBattleSequence());
+                        }
+                        else
+                        {
+                            opponent.currentHealth = opponent.currentHealth / 2;
+                        }
+                    };
+                    break;
+                case "TNT":
+                    item.ApplyEffect = (hero) => 
+                    { 
+                        hero.currentHealth = Random.Range(2, hero.currentHealth / 2);
+                        opponent.currentHealth = Random.Range(2, opponent.currentHealth / 2);
+                    };
+                    break;
+                case "Potion of Healing":
+                    item.ApplyEffect = (hero) => { hero.currentHealth = Random.Range(2, hero.currentHealth / 3); };
+                    break;
+            }
+        }
     }
 
     private void ApplyHeatEffect(HeroStats hero, int heatAmount, bool isParty)
@@ -247,11 +422,31 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    private void GenerateRandomItem()
+    {
+        if (itemsToCreate.Count > 0)
+        {
+            var mcSkill = hero.heroSkills.Find(skill => skill.SkillName == "Mastery Craftsmanship");
+            if (mcSkill != null && mcSkill.IsUnlocked)
+            {
+                int randomItemIndex = UnityEngine.Random.Range(1, itemsToCreate.Count-1);
+                hero.inventory.AddItem(itemsToCreate[randomItemIndex], 1);
+                generatedItems.Add(itemsToCreate[randomItemIndex]);
+            }
+            else
+            {
+                int randomItemIndex = UnityEngine.Random.Range(1, itemsToCreate.Count-2);
+                hero.inventory.AddItem(itemsToCreate[randomItemIndex], 1);
+                generatedItems.Add(itemsToCreate[randomItemIndex]);
+            }
+        }
+    }
+
     void PlayerTurn()
     {
-        if (skipTurns > 0)
+        if (playerSkipTurns > 0)
         {
-            skipTurns--;
+            playerSkipTurns--;
             currentState = BattleStates.OPPONENTCHOICE;
             OpponentTurn();
             return;
@@ -266,8 +461,23 @@ public class BattleSystem : MonoBehaviour
         var smSkill = hero.heroSkills.Find(skill => skill.SkillName == "Scientfic Method");
         if (smSkill != null && smSkill.IsUnlocked)
         {
-            battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
-            StartCoroutine(TypeText("The Opponent's next move is: " + GetOpponentNextMove()));
+            NextMoveContainer.SetActive(true);
+            NextMoveContainer.GetComponentInChildren<TextMeshProUGUI>().colorGradientPreset = hero.heroTextColor;
+            NextMoveContainer.GetComponentInChildren<TextMeshProUGUI>().text = "Their next move is... " + GetOpponentNextMove();
+        }
+
+        var bsSkill = hero.heroSkills.Find(skill => skill.SkillName == "Built-in Brewing Station");
+        if (bsSkill != null && bsSkill.IsUnlocked)
+        {
+            hero.inventory.AddItem(itemsToCreate[0], 1);
+        }
+
+        var cSkill = hero.heroSkills.Find(skill => skill.SkillName == "Craftsmanship");
+        if (cSkill != null && cSkill.IsUnlocked)
+        {
+            GenerateRandomItem();
+            LoadRandomItemEffects();
+            LoadInventory();
         }
 
         GameManager.Instance.Currenthero.SaveHeroData();
@@ -284,7 +494,16 @@ public class BattleSystem : MonoBehaviour
 
     void OpponentTurn()
     {
+        if (opponentSkipTurns > 0)
+        {
+            opponentSkipTurns--;
+            currentState = BattleStates.PLAYERCHOICE;
+            PlayerTurn();
+            return;
+        }
+
         battleHUD.BattleText.colorGradientPreset = null;
+        NextMoveContainer.GetComponentInChildren<TextMeshProUGUI>().text = string.Empty;
         TurnOffControls();
         StartCoroutine(TypeText("Opponent's turn..."));
 
@@ -332,6 +551,14 @@ public class BattleSystem : MonoBehaviour
     void EndBattle()
     {
         TurnOffControls();
+
+        if (generatedItems.Count > 0)
+        {
+            foreach (var item in generatedItems)
+            {
+                hero.inventory.RemoveItem(item);
+            }
+        }
 
         if (currentState == BattleStates.WIN)
             WinState();
@@ -462,99 +689,6 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private string GetOpponentNextMove()
-    {
-        return choice == 0 ? "Attack" : "Heal";
-    }
-
-    public void OnAttack()
-    {
-        if (currentState != BattleStates.PLAYERCHOICE)
-            return;
-
-        if (battleHUD.InventoryPanel.activeSelf)
-        {
-            battleHUD.InventoryPanel.SetActive(false);
-        }
-
-        TurnOffControls();
-        StartCoroutine(PlayerAttack());
-    }
-
-    public void OnInventory()
-    {
-        if (currentState != BattleStates.PLAYERCHOICE)
-            return;
-
-        battleHUD.ToggleInventory();
-    }
-
-    public void UseItem(Item item)
-    {
-        if(item.ItemCount <= 0)
-            return;
-
-        item.ApplyEffect(hero);
-        hero.inventory.RemoveItem(item);
-        battleHUD.UpdateBattleUI(hero, opponent);
-        LoadInventory();
-        battleHUD.InventoryPanel.SetActive(false);
-        print("Used " + item.ItemName);
-        print(item.ItemCount);
-
-        StartCoroutine(TypeText(hero.heroName + " Used a " + item.ItemName + "!"));
-        currentState = BattleStates.OPPONENTCHOICE;
-        OpponentTurn();
-    }
-
-    public void OnSpecial()
-    {
-        if (currentState != BattleStates.PLAYERCHOICE)
-            return;
-
-        if (hero.currentHeat < hero.maxHeat)
-        {
-            battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
-            StartCoroutine(TypeText("Gotta build up more heat first..."));
-            battleHUD.BattleText.colorGradientPreset = null;
-            return;
-        }
-
-        if(battleHUD.InventoryPanel.activeSelf)
-        {
-            battleHUD.InventoryPanel.SetActive(false);
-        }
-
-        TurnOffControls();
-        StartCoroutine(PlayerSpecial());
-    }
-
-    public void OnRun()
-    {
-        if (currentState != BattleStates.PLAYERCHOICE)
-            return;
-
-        if (battleHUD.InventoryPanel.activeSelf)
-        {
-            battleHUD.InventoryPanel.SetActive(false);
-        }
-
-        TurnOffControls();
-
-        if (hero.speed >= opponent.opponentSpeed)
-        {
-            StartCoroutine(TypeText("You got away safely!"));
-            StartCoroutine(EndingToBattleSequence());
-        }
-
-        else
-        {
-            StartCoroutine(TypeText("You couldn't get away!"));
-            currentState = BattleStates.OPPONENTCHOICE;
-            OpponentTurn();
-        }
-    }
-
     void TurnOffControls()
     {
         foreach (var button in battleHUD.playerChoices)
@@ -575,8 +709,14 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         StopCoroutine(textCoroutine);
+        hero.maxHealth = originalHealth;
+        hero.maxHeat = originalHeat;
+        hero.attack = originalAttack;
+        hero.defense = originalDefense;
+        hero.speed = originalSpeed;
         GameManager.Instance.CurrentOpponent = null;
         GameManager.Instance.Currenthero.SaveHeroData();
         SceneManager.LoadScene("DevScene");
     }
+    #endregion
 }

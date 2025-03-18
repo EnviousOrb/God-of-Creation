@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: UpgradeBB
   m_EditorClassIdentifier: 
   SkillName: Craftsmanship
-  SkillDescription: A technique origininating from Dr.Creeper's homeworld, allows
-    him an oppertunity to craft a random item for his inventory
+  SkillDescription: A technique originating from Dr.Creeper's homeworld, allows him
+    an oppertunity to craft a random item for his inventory
   PrequisiteSkill: {fileID: 11400000, guid: 108b617d89ac2fa42a24623e6875cce5, type: 2}
   SkillCost: 800
   SkillIcon: {fileID: -6854162823769991456, guid: b2c6fc91783eabd4db2bce95f4ca8ede, type: 3}

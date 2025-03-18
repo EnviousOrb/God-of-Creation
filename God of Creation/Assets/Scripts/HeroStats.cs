@@ -21,6 +21,7 @@ public class HeroStats : MonoBehaviour
     private float dodgeChance; //The chance the hero has to dodge an attack
     [HideInInspector] public int credixAmount; //The amount of credix the hero has
     [HideInInspector] public Inventory inventory; //The inventory of the hero
+    public int HeroID;
 
     [Header("Hero XP")]
     public int xpToLevel; //The amount of XP needed to level up the hero
@@ -108,12 +109,18 @@ public class HeroStats : MonoBehaviour
     {
         // Add the amount of XP to the hero and check if they need to level up
         currentXP += amount;
-        if (currentXP >= xpToLevel)
+        while (currentXP >= xpToLevel)
         {
-            if(Level < 25)
+            if (Level < 25)
+            {
+                currentXP -= xpToLevel;
                 LevelUp();
+            }
             else
+            {
                 currentXP = xpToLevel;
+                break;
+            }
         }
     }
 
@@ -143,12 +150,16 @@ public class HeroStats : MonoBehaviour
     {
         // Save the data to a file
         using StreamWriter writer = new(GetFilePath(), false);
+        
+        // Hero Information
         writer.WriteLine(heroName);
         writer.WriteLine(heroBio);
         writer.WriteLine(heroSpecialAttackText);
-        writer.WriteLine(string.Join(", ", heroSkills.Where(skill => skill.IsUnlocked).Select(skill => skill.SkillName).ToArray()));
-        writer.WriteLine(maxHealth);
+        writer.WriteLine(HeroID);
+
+        //Hero stats
         writer.WriteLine(Level);
+        writer.WriteLine(maxHealth);
         writer.WriteLine(maxHeat);
         writer.WriteLine(attack);
         writer.WriteLine(defense);
@@ -160,9 +171,16 @@ public class HeroStats : MonoBehaviour
         writer.WriteLine(xpToLevel);
         writer.WriteLine(chosenPath);
 
-        foreach (var item in inventory.items)
+        // Hero Skills
+        writer.WriteLine(string.Join(", ", heroSkills.Where(skill => skill.IsUnlocked).Select(skill => skill.SkillName).ToArray()));
+
+        // Inventory
+        if (inventory)
         {
-            writer.WriteLine($"{item.ItemName}:{item.ItemCount}:{item.PictureID}");
+            foreach (var item in inventory.items)
+            {
+                writer.WriteLine($"{item.ItemName}:{item.ItemCount}:{item.PictureID}");
+            }
         }
     }
 
@@ -173,20 +191,16 @@ public class HeroStats : MonoBehaviour
         if (File.Exists(path))
         {
             using StreamReader reader = new(path);
+
+            //Hero Information
             heroName = reader.ReadLine();
             heroBio = reader.ReadLine();
             heroSpecialAttackText = reader.ReadLine();
-            string unlockedSkills = reader.ReadLine();
-            if (!string.IsNullOrEmpty(unlockedSkills))
-                heroSkills.Where(skill => unlockedSkills.Contains(skill.SkillName)).ToList().ForEach(skill => skill.IsUnlocked = true);
-            else
-                foreach (Skill skill in heroSkills)
-                    skill.IsUnlocked = false;
+            HeroID = int.Parse(reader.ReadLine());
 
-            LoadHeroSKills();
-
-            maxHealth = int.Parse(reader.ReadLine());
+            //Hero stats
             Level = int.Parse(reader.ReadLine());
+            maxHealth = int.Parse(reader.ReadLine());
             maxHeat = int.Parse(reader.ReadLine());
             attack = int.Parse(reader.ReadLine());
             defense = int.Parse(reader.ReadLine());
@@ -198,6 +212,16 @@ public class HeroStats : MonoBehaviour
             xpToLevel = int.Parse(reader.ReadLine());
             chosenPath = int.Parse(reader.ReadLine());
 
+            //Hero Skills
+            string unlockedSkills = reader.ReadLine();
+            if (!string.IsNullOrEmpty(unlockedSkills))
+                heroSkills.Where(skill => unlockedSkills.Contains(skill.SkillName)).ToList().ForEach(skill => skill.IsUnlocked = true);
+            else
+                foreach (Skill skill in heroSkills)
+                    skill.IsUnlocked = false;
+            LoadHeroSKills();
+
+            //Inventory
             LoadInventory(reader);
         }
         else
@@ -225,10 +249,7 @@ public class HeroStats : MonoBehaviour
 
     private void LoadInventory(StreamReader reader)
     {
-        if (inventory.items == null)
-            inventory.items = new List<Item>();
-        else
-            inventory.items.Clear();
+        inventory.items.Clear();
 
         while (!reader.EndOfStream)
         {
@@ -268,13 +289,12 @@ public class HeroStats : MonoBehaviour
     {
         // Increase the level of the hero and adjust the stats accordingly
         Level++;
-        currentXP = 0;
         xpToLevel = 100 * Level;
         credixAmount += 100;
         maxHealth += 10;
         attack += 5;
         defense += 5;
-        speed += 2;
+        speed += 5;
         maxHeat += 10;
         currentHealth = maxHealth;
         SaveHeroData();

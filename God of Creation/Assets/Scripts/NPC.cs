@@ -34,17 +34,13 @@ public class NPC : MonoBehaviour
 
     [HideInInspector] public int currentHealth;
 
-    void Awake()
-    {
-    }
-
     private void Start()
     {
         if(GameManager.Instance != null)
         {
             if (GameManager.Instance.IsOpponentDefeated(this))
             {
-               Destroy(gameObject);
+               //Destroy(gameObject);
             }
         }
     }

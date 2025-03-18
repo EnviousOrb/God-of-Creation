@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
   m_Name: UpgradeBC
   m_EditorClassIdentifier: 
-  SkillName: Mastery Craftsmenship
+  SkillName: Mastery Craftsmanship
   SkillDescription: Refinement of his crafting skills allows Dr.Creeper to create
     more effective items to use
   PrequisiteSkill: {fileID: 11400000, guid: 5746ba7d1c3034945b8339c5e1d41041, type: 2}
@@ -20,4 +20,4 @@ MonoBehaviour:
   SkillIcon: {fileID: 5451585748897048628, guid: 3e847f1e3ec2ee54ea2e1b06e64d085e, type: 3}
   SkillPathIcon: {fileID: 0}
   SkillPathDescription: 
-  IsUnlocked: 0
+  IsUnlocked: 1

@@ -40,7 +40,7 @@ public class NPC : MonoBehaviour
         {
             if (GameManager.Instance.IsOpponentDefeated(this))
             {
-               //Destroy(gameObject);
+               Destroy(gameObject);
             }
         }
     }

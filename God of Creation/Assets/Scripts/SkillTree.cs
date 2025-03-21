@@ -11,13 +11,15 @@ public class SkillTree : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SkillTreeUpgradePriceDisplayArea;
     [SerializeField] private TextMeshProUGUI SkillTreePathDisplayArea;
     [SerializeField] private Image[] skillIconAreas;
-    [SerializeField] public GameObject skillTreePathMenu;
+    public GameObject skillTreePathMenu;
+    public GameObject closeButton;
     [SerializeField] private Button skillPath1Button;
     [SerializeField] private Button SkillPath2Button;
-
+    [SerializeField] private Button SoulButton;
 
     private void Start()
     {
+        
         foreach (var skillIcon in skillIconAreas)
         {
             var eventTrigger = skillIcon.gameObject.AddComponent<EventTrigger>();
@@ -40,6 +42,10 @@ public class SkillTree : MonoBehaviour
         pointerClick2.callback.AddListener((data) => { OnButtonHovered(SkillPath2Button); });
         eventTrigger2.triggers.Add(pointerClick2);
 
+        var eventTrigger3 = SoulButton.gameObject.AddComponent<EventTrigger>();
+        var pointerClick3 = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+        pointerClick3.callback.AddListener((data) => { OnSoulButtonHovered(); });
+        eventTrigger3.triggers.Add(pointerClick3);
     }
 
     private void OnSkillHovered(Image skillIcon)
@@ -47,6 +53,7 @@ public class SkillTree : MonoBehaviour
         var skill = GetSkillFromIcon(skillIcon);
         if (skill != null)
         {
+            SkillTreeDescriptionDisplayArea.colorGradientPreset = null;
             if (skill.IsUnlocked)
             {
                 SkillTreeUpgradeNameDisplayArea.text = skill.SkillName + " (Unlocked)";
@@ -67,6 +74,24 @@ public class SkillTree : MonoBehaviour
         if (skillPath != null)
         {
             SkillTreePathDisplayArea.text = skillPath.SkillPathDescription;
+        }
+    }
+
+    private void OnSoulButtonHovered()
+    {
+        if (GameManager.Instance.Currenthero.isSoulSkillFound)
+        {
+            SkillTreeUpgradeNameDisplayArea.text = GameManager.Instance.Currenthero.soulSkill.SkillName;
+            SkillTreeDescriptionDisplayArea.colorGradientPreset = GameManager.Instance.Currenthero.heroTextColor;
+            SkillTreeDescriptionDisplayArea.text = GameManager.Instance.Currenthero.soulSkill.SkillDescription;
+            SkillTreeUpgradePriceDisplayArea.text = "";
+        }
+        else
+        {
+            SkillTreeUpgradeNameDisplayArea.text = GameManager.Instance.Currenthero.heroName + "'s Soul Skill";
+            SkillTreeDescriptionDisplayArea.colorGradientPreset = null;
+            SkillTreeDescriptionDisplayArea.text = GameManager.Instance.Currenthero.soulSkill.SkillPathDescription;
+            SkillTreeUpgradePriceDisplayArea.text = "";
         }
     }
 
@@ -173,6 +198,21 @@ public class SkillTree : MonoBehaviour
         UpdateSkillIcons();
     }
 
+    public void OnSoulClick()
+    {
+        if(GameManager.Instance.Currenthero.isSoulSkillFound)
+        {
+            GameManager.Instance.Currenthero.soulInfo.SetActive(true);
+            closeButton.SetActive(true);
+        }
+    }
+
+    public void OnCloseClick()
+    {
+        GameManager.Instance.Currenthero.soulInfo.SetActive(false);
+        closeButton.SetActive(false);
+    }
+
     private void UpdateSkillIcons()
     {
         foreach (var skillIcon in skillIconAreas)
@@ -236,5 +276,10 @@ public class SkillTree : MonoBehaviour
                 skillIconAreas[i].gameObject.SetActive(false);
             }
         }
+    }
+    public void UpdateSoulButton(HeroStats currenthero)
+    {
+        if (currenthero.isSoulSkillFound)
+            SoulButton.GetComponent<Image>().sprite = currenthero.soulSkill.SkillIcon;
     }
 }

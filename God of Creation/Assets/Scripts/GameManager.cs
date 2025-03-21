@@ -13,9 +13,7 @@ public class GameManager : MonoBehaviour
 
     public List<HeroStats> heroParty = new();
 
-    private HeroStats heroInScene;
-
-    [HideInInspector] public int heroIDtoFind;
+    private HeroUI heroUI;
 
     private void Awake()
     {
@@ -23,8 +21,10 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            Currenthero = heroParty[0];
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            Currenthero = FindAnyObjectByType<HeroStats>();
+            if (heroParty.Find(hero => hero.heroName == Currenthero.heroName) == null)
+                heroParty.Add(Currenthero);
+            heroUI = FindAnyObjectByType<HeroUI>();
         }
         else
         {
@@ -32,27 +32,53 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void Start()
     {
-        if(SceneManager.GetActiveScene().name == "DevScene")
-        {
-            heroInScene = FindAnyObjectByType<HeroStats>();
-            if (heroInScene != null)
-            {
-                Currenthero = heroInScene;
-            }
-            else
-            {
-                heroInScene = heroParty.Find(hero => hero.HeroID == heroIDtoFind);
-                Instantiate(heroInScene);
-                Currenthero = heroInScene;
-            }
-        }
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!Currenthero)
+        {
+            Debug.LogError("Current hero is not set!");
+            return;
+        }
+
+        HeroStats[] heroesInScene = FindObjectsByType<HeroStats>(FindObjectsSortMode.None);
+        if (heroesInScene.Length == 0)
+        {
+            GameObject heroPrefab = Resources.Load<GameObject>($"HeroPrefabs/{Currenthero.heroName}");
+            if (heroPrefab)
+            {
+                GameObject heroInstance = Instantiate(heroPrefab);
+                heroInstance.name = Currenthero.heroName;
+                Currenthero = heroInstance.GetComponent<HeroStats>();
+                AddHeroToParty(heroInstance.GetComponent<HeroStats>());
+            }
+            else
+            {
+                Debug.LogError($"Hero with name {Currenthero.heroName} not found!");
+            }
+        }
+        else
+        {
+            foreach (var hero in heroesInScene)
+            {
+               if(hero.heroName == Currenthero.heroName)
+                {
+                    Currenthero = hero;
+                    Currenthero.gameObject.SetActive(true);
+                    break;
+                }
+            }
+        }
+
     }
 
     public void MarkOpponentAsDefeated(NPC opponent)
@@ -85,5 +111,42 @@ public class GameManager : MonoBehaviour
     public void SetCurrentHero(string heroName)
     {
         Currenthero = GetHeroFromParty(heroName);
+    }
+
+    public void OnSwapHero(string HeroName)
+    {
+        HeroStats hero = GetHeroFromParty(HeroName);
+        if (!hero)
+        {
+            GameObject heroPrefab = Resources.Load<GameObject>($"HeroPrefabs/{HeroName}");
+            if (heroPrefab)
+            {
+                GameObject heroInstance = Instantiate(heroPrefab);
+                heroInstance.name = HeroName;
+                hero = heroInstance.GetComponent<HeroStats>();
+                AddHeroToParty(hero);
+            }
+            else
+            {
+                Debug.LogError($"Hero with name {HeroName} not found!");
+                return;
+            }
+        }
+
+        if(Currenthero)
+            Currenthero.gameObject.SetActive(false);
+
+        hero.gameObject.SetActive(true);
+
+        Currenthero = hero;
+        Currenthero.LoadHeroData();
+
+        if (hero.gameObject.scene.name != SceneManager.GetActiveScene().name)
+        {
+            SceneManager.LoadScene(hero.gameObject.scene.name);
+        }
+
+        if(heroUI)
+            heroUI.UpdateOverworldUI(Currenthero);
     }
 }

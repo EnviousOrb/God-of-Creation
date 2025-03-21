@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class HeroStats : MonoBehaviour
@@ -22,6 +23,7 @@ public class HeroStats : MonoBehaviour
     [HideInInspector] public int credixAmount; //The amount of credix the hero has
     [HideInInspector] public Inventory inventory; //The inventory of the hero
     public int HeroID;
+    public bool isSoulSkillFound;
 
     [Header("Hero XP")]
     public int xpToLevel; //The amount of XP needed to level up the hero
@@ -36,7 +38,7 @@ public class HeroStats : MonoBehaviour
     public GameObject specialAttack; //This is the sprite seen on the battle UI, used to show the special attack of the hero
     public GameObject normalAttack; //This is the sprite seen on the battle UI, used to show the normal attack of the hero
     public GameObject heal; //This is the sprite seen on the battle UI, used to show the healing of the hero
-
+    public GameObject soulInfo; //This is the sprite seen on the skill Tree, used to show how the soul skill of the hero works
     [Header("Hero Color")]
     public TMP_ColorGradient heroTextColor; //The color of the hero's dialog text
 
@@ -44,12 +46,14 @@ public class HeroStats : MonoBehaviour
     public string heroOpeningDialog; //This is the opening dialog of the hero
     public string heroVictoryDialog; //This is the victory dialog of the hero
     public string heroDefeatDialog; //This is the defeat dialog of the hero
+    public string heroGenericDialog; //This is the generic dialog of the hero
 
     [HideInInspector] public int currentHealth; //This is the current health of the hero
     [HideInInspector] public int currentHeat; //This is the current heat of the hero
 
     [Header("Hero Skills")]
     public List<Skill> heroSkills; //This is the list of skills the hero has
+    public Skill soulSkill; //This is the soul skill of the hero
     [HideInInspector] public int chosenPath; //This is the path the hero has chosen
 
     [Header("Hero Audio")]
@@ -57,6 +61,16 @@ public class HeroStats : MonoBehaviour
     public AudioClip heroSpecialAttackSound; //This is the sound that plays when the hero uses their special attack
     public AudioClip heroNormalAttackSound; //This is the sound that plays when the hero uses their normal attack
     public AudioClip heroHealSound; //This is the sound that plays when the hero heals
+
+    [Header("Hero Upgraded Look")]
+    [SerializeField] private Sprite upgradedHeroLook; //This is the sprite seen on the overworld, used to show the upgraded look of the hero
+    [SerializeField] private Sprite upgradedIcon; //This is the sprite seen during dialog, overworld, and the main UI
+    [SerializeField] private Sprite upgradedBattleIcon; //This is the sprite seen during battle
+    [SerializeField] private Sprite upgradedStatsIcon; //This is the sprite seen on the stats screen
+    [SerializeField] private GameObject upgradedSpecialAttack; //This is the sprite seen on the battle UI, used to show the special attack of the hero
+    [SerializeField] private GameObject upgradedNormalAttack; //This is the sprite seen on the battle UI, used to show the normal attack of the hero
+    [SerializeField] private AnimatorOverrideController upgradedAnimator; //This is the animator controller used for the upgraded look of the hero
+    private bool isUpgraded;
 
     private MenuManager menuManager;
     #endregion
@@ -124,6 +138,15 @@ public class HeroStats : MonoBehaviour
         }
     }
 
+    public void UpgradeHero()
+    {
+        if (isSoulSkillFound)
+        {
+            isUpgraded = true;
+            LoadUpgradedHeroLook();
+        }
+    }
+
     public bool DoesOpponentFlee(NPC Opponent)
     {
         var acSkill = heroSkills.Find(skill => skill.SkillName == "Apex Creationist");
@@ -170,6 +193,8 @@ public class HeroStats : MonoBehaviour
         writer.WriteLine(currentXP);
         writer.WriteLine(xpToLevel);
         writer.WriteLine(chosenPath);
+        writer.WriteLine(isSoulSkillFound);
+        writer.WriteLine(isUpgraded);
 
         // Hero Skills
         writer.WriteLine(string.Join(", ", heroSkills.Where(skill => skill.IsUnlocked).Select(skill => skill.SkillName).ToArray()));
@@ -211,6 +236,11 @@ public class HeroStats : MonoBehaviour
             currentXP = int.Parse(reader.ReadLine());
             xpToLevel = int.Parse(reader.ReadLine());
             chosenPath = int.Parse(reader.ReadLine());
+            isSoulSkillFound = bool.Parse(reader.ReadLine());
+            isUpgraded = bool.Parse(reader.ReadLine());
+
+            if (isUpgraded)
+                LoadUpgradedHeroLook();
 
             //Hero Skills
             string unlockedSkills = reader.ReadLine();
@@ -249,6 +279,8 @@ public class HeroStats : MonoBehaviour
 
     private void LoadInventory(StreamReader reader)
     {
+        if(inventory == null)
+            return;
         inventory.items.Clear();
 
         while (!reader.EndOfStream)
@@ -268,6 +300,17 @@ public class HeroStats : MonoBehaviour
                 inventory.items.Add(item);
             }
         }
+    }
+
+    private void LoadUpgradedHeroLook()
+    {
+        GetComponent<SpriteRenderer>().sprite = upgradedHeroLook;
+        GetComponent<Animator>().runtimeAnimatorController = upgradedAnimator;
+        heroIcon = upgradedIcon;
+        battleIcon = upgradedBattleIcon;
+        StatsIcon = upgradedStatsIcon;
+        specialAttack = upgradedSpecialAttack;
+        normalAttack = upgradedNormalAttack;
     }
 
     private void InitalizeHeroSkills()
@@ -516,6 +559,7 @@ public class HeroData
     public int currentXP;
     public int xpToLevel;
     public int chosenPath;
+    public bool isSoulSkillFound;
 }
 
 [System.Serializable]

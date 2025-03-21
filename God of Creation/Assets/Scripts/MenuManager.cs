@@ -95,6 +95,7 @@ public class MenuManager : MonoBehaviour
         OpenMenu(skillTreeMenu);
         skillTree.DisplaySkillTreeName(GameManager.Instance.Currenthero);
         skillTree.DisplaySkillIcons(GameManager.Instance.Currenthero);
+        skillTree.UpdateSoulButton(GameManager.Instance.Currenthero);
     }
 
     public void OnSettingsButton()

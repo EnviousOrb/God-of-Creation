@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bb33ee671ece42955223bd640810b, type: 3}
+  m_Name: UpgradeS
+  m_EditorClassIdentifier: 
+  SkillName: '"The Beast of Minecraftia"'
+  SkillDescription: '"Instead of focusing on what-ifs, I need to focus on what I
+    can do today! That''s what my Lord would''ve wanted..."'
+  PrequisiteSkill: {fileID: 0}
+  SkillCost: 0
+  SkillIcon: {fileID: 7010591187967277998, guid: ef383402c3cdc8f48a71187675ec5f69, type: 3}
+  SkillPathIcon: {fileID: 0}
+  SkillPathDescription: '"This soul skill can be found in the remnants of Dr.Creeper''s
+    old laboratory."'
+  IsUnlocked: 0

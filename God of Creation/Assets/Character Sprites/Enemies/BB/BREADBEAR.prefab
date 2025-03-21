@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403b4a13aa0c976e8be7ff8e3c5143c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DialogBox: {fileID: 0}
   npcIcon: {fileID: -9166711725095059109, guid: 69a8c0aa9e5388c4ab7c88ef2a76b337, type: 3}
   npcName: BREADBEAR
   npcTextColor: {fileID: 11400000, guid: fd5264b8a87afba468bf83b745da2f9e, type: 2}
@@ -79,6 +80,8 @@ MonoBehaviour:
   opponentDamage: 100
   opponentSpeed: 100
   opponentDefense: 100
+  opponentAttackSound: {fileID: 0}
+  opponentHealSound: {fileID: 0}
   currentHealth: 0
 --- !u!212 &1593369390439591858
 SpriteRenderer:
@@ -123,7 +126,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 999
   m_Sprite: {fileID: -9166711725095059109, guid: 69a8c0aa9e5388c4ab7c88ef2a76b337, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -25,6 +25,7 @@ namespace DialogSystem
 
         public bool IsHeroDialog;
         public bool UseHeroOpeningLine;
+        public bool UseHeroGenericLine;
 
         private TextMeshProUGUI textDisplay;
 
@@ -50,6 +51,8 @@ namespace DialogSystem
 
                 if(UseHeroOpeningLine)
                     dialogText = hero.heroOpeningDialog;
+                else if (UseHeroGenericLine)
+                    dialogText = hero.heroGenericDialog;
             }
             else
             {
@@ -96,6 +99,7 @@ namespace DialogSystem
             dialog.nameDisplay = (TextMeshProUGUI)UnityEditor.EditorGUILayout.ObjectField("Name Display", dialog.nameDisplay, typeof(TextMeshProUGUI), true);
             dialog.IsHeroDialog = UnityEditor.EditorGUILayout.Toggle("Is Hero Dialog?", dialog.IsHeroDialog);
             dialog.UseHeroOpeningLine = UnityEditor.EditorGUILayout.Toggle("Use Hero Opening Line?", dialog.UseHeroOpeningLine);
+            dialog.UseHeroGenericLine = UnityEditor.EditorGUILayout.Toggle("Use Hero Generic Line?", dialog.UseHeroGenericLine);
             if (dialog.IsHeroDialog)
             {
                 UnityEditor.EditorGUILayout.HelpBox("The avatar, text color, name, and sound will be set to the current hero at play", UnityEditor.MessageType.Info);
@@ -106,6 +110,17 @@ namespace DialogSystem
                 dialog.avatarSprite = (Sprite)UnityEditor.EditorGUILayout.ObjectField("Avatar Sprite", dialog.avatarSprite, typeof(Sprite), false);
                 dialog.textSound = (AudioClip)UnityEditor.EditorGUILayout.ObjectField("Text Sound", dialog.textSound, typeof(AudioClip), false);
                 dialog.textColor = (TMP_ColorGradient)UnityEditor.EditorGUILayout.ObjectField("Text Color", dialog.textColor, typeof(TMP_ColorGradient), false);
+            }
+
+            if (dialog.UseHeroGenericLine)
+            {
+                UnityEditor.EditorGUILayout.HelpBox("The dialog text will be set to the current hero's generic dialog line", UnityEditor.MessageType.Info);
+                dialog.UseHeroOpeningLine = false;
+            }
+            else if (dialog.UseHeroOpeningLine)
+            {
+                UnityEditor.EditorGUILayout.HelpBox("The dialog text will be set to the current hero's opening dialog line", UnityEditor.MessageType.Info);
+                dialog.UseHeroGenericLine = false;
             }
         }
     }

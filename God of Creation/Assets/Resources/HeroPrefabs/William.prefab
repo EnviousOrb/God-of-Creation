@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2497966245288797340
+--- !u!1 &3480805550908349681
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,125 +8,135 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6962390054949046605}
-  - component: {fileID: 3051065382296739870}
-  - component: {fileID: 5858030836010744391}
-  - component: {fileID: 3332316416459672197}
-  - component: {fileID: 739158645716038034}
-  - component: {fileID: 7112142572225732232}
-  - component: {fileID: 4867297758579501255}
-  - component: {fileID: 385827672310277316}
+  - component: {fileID: 2707069154257533930}
+  - component: {fileID: 6598399135495932058}
+  - component: {fileID: 7155605322719778313}
+  - component: {fileID: -6054599901672819882}
+  - component: {fileID: 6478258704923970515}
+  - component: {fileID: 1396752064511451321}
+  - component: {fileID: 6221102121954332577}
+  - component: {fileID: 5472897164701120854}
   m_Layer: 0
-  m_Name: EnviousOrb
+  m_Name: William
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6962390054949046605
+  m_IsActive: 0
+--- !u!4 &2707069154257533930
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.88, y: -1.5925, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.6, z: 1}
+  m_LocalPosition: {x: -4.1, y: -2.12, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3051065382296739870
+--- !u!114 &6598399135495932058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80b4bb3d79ef7eada91a2d4c3bd89c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
---- !u!114 &5858030836010744391
+--- !u!114 &7155605322719778313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a6751c2063447b26a6a9e2390e595a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroName: EnviousOrb
-  heroBio: "EnviousOrb works as a mercenary trying to make a quick buck. But, ever
-    since he met William, he decides to quit his day job to help William in his efforts
-    to put an end to Anonymous' reign. The only person who really knows about EnviousOrb\u2019s
-    past is Dr.Creeper."
-  heroSpecialAttackText: '"Swordenganza!"'
+  heroName: William
+  heroBio: A young man of mysterious origin. Found in an alleyway by EnviousOrb,
+    William awakes with no memory of his past, yet an innate ability to create whatever
+    he desire, and a drive to put an end to Anonymous' reign.
+  heroSpecialAttackText: '"Creation Blast!"'
   maxHealth: 10
   Level: 1
   maxHeat: 5
-  attack: 10
+  attack: 5
   defense: 5
-  speed: 5
+  speed: 10
   credixAmount: 0
   inventory: {fileID: 0}
-  HeroID: 72237223
+  HeroID: 0
+  isSoulSkillFound: 0
   xpToLevel: 100
   currentXP: 0
-  heroIcon: {fileID: 3434724875274373208, guid: 8d8a41c2e4a1e7d44a8320de61ca1e6a, type: 3}
-  typeIcon: {fileID: 6736607540577446010, guid: 42953b8e4e8ccce4bb591ed5d78d7f94, type: 3}
-  battleIcon: {fileID: 8227013097340461251, guid: 928bf6792e739d247a0dae4f0aabde78, type: 3}
-  StatsIcon: {fileID: 8748210560116370702, guid: 0d73b880c553e354e972f10234b9af26, type: 3}
-  specialAttack: {fileID: 2552405005188330821, guid: e678b2eacf3750d099eb2a4dfbfc46a0, type: 3}
-  normalAttack: {fileID: 8091474301813735051, guid: 7c1fe4894c9f5d20a99329a94dce3557, type: 3}
+  heroIcon: {fileID: -2327869246453644434, guid: 2397c33dd8da7916cae179be62587d88, type: 3}
+  typeIcon: {fileID: -5765777680471872163, guid: ff18fafa207364834b26131c5c76dbf9, type: 3}
+  battleIcon: {fileID: 7518903054759858335, guid: e66b863fa5083d03ea5368b4e15c0708, type: 3}
+  StatsIcon: {fileID: -859039708282134647, guid: 67f43196ac73cec49aa31a44a89e7809, type: 3}
+  specialAttack: {fileID: 5605477561151560730, guid: 54582db44912f221f9fae91263078ce7, type: 3}
+  normalAttack: {fileID: 5401521511747897442, guid: 55ad2814bcadce59da108a5014aa90ca, type: 3}
   heal: {fileID: 3673272140785978156, guid: ce389dec87675591486f6bfb168cc3e1, type: 3}
-  heroTextColor: {fileID: 11400000, guid: de8a64be95e06944ab1fd524d8dd35ea, type: 2}
-  heroOpeningDialog: '"EnviousOrb, the kid''s swordsman, you need something?"'
-  heroVictoryDialog: '"Too easy...I''d should''ve taken a nap instead..."'
-  heroDefeatDialog: '"W-What?! I-It can''t be!"'
+  soulInfo: {fileID: 0}
+  heroTextColor: {fileID: 11400000, guid: 09f7cb28f414e1a539abba36e339c28d, type: 2}
+  heroOpeningDialog: '"William, your local Creationist, ready!"'
+  heroVictoryDialog: '"And the day is saved thanks to...me!"'
+  heroDefeatDialog: '"N-no, I can''t...lose here...not when Anonymous...is out there!"'
+  heroGenericDialog: '"Woah! There''s something cool over there!"'
   currentHealth: 10
   currentHeat: 5
   heroSkills:
-  - {fileID: 11400000, guid: 9742a332d12520e4ea156c32db3ffbf3, type: 2}
-  - {fileID: 11400000, guid: 7cadc7e724b34fb4cb53d6175dc9e284, type: 2}
-  - {fileID: 11400000, guid: 9392309847a9a3b4783dc907c892e370, type: 2}
-  - {fileID: 11400000, guid: a542b510db754fc49af034eee4775bd9, type: 2}
-  - {fileID: 11400000, guid: 0e6ef518de46cc9419e18c2e8ed5fd50, type: 2}
-  - {fileID: 11400000, guid: 21aa6836d2ae0024188339082943850d, type: 2}
-  - {fileID: 11400000, guid: 4eda06fe5472f25459149096a8c8893f, type: 2}
-  - {fileID: 11400000, guid: a9d97af13444c9e40854699ea501d1a6, type: 2}
+  - {fileID: 11400000, guid: d01c3ba1a22aa474b9c6af47d1ffef14, type: 2}
+  - {fileID: 11400000, guid: ecb2fbccc0adfd444b6d7aa25e70a7b9, type: 2}
+  - {fileID: 11400000, guid: 871372ef13e02bc46a6f7edff39cb0a0, type: 2}
+  - {fileID: 11400000, guid: 7dc8dc857c45a41409b83765776bc489, type: 2}
+  - {fileID: 11400000, guid: c03e4026c34935d4498b05be99d50a60, type: 2}
+  - {fileID: 11400000, guid: e29a5bba778ebbb4d874f2ba35edbbcf, type: 2}
+  - {fileID: 11400000, guid: 5f8061997997a6940b2757e71f172c35, type: 2}
+  - {fileID: 11400000, guid: 4170dfbccf852e74293dfd7bc5857ef1, type: 2}
+  soulSkill: {fileID: 11400000, guid: 604873249088cf747821d28c91cb7413, type: 2}
   chosenPath: 0
-  heroTextSound: {fileID: 8300000, guid: 4bf412d03fad21248af7dd396678bcd9, type: 3}
-  heroSpecialAttackSound: {fileID: 8300000, guid: e41516b424f5d934f810f827355d9fb7, type: 3}
-  heroNormalAttackSound: {fileID: 8300000, guid: 239b4c2d031f44a4eb5ba03abe2053cd, type: 3}
+  heroTextSound: {fileID: 8300000, guid: 272cdb86fd38c014f802abc24b198ac7, type: 3}
+  heroSpecialAttackSound: {fileID: 8300000, guid: 916d73b257e2ee94d95dbc078d4302a4, type: 3}
+  heroNormalAttackSound: {fileID: 8300000, guid: b40a0c864f58769478e04f53766ae01d, type: 3}
   heroHealSound: {fileID: 8300000, guid: a6f7477ab0bb28c43b177d512c788702, type: 3}
---- !u!114 &3332316416459672197
+  upgradedHeroLook: {fileID: -660485279417563409, guid: 42818bd2c31d7c94499ed9692d70d276, type: 3}
+  upgradedIcon: {fileID: 4760308250416432546, guid: 543fdf9eb45c760438111ff5ea2fa9fb, type: 3}
+  upgradedBattleIcon: {fileID: -2180692501363015531, guid: 2dadda3f42cdde444bd270968642ee59, type: 3}
+  upgradedStatsIcon: {fileID: 2668052062209034677, guid: bb5a819f9e3cd124e8e29438ec24ca24, type: 3}
+  upgradedSpecialAttack: {fileID: 0}
+  upgradedNormalAttack: {fileID: 0}
+  upgradedAnimator: {fileID: 22100000, guid: d40f45152fbe6014ebbd214b1886bbbc, type: 2}
+--- !u!114 &-6054599901672819882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b00633263d48fc24dbb9b84ad06bdd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
---- !u!212 &739158645716038034
+--- !u!212 &6478258704923970515
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -163,29 +173,29 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 346154529548979452, guid: bf7c991bd83549248958dff429fbfd7f, type: 3}
+  m_SortingOrder: 999
+  m_Sprite: {fileID: 21300000, guid: 85d769dd9f86d78f48ab88e4f05e1c23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.57, y: 7.13}
+  m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &7112142572225732232
+--- !u!95 &1396752064511451321
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: c92a9956a5e2d9a48b7303e2132bdfda, type: 2}
+  m_Controller: {fileID: 9100000, guid: 21ea016cd0dd0ce64b134e203f55b7e6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -197,13 +207,13 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!61 &4867297758579501255
+--- !u!61 &6221102121954332577
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -231,26 +241,26 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.8000001, y: 0.096725106}
+  m_Offset: {x: -0.013778031, y: 0.18000007}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 3.76, y: 1.5699999, z: 3.83, w: 1.1999999}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.57, y: 7.13}
-    newSize: {x: 4.57, y: 7.13}
+    oldSize: {x: 10.24, y: 10.24}
+    newSize: {x: 10.24, y: 10.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.2, y: 7.4065504}
+  m_Size: {x: 2.8074455, y: 7.6}
   m_EdgeRadius: 0
---- !u!50 &385827672310277316
+--- !u!50 &5472897164701120854
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497966245288797340}
+  m_GameObject: {fileID: 3480805550908349681}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0

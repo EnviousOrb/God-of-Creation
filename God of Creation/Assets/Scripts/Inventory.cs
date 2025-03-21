@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<Item> items = new();
+    [HideInInspector] public List<Item> items = new();
 
     public void AddItem(Item item, int amount)
     {

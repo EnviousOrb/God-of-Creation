@@ -26,6 +26,9 @@ public class BattleHUD : MonoBehaviour
     public GameObject[] InventoryButtons;
     private bool isActive;
 
+    [Header("Mercy UI")]
+    public GameObject MercyPanel;
+    public TextMeshProUGUI MercyText;
     public void SetBattleUI(HeroStats heroStats, NPC opponent)
     {
         heroName.text = heroStats.heroName;
@@ -53,6 +56,7 @@ public class BattleHUD : MonoBehaviour
     public void Start()
     {
         InventoryPanel.SetActive(false);
+        MercyPanel.SetActive(false);
     }
 
     public void ToggleInventory()

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,6 +33,8 @@ public class BattleSystem : MonoBehaviour
 
     [SerializeField] private float typingSpeed;
 
+    [SerializeField] private AnimatorController TransformationController;
+
     private Coroutine textCoroutine;
 
     private int choice;
@@ -49,6 +51,9 @@ public class BattleSystem : MonoBehaviour
     private List<Item> generatedItems = new();
 
     public bool IsBattleTextFinished { get { return battleHUD.BattleText.text == string.Empty; } }
+    private bool wasSpared = false;
+    private bool firstDeath = false;
+    private bool frenzy = false;
     #endregion
 
     #region Unity Functions
@@ -70,9 +75,7 @@ public class BattleSystem : MonoBehaviour
             return;
 
         if (battleHUD.InventoryPanel.activeSelf)
-        {
             battleHUD.InventoryPanel.SetActive(false);
-        }
 
         TurnOffControls();
         StartCoroutine(PlayerAttack());
@@ -86,6 +89,26 @@ public class BattleSystem : MonoBehaviour
         battleHUD.ToggleInventory();
     }
 
+    public void OnMercyYes()
+    {
+        battleHUD.MercyPanel.SetActive(false);
+        currentState = BattleStates.WIN;
+        wasSpared = true;
+        EndBattle();
+    }
+
+    public void OnMercyNo()
+    {
+        battleHUD.MercyPanel.SetActive(false);
+        GameObject normalAttack = Instantiate(hero.normalAttack, battleHUD.opponentSprite.transform.position, Quaternion.identity);
+        AudioManager.Instance.PlaySFX(hero.heroNormalAttackSound);
+        Destroy(normalAttack, 0.3f);
+        opponent.currentHealth = 0;
+        currentState = BattleStates.WIN;
+        wasSpared = false;
+        EndBattle();
+    }
+
     public void UseItem(Item item)
     {
         if (item.ItemCount <= 0)
@@ -94,10 +117,8 @@ public class BattleSystem : MonoBehaviour
         if (item.ApplyEffect == null)
             return;
 
-        if(generatedItems.Contains(item))
-        {
+        if (generatedItems.Contains(item))
             generatedItems.Remove(item);
-        }
 
         item.ApplyEffect(hero);
         hero.inventory.RemoveItem(item);
@@ -115,6 +136,15 @@ public class BattleSystem : MonoBehaviour
         if (currentState != BattleStates.PLAYERCHOICE)
             return;
 
+        if (hero.heroName == "Dr.Creeper" && !frenzy)
+        {
+            frenzy = true;
+            battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
+            StartCoroutine(TypeText("Potion of X!"));
+            StartCoroutine(FrenzyMode());
+            return;
+        }
+
         if (hero.currentHeat < hero.maxHeat)
         {
             battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
@@ -124,9 +154,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         if (battleHUD.InventoryPanel.activeSelf)
-        {
             battleHUD.InventoryPanel.SetActive(false);
-        }
 
         TurnOffControls();
         StartCoroutine(PlayerSpecial());
@@ -138,9 +166,7 @@ public class BattleSystem : MonoBehaviour
             return;
 
         if (battleHUD.InventoryPanel.activeSelf)
-        {
             battleHUD.InventoryPanel.SetActive(false);
-        }
 
         TurnOffControls();
 
@@ -165,6 +191,27 @@ public class BattleSystem : MonoBehaviour
         return choice == 0 ? "Attack" : "Heal";
     }
 
+    private void PhoenixStart()
+    {
+        if (hero.heroName != "EnviousOrb" && !hero.isSoulSkillFound)
+            return;
+
+        StartCoroutine(PhoenixDialog());
+        hero.currentHealth = hero.maxHealth / 2;
+        hero.currentHeat = hero.maxHeat / 2;
+        hero.attack = hero.attack * 2;
+        hero.defense = hero.defense / 2;
+        currentState = BattleStates.PLAYERCHOICE;
+        PlayerTurn();
+    }
+
+    private IEnumerator PhoenixDialog()
+    {
+        battleHUD.BattleText.colorGradientPreset = hero.heroTextColor;
+        StartCoroutine(TypeText("It's gonna...take a lot more...to take down a master swordsman!"));
+        yield return new WaitForSeconds(2f);
+    }
+
     private void InitalizeBattle()
     {
         hero = GameManager.Instance.Currenthero;
@@ -185,6 +232,9 @@ public class BattleSystem : MonoBehaviour
 
     private void UpdateBattleState()
     {
+        if (battleHUD.MercyPanel.activeSelf)
+            return;
+
         choice = UnityEngine.Random.Range(0, 2);
 
         if (hero.currentHealth <= 0)
@@ -194,9 +244,15 @@ public class BattleSystem : MonoBehaviour
         }
         else if (opponent.currentHealth <= 0)
         {
-            currentState = BattleStates.WIN;
-            EndBattle();
+            if (hero.heroName == "William")
+                battleHUD.MercyPanel.SetActive(true);
+            else
+            {
+                currentState = BattleStates.WIN;
+                EndBattle();
+            }
         }
+
         battleHUD.UpdateBattleUI(hero, opponent);
     }
 
@@ -222,9 +278,8 @@ public class BattleSystem : MonoBehaviour
     IEnumerator TypeText(string text, float delayAfterText = 2f)
     {
         if (textCoroutine != null)
-        {
             StopCoroutine(textCoroutine);
-        }
+
         textCoroutine = StartCoroutine(TypeTextCoroutine(text, delayAfterText));
         yield return textCoroutine;
     }
@@ -238,7 +293,7 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
         yield return new WaitForSeconds(delayAfterText);
-}
+    }
 
     //YandereDev-like code, don't touch
     private void LoadItemEffects()
@@ -270,19 +325,19 @@ public class BattleSystem : MonoBehaviour
                     break;
                 case "Revitanix X":
                     item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 9, false); };
-                break;
+                    break;
                 case "Revitanix MAX":
                     item.ApplyEffect = (hero) => { ApplyHeatEffect(hero, 21, false); };
-                break;
+                    break;
                 case "Staminfuel":
                     item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 3, false); ApplyHeatEffect(hero, 3, false); };
-                break;
+                    break;
                 case "Staminfuel X":
                     item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 9, false); ApplyHeatEffect(hero, 9, false); };
-                break;
+                    break;
                 case "Staminfuel MAX":
                     item.ApplyEffect = (hero) => { ApplyHealthEffect(hero, 21, false); ApplyHeatEffect(hero, 21, false); };
-                break;
+                    break;
             }
         }
     }
@@ -294,10 +349,10 @@ public class BattleSystem : MonoBehaviour
             switch (item.ItemName)
             {
                 case "Fireworks":
-                    item.ApplyEffect = (hero) => 
-                    { 
+                    item.ApplyEffect = (hero) =>
+                    {
                         int chance = UnityEngine.Random.Range(0, 100);
-                        if(chance > 50)
+                        if (chance > 50)
                         {
                             opponentSkipTurns += 1;
                         }
@@ -307,7 +362,7 @@ public class BattleSystem : MonoBehaviour
                     item.ApplyEffect = (hero) => { opponent.currentHealth = UnityEngine.Random.Range(opponent.currentHealth / 3, opponent.currentHealth / 2); };
                     break;
                 case "Minecart":
-                    item.ApplyEffect = (hero) => 
+                    item.ApplyEffect = (hero) =>
                     {
                         int chance = UnityEngine.Random.Range(0, 100);
                         if (chance > 50)
@@ -321,8 +376,8 @@ public class BattleSystem : MonoBehaviour
                     };
                     break;
                 case "TNT":
-                    item.ApplyEffect = (hero) => 
-                    { 
+                    item.ApplyEffect = (hero) =>
+                    {
                         hero.currentHealth = Random.Range(2, hero.currentHealth / 2);
                         opponent.currentHealth = Random.Range(2, opponent.currentHealth / 2);
                     };
@@ -358,7 +413,7 @@ public class BattleSystem : MonoBehaviour
 
     private void LoadInventory()
     {
-        for(int i = 0; i < battleHUD.InventoryButtons.Length; i++)
+        for (int i = 0; i < battleHUD.InventoryButtons.Length; i++)
         {
             if (i < hero.inventory.items.Count)
             {
@@ -393,7 +448,7 @@ public class BattleSystem : MonoBehaviour
             }
             else if (hero.heroName == "EnviousOrb")
             {
-                SpecificSkillsUse(new int[] {0,1,2,3, 5, 7 });
+                SpecificSkillsUse(new int[] { 0, 1, 2, 3, 5, 7 });
             }
             else if (hero.heroName == "Dr.Creeper")
             {
@@ -429,13 +484,13 @@ public class BattleSystem : MonoBehaviour
             var mcSkill = hero.heroSkills.Find(skill => skill.SkillName == "Mastery Craftsmanship");
             if (mcSkill != null && mcSkill.IsUnlocked)
             {
-                int randomItemIndex = UnityEngine.Random.Range(1, itemsToCreate.Count-1);
+                int randomItemIndex = UnityEngine.Random.Range(1, itemsToCreate.Count - 1);
                 hero.inventory.AddItem(itemsToCreate[randomItemIndex], 1);
                 generatedItems.Add(itemsToCreate[randomItemIndex]);
             }
             else
             {
-                int randomItemIndex = UnityEngine.Random.Range(1, itemsToCreate.Count-2);
+                int randomItemIndex = UnityEngine.Random.Range(1, itemsToCreate.Count - 2);
                 hero.inventory.AddItem(itemsToCreate[randomItemIndex], 1);
                 generatedItems.Add(itemsToCreate[randomItemIndex]);
             }
@@ -444,6 +499,13 @@ public class BattleSystem : MonoBehaviour
 
     void PlayerTurn()
     {
+        if (frenzy)
+        {
+            TurnOffControls();
+            StartCoroutine(PlayerAttack());
+            return;
+        }
+
         if (playerSkipTurns > 0)
         {
             playerSkipTurns--;
@@ -454,9 +516,7 @@ public class BattleSystem : MonoBehaviour
 
         CallBuffs();
         if (cooldown > 0)
-        {
             cooldown--;
-        }
 
         var smSkill = hero.heroSkills.Find(skill => skill.SkillName == "Scientfic Method");
         if (smSkill != null && smSkill.IsUnlocked)
@@ -468,9 +528,7 @@ public class BattleSystem : MonoBehaviour
 
         var bsSkill = hero.heroSkills.Find(skill => skill.SkillName == "Built-in Brewing Station");
         if (bsSkill != null && bsSkill.IsUnlocked)
-        {
             hero.inventory.AddItem(itemsToCreate[0], 1);
-        }
 
         var cSkill = hero.heroSkills.Find(skill => skill.SkillName == "Craftsmanship");
         if (cSkill != null && cSkill.IsUnlocked)
@@ -485,11 +543,12 @@ public class BattleSystem : MonoBehaviour
         battleHUD.BattleText.colorGradientPreset = null;
 
         for (int i = 0; i < battleHUD.playerChoices.Length; i++)
-        {
             battleHUD.playerChoices[i].interactable = true;
-        }
 
         StartCoroutine(TypeText("Time to..."));
+
+        if (hero.heroName == "William" && hero.isSoulSkillFound && opponent.currentHealth <= 0)
+            battleHUD.MercyPanel.SetActive(true);
     }
 
     void OpponentTurn()
@@ -518,9 +577,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         if (choice == 0)
-        {
             StartCoroutine(OpponentAttack());
-        }
         else if (choice == 1)
         {
             int healAmount = UnityEngine.Random.Range(1, opponent.maxHealth / 2);
@@ -555,9 +612,7 @@ public class BattleSystem : MonoBehaviour
         if (generatedItems.Count > 0)
         {
             foreach (var item in generatedItems)
-            {
                 hero.inventory.RemoveItem(item);
-            }
         }
 
         if (currentState == BattleStates.WIN)
@@ -582,17 +637,37 @@ public class BattleSystem : MonoBehaviour
 
         //Start the ending to battle sequence here
         battleHUD.BattleText.text = string.Empty;
+        if (wasSpared)
+        {
+            opponent.wasSpared = true;
+            GameManager.Instance.MarkOpponentAsSpared(opponent);
+            StartCoroutine(EndingToBattleSequence());
+            return;
+        }
         GameManager.Instance.MarkOpponentAsDefeated(opponent);
         StartCoroutine(EndingToBattleSequence());
     }
 
     private void LoseState()
     {
+        if (!firstDeath)
+        {
+            firstDeath = true;
+            PhoenixStart();
+            return;
+        }
+
         StartCoroutine(TypeText("You lose!"));
         battleHUD.BattleText.colorGradientPreset = opponent.npcTextColor;
         StartCoroutine(TypeText(opponent.opponentFlavorTexts[2]));
+
+        hero.maxHealth = originalHealth;
+        hero.maxHeat = originalHeat;
+        hero.attack = originalAttack;
+        hero.defense = originalDefense;
+        hero.speed = originalSpeed;
+
         //Go to game over screen here, for now exit the editor
-        battleHUD.BattleText.text = string.Empty;
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
@@ -607,13 +682,10 @@ public class BattleSystem : MonoBehaviour
         Destroy(normalAttack, 0.3f);
 
         if (hero.heroName == "William")
-        {
             hero.UseSkill(hero.heroSkills[0], opponent);
-        }
         else if (hero.heroName == "EnviousOrb")
-        {
             hero.UseSkill(hero.heroSkills[6], opponent);
-        }
+
         opponent.TakeDamage(hero);
 
 
@@ -622,9 +694,13 @@ public class BattleSystem : MonoBehaviour
 
         if (opponent.currentHealth <= 0)
         {
-            currentState = BattleStates.WIN;
-            GameManager.Instance.MarkOpponentAsDefeated(opponent);
-            EndBattle();
+            if (hero.heroName == "William" && hero.isSoulSkillFound)
+                battleHUD.MercyPanel.SetActive(true);
+            else
+            {
+                currentState = BattleStates.WIN;
+                EndBattle();
+            }
         }
         else
         {
@@ -647,6 +723,20 @@ public class BattleSystem : MonoBehaviour
 
         currentState = BattleStates.OPPONENTCHOICE;
         OpponentTurn();
+    }
+
+    private IEnumerator FrenzyMode()
+    {
+        battleHUD.heroSprite.GetComponent<Animator>().runtimeAnimatorController = TransformationController;
+        TurnOffControls();
+        yield return new WaitUntil(() => battleHUD.heroSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+        hero.attack *= 2;
+        hero.defense *= 2;
+        hero.speed *= 2;
+        hero.currentHealth = hero.maxHealth;
+        hero.currentHeat = hero.maxHeat;
+        currentState = BattleStates.PLAYERCHOICE;
+        PlayerTurn();
     }
 
     IEnumerator OpponentAttack()

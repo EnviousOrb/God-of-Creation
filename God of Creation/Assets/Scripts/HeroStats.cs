@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class HeroStats : MonoBehaviour
@@ -23,6 +22,7 @@ public class HeroStats : MonoBehaviour
     [HideInInspector] public int credixAmount; //The amount of credix the hero has
     [HideInInspector] public Inventory inventory; //The inventory of the hero
     public int HeroID;
+    public int ButtonIndex;
     public bool isSoulSkillFound;
 
     [Header("Hero XP")]
@@ -67,17 +67,20 @@ public class HeroStats : MonoBehaviour
     [SerializeField] private Sprite upgradedIcon; //This is the sprite seen during dialog, overworld, and the main UI
     [SerializeField] private Sprite upgradedBattleIcon; //This is the sprite seen during battle
     [SerializeField] private Sprite upgradedStatsIcon; //This is the sprite seen on the stats screen
+    [SerializeField] private Sprite upgradedButtonLook;
     [SerializeField] private GameObject upgradedSpecialAttack; //This is the sprite seen on the battle UI, used to show the special attack of the hero
     [SerializeField] private GameObject upgradedNormalAttack; //This is the sprite seen on the battle UI, used to show the normal attack of the hero
     [SerializeField] private AnimatorOverrideController upgradedAnimator; //This is the animator controller used for the upgraded look of the hero
     private bool isUpgraded;
 
     private MenuManager menuManager;
+    private ButtonManager buttonManager;
     #endregion
 
     private void Awake()
     {
         menuManager = FindAnyObjectByType<MenuManager>();
+        buttonManager = FindAnyObjectByType<ButtonManager>();
         inventory = GetComponent<Inventory>();
         LoadHeroData();
     }
@@ -85,13 +88,6 @@ public class HeroStats : MonoBehaviour
     #region Public Methods
     public void TakeDamage(NPC opponent)
     {
-        if(currentHealth <= 0)
-        {
-            currentHealth = 0;
-            //Handle death stuff for hero here
-            return;
-        }
-
         if(Random.value < dodgeChance)
         {
             //Dodge the attack
@@ -306,11 +302,12 @@ public class HeroStats : MonoBehaviour
     {
         GetComponent<SpriteRenderer>().sprite = upgradedHeroLook;
         GetComponent<Animator>().runtimeAnimatorController = upgradedAnimator;
+        buttonManager.UpdateButtonIcon(ButtonIndex, upgradedButtonLook);
         heroIcon = upgradedIcon;
         battleIcon = upgradedBattleIcon;
         StatsIcon = upgradedStatsIcon;
-        specialAttack = upgradedSpecialAttack;
-        normalAttack = upgradedNormalAttack;
+        //specialAttack = upgradedSpecialAttack;
+        //normalAttack = upgradedNormalAttack;
     }
 
     private void InitalizeHeroSkills()

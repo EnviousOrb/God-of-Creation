@@ -55,9 +55,8 @@ public class MenuManager : MonoBehaviour
 
     private void TogglePauseMenu()
     {
-        bool isActive = pauseMenu.activeSelf;
-        pauseMenu.SetActive(!isActive);
-        Time.timeScale = isActive ? 1 : 0;
+       pauseMenu.SetActive(!pauseMenu.activeSelf);
+       Time.timeScale = pauseMenu.activeSelf ? 0 : 1;
     }
 
     public void OpenMenu(GameObject menu)

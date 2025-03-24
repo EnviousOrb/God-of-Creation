@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2707069154257533930
 Transform:
   m_ObjectHideFlags: 0
@@ -77,6 +77,7 @@ MonoBehaviour:
   credixAmount: 0
   inventory: {fileID: 0}
   HeroID: 0
+  ButtonIndex: 0
   isSoulSkillFound: 0
   xpToLevel: 100
   currentXP: 0
@@ -114,6 +115,7 @@ MonoBehaviour:
   upgradedIcon: {fileID: 4760308250416432546, guid: 543fdf9eb45c760438111ff5ea2fa9fb, type: 3}
   upgradedBattleIcon: {fileID: -2180692501363015531, guid: 2dadda3f42cdde444bd270968642ee59, type: 3}
   upgradedStatsIcon: {fileID: 2668052062209034677, guid: bb5a819f9e3cd124e8e29438ec24ca24, type: 3}
+  upgradedButtonLook: {fileID: -361067334126253811, guid: 77038fdae4b2eea4b8d754d7211e6726, type: 3}
   upgradedSpecialAttack: {fileID: 0}
   upgradedNormalAttack: {fileID: 0}
   upgradedAnimator: {fileID: 22100000, guid: d40f45152fbe6014ebbd214b1886bbbc, type: 2}

@@ -78,6 +78,7 @@ MonoBehaviour:
   credixAmount: 0
   inventory: {fileID: 0}
   HeroID: 1614
+  ButtonIndex: 2
   isSoulSkillFound: 0
   xpToLevel: 0
   currentXP: 0
@@ -115,6 +116,7 @@ MonoBehaviour:
   upgradedIcon: {fileID: 5402388378784792877, guid: 56b97136c04073549b4db3be3cf6e9ae, type: 3}
   upgradedBattleIcon: {fileID: -5723976832841783100, guid: 56fc37b1455b312499f1c94282e1a552, type: 3}
   upgradedStatsIcon: {fileID: 6064718247537280058, guid: a7856072ae6c0ff4eb541ab676cff19f, type: 3}
+  upgradedButtonLook: {fileID: -9012603920335943781, guid: 4e5bf48be6fa884469a4e00aee5bd5ce, type: 3}
   upgradedSpecialAttack: {fileID: 0}
   upgradedNormalAttack: {fileID: 0}
   upgradedAnimator: {fileID: 22100000, guid: 7ca7a6eed2f8231429a34b1f25255276, type: 2}

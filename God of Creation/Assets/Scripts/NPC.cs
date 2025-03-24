@@ -7,7 +7,9 @@ using System.Collections;
 public class NPC : MonoBehaviour
 {
     //Overworld visuals/Generic set-up
-    [SerializeField] public GameObject DialogBox;
+    public GameObject DialogBox;
+    public GameObject SpareDialog;
+    public GameObject Interactable;
     public Sprite npcIcon;
     public string npcName;
     public TMP_ColorGradient npcTextColor; //The color of the npc/opponent's dialog text
@@ -33,6 +35,7 @@ public class NPC : MonoBehaviour
     public AudioClip opponentHealSound;
 
     [HideInInspector] public int currentHealth;
+    [HideInInspector] public bool wasSpared;
 
     private void Start()
     {
@@ -42,27 +45,15 @@ public class NPC : MonoBehaviour
             {
                Destroy(gameObject);
             }
+            else
+            {
+                wasSpared = PlayerPrefs.GetInt(npcName + "_wasSpared", 0) == 1;
+            }
         }
-    }
-
-    public void StartDialog()
-    {
-        DialogBox.SetActive(true);
-    }
-
-    public bool IsDialogActive()
-    {
-        return DialogBox.activeSelf;
     }
 
     public void TakeDamage(HeroStats heroStats)
     {
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-            //Handle death stuff for enemy here
-            return;
-        }
         int damage = heroStats.attack * (1 + (heroStats.Level / 10)) - opponentDefense;
         damage = Mathf.Max(1, damage);
         currentHealth -= damage;
@@ -81,7 +72,7 @@ public class NPC : MonoBehaviour
     }
     public IEnumerator IntroToBattleSequence()
     {
-        yield return new WaitUntil(() => !IsDialogActive());
+        yield return new WaitUntil(() => !DialogBox.activeSelf);
 
         GameManager.Instance.CurrentOpponent = this;
         SceneManager.LoadScene("BattleScene");
@@ -100,6 +91,8 @@ public class NPCEditor : Editor
         npc.npcIcon = (Sprite)EditorGUILayout.ObjectField("NPC Icon", npc.npcIcon, typeof(Sprite), false);
         npc.npcTextColor = (TMP_ColorGradient)EditorGUILayout.ObjectField("NPC Text Color", npc.npcTextColor, typeof(TMP_ColorGradient), false);
         npc.DialogBox = (GameObject)EditorGUILayout.ObjectField("Dialog Box", npc.DialogBox, typeof(GameObject), true);
+        npc.SpareDialog = (GameObject)EditorGUILayout.ObjectField("Spare Dialog", npc.SpareDialog, typeof(GameObject), true);
+        npc.Interactable = (GameObject)EditorGUILayout.ObjectField("Interactable", npc.Interactable, typeof(GameObject), true);
         npc.isFightable = EditorGUILayout.Toggle("Is Fightable", npc.isFightable);
         if (npc.isFightable)
         {

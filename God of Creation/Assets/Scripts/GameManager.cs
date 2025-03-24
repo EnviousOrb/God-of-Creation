@@ -22,8 +22,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             Currenthero = FindAnyObjectByType<HeroStats>();
-            if (heroParty.Find(hero => hero.heroName == Currenthero.heroName) == null)
-                heroParty.Add(Currenthero);
+            AddHeroToParty(Currenthero);
             heroUI = FindAnyObjectByType<HeroUI>();
         }
         else
@@ -44,46 +43,35 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!Currenthero)
+        if(scene.name == "BattleScene")
         {
-            Debug.LogError("Current hero is not set!");
             return;
         }
 
-        HeroStats[] heroesInScene = FindObjectsByType<HeroStats>(FindObjectsSortMode.None);
-        if (heroesInScene.Length == 0)
-        {
-            GameObject heroPrefab = Resources.Load<GameObject>($"HeroPrefabs/{Currenthero.heroName}");
-            if (heroPrefab)
-            {
-                GameObject heroInstance = Instantiate(heroPrefab);
-                heroInstance.name = Currenthero.heroName;
-                Currenthero = heroInstance.GetComponent<HeroStats>();
-                AddHeroToParty(heroInstance.GetComponent<HeroStats>());
-            }
-            else
-            {
-                Debug.LogError($"Hero with name {Currenthero.heroName} not found!");
-            }
-        }
-        else
-        {
-            foreach (var hero in heroesInScene)
-            {
-               if(hero.heroName == Currenthero.heroName)
-                {
-                    Currenthero = hero;
-                    Currenthero.gameObject.SetActive(true);
-                    break;
-                }
-            }
-        }
+        heroParty.Clear();
+        OnSwapHero(Currenthero.heroName);
 
+        HeroStats[] heroes = FindObjectsByType<HeroStats>(FindObjectsSortMode.None);
+
+        foreach (HeroStats hero in heroes)
+        {
+            if(hero != Currenthero)
+            {
+                Destroy(hero.gameObject);
+            }
+        }
     }
 
     public void MarkOpponentAsDefeated(NPC opponent)
     {
         defeatedOpponents.Add(opponent.npcName);
+    }
+
+    public void MarkOpponentAsSpared(NPC opponent)
+    {
+        opponent.wasSpared = true;
+        PlayerPrefs.SetInt(opponent.npcName + "_wasSpared", 1);
+        PlayerPrefs.Save();
     }
 
     public bool IsOpponentDefeated(NPC opponent)
@@ -116,6 +104,7 @@ public class GameManager : MonoBehaviour
     public void OnSwapHero(string HeroName)
     {
         HeroStats hero = GetHeroFromParty(HeroName);
+
         if (!hero)
         {
             GameObject heroPrefab = Resources.Load<GameObject>($"HeroPrefabs/{HeroName}");

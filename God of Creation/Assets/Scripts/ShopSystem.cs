@@ -84,10 +84,6 @@ public class ShopSystem : MonoBehaviour
         {
             ProcessPurchase();
         }
-        else
-        {
-
-        }
     }
 
     public void OnItemClick(Image itemIcon)

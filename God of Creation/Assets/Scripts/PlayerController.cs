@@ -46,6 +46,14 @@ public class PlayerController : MonoBehaviour
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("NPC"))
+        {
+            collision.GetComponent<NPC>().Interactable.SetActive(true);
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("NPC"))
@@ -54,9 +62,16 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.E))
             {
-                currentNPC.StartDialog();
+                if(currentNPC.wasSpared)
+                {
+                    currentNPC.SpareDialog.SetActive(true);
+                }
+                else
+                {
+                    currentNPC.DialogBox.SetActive(true);
+                }
 
-                if (currentNPC.isFightable)
+                if (currentNPC.isFightable && !currentNPC.wasSpared)
                 {
                     StartCoroutine(currentNPC.IntroToBattleSequence());
                 }
@@ -64,8 +79,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("NPC"))
+        {
+            collision.GetComponent<NPC>().Interactable.SetActive(false);
+            currentNPC = null;
+        }
+    }
+
     private bool IsDialogActive()
     {
-        return currentNPC != null && currentNPC.IsDialogActive();
+        return currentNPC != null && currentNPC.DialogBox.activeSelf;
+    }
+
+    public void TogglePlayerControl()
+    {
+        moveDir = 0;
+        enabled = !enabled;
     }
 }
